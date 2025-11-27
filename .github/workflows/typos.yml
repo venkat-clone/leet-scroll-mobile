@@ -1,0 +1,16 @@
+name: check typos
+
+on:
+  workflow_call:
+  pull_request:
+
+jobs:
+  check-typos:
+    name: Check typos
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout 🛎️
+        uses: actions/checkout@v6
+
+      - name: Check spellings 📝
+        uses: crate-ci/typos@v1.40.0
