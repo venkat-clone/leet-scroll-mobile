@@ -41,17 +41,21 @@ jobs:
           key: ${{ runner.os }}-pub-${{ hashFiles('**/pubspec.lock') }}
           restore-keys: |
             ${{ runner.os }}-pub-
-                
+
       - name: Install dependencies
         run: flutter pub get
 
       - name: Check formatting          # This is GOOD
         run: dart format --output=none --set-exit-if-changed .
 
-        
+
       # Consider passing '--fatal-infos' for slightly stricter analysis.
       - name: Analyze project source
         run: dart analyze
+
+      - name: Generate code (build_runner)
+        run: flutter pub run build_runner build --delete-conflicting-outputs
+
 
       - name: Run tests
         run: flutter test --concurrency=12

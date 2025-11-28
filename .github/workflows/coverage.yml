@@ -12,7 +12,26 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: dart-lang/setup-dart@9a04e6d73cca37bd455e0608d7e5092f881fd603
+
+      - name: Flutter FVM config action
+        uses: kuhnroyal/flutter-fvm-config-action@v3.1
+
+      - name: Setup Flutter 💻
+        uses: subosito/flutter-action@v2.21.0
+        id: setup-flutter
+        with:
+          flutter-version: ${{ steps.fvm-config.outputs.FLUTTER_VERSION }}
+          cache: true
+          cache-key: ${{ runner.os }}-flutter-${{ steps.fvm-config.outputs.FLUTTER_VERSION }}-${{ hashFiles('**/pubspec.lock') }}
+
+      - name: Cache Pub 💾
+        uses: actions/cache@v4
+        with:
+          path: |
+            **/.dart_tool
+          key: ${{ runner.os }}-pub-${{ hashFiles('**/pubspec.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-pub-
 
       - name: Install dependencies
         run: flutter pub get
@@ -44,11 +63,11 @@ jobs:
             > lcov.info
         continue-on-error: true   # optional: don't fail if grcov has warnings
 
-      - name: Upload coverage to Codecov (optional but recommended)
-        uses: codecov/codecov-action@v4
-        with:
-          files: coverage/lcov.info   # Flutter already outputs this
-          token: ${{ secrets.CODECOV_TOKEN }}   # only needed for private repos
+      # - name: Upload coverage to Codecov (optional but recommended)
+      #   uses: codecov/codecov-action@v4
+      #   with:
+      #     files: coverage/lcov.info   # Flutter already outputs this
+      #     token: ${{ secrets.CODECOV_TOKEN }}   # only needed for private repos
 
       - name: Check minimum coverage (90%)
         run: |
