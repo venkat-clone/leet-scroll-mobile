@@ -15,4 +15,3 @@ class LeaderboardEntry with _$LeaderboardEntry {
   factory LeaderboardEntry.fromJson(Map<String, dynamic> json) =>
       _$LeaderboardEntryFromJson(json);
 }
-

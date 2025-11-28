@@ -35,14 +35,16 @@ class _RegisterScreenState extends State<RegisterScreen> {
               // Ideally, we should have a 'registered' state or similar.
               // Let's assume the user needs to login after register.
               ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text('Registration successful! Please login.')),
+                const SnackBar(
+                  content: Text('Registration successful! Please login.'),
+                ),
               );
               context.router.back();
             },
             error: (message) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text(message)),
-              );
+              ScaffoldMessenger.of(
+                context,
+              ).showSnackBar(SnackBar(content: Text(message)));
             },
             orElse: () {},
           );
@@ -114,10 +116,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           : () {
                               if (_formKey.currentState!.validate()) {
                                 context.read<AuthCubit>().register(
-                                      _emailController.text,
-                                      _passwordController.text,
-                                      _nameController.text,
-                                    );
+                                  _emailController.text,
+                                  _passwordController.text,
+                                  _nameController.text,
+                                );
                               }
                             },
                       style: ElevatedButton.styleFrom(
@@ -137,4 +139,3 @@ class _RegisterScreenState extends State<RegisterScreen> {
     );
   }
 }
-

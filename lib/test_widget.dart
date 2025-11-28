@@ -8,8 +8,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(body: AutoNestedPageView());
@@ -21,8 +19,7 @@ class AutoNestedPageView extends StatelessWidget {
   List<Widget> _generateListItems(int pageIndex) {
     return List<Widget>.generate(
       40, // Each page will have 20 items
-      (int itemIndex) =>
-          Text('X'*(itemIndex + 1)),
+      (int itemIndex) => Text('X' * (itemIndex + 1)),
     );
   }
 
@@ -31,7 +28,6 @@ class AutoNestedPageView extends StatelessWidget {
     final minHeight = MediaQuery.of(context).size.height;
 
     return NestedScrollPage();
-
 
     return PageView.builder(
       // physics: const AlwaysScrollableScrollPhysics(),
@@ -65,9 +61,6 @@ class AutoNestedPageView extends StatelessWidget {
     return CustomScrollView(slivers: []);
   }
 }
-
-
-
 
 class NestedScrollPage extends StatelessWidget {
   @override

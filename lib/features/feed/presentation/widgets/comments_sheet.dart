@@ -29,9 +29,9 @@ class _CommentsSheetState extends State<CommentsSheet> {
     if (commentText.isEmpty) return;
 
     await context.read<QuestionCubit>().postComment(
-          widget.questionId,
-          commentText,
-        );
+      widget.questionId,
+      commentText,
+    );
     _commentController.clear();
   }
 
@@ -89,10 +89,7 @@ class _CommentsBody extends StatelessWidget {
   final bool isLoading;
   final List<dynamic> comments;
 
-  const _CommentsBody({
-    required this.isLoading,
-    required this.comments,
-  });
+  const _CommentsBody({required this.isLoading, required this.comments});
 
   @override
   Widget build(BuildContext context) {

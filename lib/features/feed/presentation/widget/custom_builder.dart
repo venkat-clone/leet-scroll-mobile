@@ -16,16 +16,13 @@ class CustomCodeMarkdownBuilder implements MarkdownElementBuilder {
     return mtl.Text("visitElementAfter");
   }
 
-
-
-
   @override
   mtl.Widget? visitElementAfterWithContext(
-      mtl.BuildContext context,
-      Element element,
-      mtl.TextStyle? preferredStyle,
-      mtl.TextStyle? parentStyle,
-      ) {
+    mtl.BuildContext context,
+    Element element,
+    mtl.TextStyle? preferredStyle,
+    mtl.TextStyle? parentStyle,
+  ) {
     // Extract code content from text nodes
     final code = element.textContent;
 
@@ -49,13 +46,9 @@ class CustomCodeMarkdownBuilder implements MarkdownElementBuilder {
       children: [
         // Language header
         mtl.Container(
-          padding: const mtl.EdgeInsets.symmetric(
-            horizontal: 16,
-            vertical: 4,
-          ),
+          padding: const mtl.EdgeInsets.symmetric(horizontal: 16, vertical: 4),
           decoration: mtl.BoxDecoration(
-            color:
-            mtl.Colors.grey[800],
+            color: mtl.Colors.grey[800],
             borderRadius: const mtl.BorderRadius.only(
               topLeft: mtl.Radius.circular(8),
               topRight: mtl.Radius.circular(8),
@@ -75,7 +68,6 @@ class CustomCodeMarkdownBuilder implements MarkdownElementBuilder {
           scrollDirection: mtl.Axis.horizontal,
 
           child: HighlightView(
-
             code,
             language: language,
             theme: atomOneDarkReasonableTheme,

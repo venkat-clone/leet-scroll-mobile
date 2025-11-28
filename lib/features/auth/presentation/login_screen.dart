@@ -14,7 +14,9 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final _emailController = TextEditingController(text: "lingampally.venkey@gmail.com");
+  final _emailController = TextEditingController(
+    text: "lingampally.venkey@gmail.com",
+  );
   final _passwordController = TextEditingController(text: "venkey.dev");
   final _formKey = GlobalKey<FormState>();
 
@@ -28,9 +30,9 @@ class _LoginScreenState extends State<LoginScreen> {
               context.router.replace(const HomeRoute());
             },
             error: (message) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text(message)),
-              );
+              ScaffoldMessenger.of(
+                context,
+              ).showSnackBar(SnackBar(content: Text(message)));
             },
             orElse: () {},
           );
@@ -52,7 +54,8 @@ class _LoginScreenState extends State<LoginScreen> {
                   children: [
                     Text(
                       'LeetScroll',
-                      style: Theme.of(context).textTheme.displayMedium?.copyWith(
+                      style: Theme.of(context).textTheme.displayMedium
+                          ?.copyWith(
                             fontWeight: FontWeight.bold,
                             color: Theme.of(context).colorScheme.primary,
                           ),
@@ -96,9 +99,9 @@ class _LoginScreenState extends State<LoginScreen> {
                           : () {
                               if (_formKey.currentState!.validate()) {
                                 context.read<AuthCubit>().login(
-                                      _emailController.text,
-                                      _passwordController.text,
-                                    );
+                                  _emailController.text,
+                                  _passwordController.text,
+                                );
                               }
                             },
                       style: ElevatedButton.styleFrom(
@@ -123,4 +126,3 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 }
-

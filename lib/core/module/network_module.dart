@@ -11,7 +11,8 @@ abstract class NetworkModule {
   Dio dio(SharedPreferences prefs) {
     final dio = Dio(
       BaseOptions(
-        baseUrl: 'http://localhost:3000/api', // Use 10.0.2.2 for Android Emulator
+        baseUrl:
+            'http://localhost:3000/api', // Use 10.0.2.2 for Android Emulator
         connectTimeout: const Duration(seconds: 5),
         receiveTimeout: const Duration(seconds: 3),
         headers: {
@@ -25,12 +26,12 @@ abstract class NetworkModule {
       InterceptorsWrapper(
         onRequest: (options, handler) async {
           final userStr = prefs.getString('user');
-          
+
           if (userStr != null) {
             // We need to parse it, but maybe we can just store token separately
             // For now, keep existing logic but be careful about jsonDecode import
           }
-          
+
           final token = prefs.getString('token');
           if (token != null) {
             options.headers['Authorization'] = 'Bearer $token';
@@ -40,7 +41,7 @@ abstract class NetworkModule {
         },
       ),
     );
-    
+
     return dio;
   }
 }

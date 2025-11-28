@@ -13,10 +13,7 @@ _$ProfileModelImpl _$$ProfileModelImplFromJson(Map<String, dynamic> json) =>
     );
 
 Map<String, dynamic> _$$ProfileModelImplToJson(_$ProfileModelImpl instance) =>
-    <String, dynamic>{
-      'user': instance.user,
-      'stats': instance.stats,
-    };
+    <String, dynamic>{'user': instance.user, 'stats': instance.stats};
 
 _$ProfileStatsImpl _$$ProfileStatsImplFromJson(Map<String, dynamic> json) =>
     _$ProfileStatsImpl(

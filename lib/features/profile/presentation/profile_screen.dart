@@ -36,7 +36,11 @@ class ProfileScreen extends StatelessWidget {
                       const CircleAvatar(
                         radius: 50,
                         backgroundColor: Colors.green,
-                        child: Icon(Icons.person, size: 50, color: Colors.white),
+                        child: Icon(
+                          Icons.person,
+                          size: 50,
+                          color: Colors.white,
+                        ),
                       ),
                       const SizedBox(height: 16),
                       Text(
@@ -48,10 +52,7 @@ class ProfileScreen extends StatelessWidget {
                       ),
                       Text(
                         profile.user.email,
-                        style: TextStyle(
-                          color: Colors.grey[400],
-                          fontSize: 16,
-                        ),
+                        style: TextStyle(color: Colors.grey[400], fontSize: 16),
                       ),
                       const SizedBox(height: 32),
                       _buildStatsCard(profile.stats),
@@ -65,15 +66,14 @@ class ProfileScreen extends StatelessWidget {
                   children: [
                     Text('Error: $message'),
                     ElevatedButton(
-                      onPressed: () => context.read<ProfileCubit>().loadProfile(),
+                      onPressed: () =>
+                          context.read<ProfileCubit>().loadProfile(),
                       child: const Text('Retry'),
                     ),
                     const SizedBox(height: 16),
                     TextButton(
                       onPressed: () => context.read<AuthCubit>().logout(),
-                      style: TextButton.styleFrom(
-                        foregroundColor: Colors.red,
-                      ),
+                      style: TextButton.styleFrom(foregroundColor: Colors.red),
                       child: const Text('Logout'),
                     ),
                   ],
@@ -96,11 +96,19 @@ class ProfileScreen extends StatelessWidget {
       ),
       child: Column(
         children: [
-          _buildStatRow('Correct Answers', '${stats.correctAnswers}', Colors.green),
+          _buildStatRow(
+            'Correct Answers',
+            '${stats.correctAnswers}',
+            Colors.green,
+          ),
           const Divider(color: Colors.grey),
           _buildStatRow('Wrong Answers', '${stats.wrongAnswers}', Colors.red),
           const Divider(color: Colors.grey),
-          _buildStatRow('Questions Attempted', '${stats.questionsAttempted}', Colors.white),
+          _buildStatRow(
+            'Questions Attempted',
+            '${stats.questionsAttempted}',
+            Colors.white,
+          ),
         ],
       ),
     );
@@ -129,4 +137,3 @@ class ProfileScreen extends StatelessWidget {
     );
   }
 }
-

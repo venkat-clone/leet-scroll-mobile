@@ -9,11 +9,7 @@ class ShellScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AutoTabsScaffold(
-      routes: const [
-        HomeRoute(),
-        LeaderboardRoute(),
-        ProfileRoute(),
-      ],
+      routes: const [HomeRoute(), LeaderboardRoute(), ProfileRoute()],
       bottomNavigationBuilder: (_, tabsRouter) {
         return BottomNavigationBar(
           currentIndex: tabsRouter.activeIndex,
@@ -46,4 +42,3 @@ class ShellScreen extends StatelessWidget {
     );
   }
 }
-

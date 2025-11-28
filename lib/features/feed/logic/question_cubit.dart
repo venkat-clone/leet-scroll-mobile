@@ -13,10 +13,12 @@ class QuestionCubit extends Cubit<QuestionState> {
   Future<void> loadLikeStatus(String questionId) async {
     try {
       final status = await _repository.getLikeStatus(questionId);
-      emit(state.copyWith(
-        likesCount: status['likes'] ?? 0,
-        isLiked: status['isLiked'] ?? false,
-      ));
+      emit(
+        state.copyWith(
+          likesCount: status['likes'] ?? 0,
+          isLiked: status['isLiked'] ?? false,
+        ),
+      );
     } catch (e) {
       emit(state.copyWith(error: e.toString()));
     }
@@ -28,24 +30,28 @@ class QuestionCubit extends Cubit<QuestionState> {
     // Optimistic update
     final previousLikesCount = state.likesCount;
     final previousIsLiked = state.isLiked;
-    
-    emit(state.copyWith(
-      isLoadingLike: true,
-      isLiked: !state.isLiked,
-      likesCount: state.isLiked ? state.likesCount - 1 : state.likesCount + 1,
-    ));
+
+    emit(
+      state.copyWith(
+        isLoadingLike: true,
+        isLiked: !state.isLiked,
+        likesCount: state.isLiked ? state.likesCount - 1 : state.likesCount + 1,
+      ),
+    );
 
     try {
       await _repository.toggleLike(questionId);
       emit(state.copyWith(isLoadingLike: false));
     } catch (e) {
       // Revert on error
-      emit(state.copyWith(
-        isLoadingLike: false,
-        isLiked: previousIsLiked,
-        likesCount: previousLikesCount,
-        error: e.toString(),
-      ));
+      emit(
+        state.copyWith(
+          isLoadingLike: false,
+          isLiked: previousIsLiked,
+          likesCount: previousLikesCount,
+          error: e.toString(),
+        ),
+      );
     }
   }
 
@@ -53,15 +59,9 @@ class QuestionCubit extends Cubit<QuestionState> {
     emit(state.copyWith(isLoadingComments: true));
     try {
       final comments = await _repository.getComments(questionId);
-      emit(state.copyWith(
-        comments: comments,
-        isLoadingComments: false,
-      ));
+      emit(state.copyWith(comments: comments, isLoadingComments: false));
     } catch (e) {
-      emit(state.copyWith(
-        isLoadingComments: false,
-        error: e.toString(),
-      ));
+      emit(state.copyWith(isLoadingComments: false, error: e.toString()));
     }
   }
 
@@ -72,15 +72,9 @@ class QuestionCubit extends Cubit<QuestionState> {
     try {
       final newComment = await _repository.postComment(questionId, content);
       final updatedComments = [newComment, ...state.comments];
-      emit(state.copyWith(
-        comments: updatedComments,
-        isPostingComment: false,
-      ));
+      emit(state.copyWith(comments: updatedComments, isPostingComment: false));
     } catch (e) {
-      emit(state.copyWith(
-        isPostingComment: false,
-        error: e.toString(),
-      ));
+      emit(state.copyWith(isPostingComment: false, error: e.toString()));
     }
   }
 
@@ -99,9 +93,7 @@ class QuestionCubit extends Cubit<QuestionState> {
   Future<void> loadBookmarkStatus(String questionId) async {
     try {
       final status = await _repository.getBookmarkStatus(questionId);
-      emit(state.copyWith(
-        isBookmarked: status['isBookmarked'] ?? false,
-      ));
+      emit(state.copyWith(isBookmarked: status['isBookmarked'] ?? false));
     } catch (e) {
       // Silently fail for now or log error
       debugPrint('Error loading bookmark status: $e');
@@ -112,21 +104,25 @@ class QuestionCubit extends Cubit<QuestionState> {
     if (state.isLoadingBookmark) return;
 
     final previousIsBookmarked = state.isBookmarked;
-    
-    emit(state.copyWith(
-      isLoadingBookmark: true,
-      isBookmarked: !state.isBookmarked,
-    ));
+
+    emit(
+      state.copyWith(
+        isLoadingBookmark: true,
+        isBookmarked: !state.isBookmarked,
+      ),
+    );
 
     try {
       await _repository.toggleBookmark(questionId);
       emit(state.copyWith(isLoadingBookmark: false));
     } catch (e) {
-      emit(state.copyWith(
-        isLoadingBookmark: false,
-        isBookmarked: previousIsBookmarked,
-        error: e.toString(),
-      ));
+      emit(
+        state.copyWith(
+          isLoadingBookmark: false,
+          isBookmarked: previousIsBookmarked,
+          error: e.toString(),
+        ),
+      );
     }
   }
 
@@ -137,15 +133,9 @@ class QuestionCubit extends Cubit<QuestionState> {
 
     try {
       await _repository.reportQuestion(questionId, 'Inappropriate content');
-      emit(state.copyWith(
-        isReporting: false,
-        isReported: true,
-      ));
+      emit(state.copyWith(isReporting: false, isReported: true));
     } catch (e) {
-      emit(state.copyWith(
-        isReporting: false,
-        error: e.toString(),
-      ));
+      emit(state.copyWith(isReporting: false, error: e.toString()));
     }
   }
 }

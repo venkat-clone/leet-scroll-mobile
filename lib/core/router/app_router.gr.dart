@@ -66,10 +66,7 @@ abstract class $AppRouter extends _i7.RootStackRouter {
 /// [_i1.HomeScreen]
 class HomeRoute extends _i7.PageRouteInfo<void> {
   const HomeRoute({List<_i7.PageRouteInfo>? children})
-      : super(
-          HomeRoute.name,
-          initialChildren: children,
-        );
+    : super(HomeRoute.name, initialChildren: children);
 
   static const String name = 'HomeRoute';
 
@@ -80,10 +77,7 @@ class HomeRoute extends _i7.PageRouteInfo<void> {
 /// [_i2.LeaderboardScreen]
 class LeaderboardRoute extends _i7.PageRouteInfo<void> {
   const LeaderboardRoute({List<_i7.PageRouteInfo>? children})
-      : super(
-          LeaderboardRoute.name,
-          initialChildren: children,
-        );
+    : super(LeaderboardRoute.name, initialChildren: children);
 
   static const String name = 'LeaderboardRoute';
 
@@ -94,10 +88,7 @@ class LeaderboardRoute extends _i7.PageRouteInfo<void> {
 /// [_i3.LoginScreen]
 class LoginRoute extends _i7.PageRouteInfo<void> {
   const LoginRoute({List<_i7.PageRouteInfo>? children})
-      : super(
-          LoginRoute.name,
-          initialChildren: children,
-        );
+    : super(LoginRoute.name, initialChildren: children);
 
   static const String name = 'LoginRoute';
 
@@ -108,10 +99,7 @@ class LoginRoute extends _i7.PageRouteInfo<void> {
 /// [_i4.ProfileScreen]
 class ProfileRoute extends _i7.PageRouteInfo<void> {
   const ProfileRoute({List<_i7.PageRouteInfo>? children})
-      : super(
-          ProfileRoute.name,
-          initialChildren: children,
-        );
+    : super(ProfileRoute.name, initialChildren: children);
 
   static const String name = 'ProfileRoute';
 
@@ -122,10 +110,7 @@ class ProfileRoute extends _i7.PageRouteInfo<void> {
 /// [_i5.RegisterScreen]
 class RegisterRoute extends _i7.PageRouteInfo<void> {
   const RegisterRoute({List<_i7.PageRouteInfo>? children})
-      : super(
-          RegisterRoute.name,
-          initialChildren: children,
-        );
+    : super(RegisterRoute.name, initialChildren: children);
 
   static const String name = 'RegisterRoute';
 
@@ -136,10 +121,7 @@ class RegisterRoute extends _i7.PageRouteInfo<void> {
 /// [_i6.ShellScreen]
 class ShellRoute extends _i7.PageRouteInfo<void> {
   const ShellRoute({List<_i7.PageRouteInfo>? children})
-      : super(
-          ShellRoute.name,
-          initialChildren: children,
-        );
+    : super(ShellRoute.name, initialChildren: children);
 
   static const String name = 'ShellRoute';
 

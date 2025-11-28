@@ -56,10 +56,10 @@ class AuthRepository implements IAuthRepository {
         // For now, let's assume it returns user data and we might need to login separately
         // or it returns token.
         // Original code: return response.data;
-        
+
         // If the API returns the created user:
         // return UserModel.fromJson(response.data['user']);
-        
+
         // Let's assume it returns { user: ... }
         return UserModel.fromJson(response.data['user'] ?? response.data);
       } else {

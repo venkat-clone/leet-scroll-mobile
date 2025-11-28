@@ -62,7 +62,9 @@ class HomeOverview extends StatelessWidget {
                     LinearProgressIndicator(
                       value: 0.0,
                       backgroundColor: Colors.grey[800],
-                      valueColor: const AlwaysStoppedAnimation<Color>(Colors.green),
+                      valueColor: const AlwaysStoppedAnimation<Color>(
+                        Colors.green,
+                      ),
                     ),
                     const SizedBox(height: 8),
                     Text(

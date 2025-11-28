@@ -67,9 +67,10 @@ class _QuestionCardState extends State<QuestionCard> {
     });
 
     try {
-      await context
-          .read<QuestionCubit>()
-          .submitAnswer(widget.question.id!, index);
+      await context.read<QuestionCubit>().submitAnswer(
+        widget.question.id!,
+        index,
+      );
     } catch (e) {
       debugPrint('Error submitting answer: $e');
       if (mounted) {
@@ -93,7 +94,7 @@ class _QuestionCardState extends State<QuestionCard> {
           _QuestionHeader(question: widget.question),
           _QuestionTitle(title: widget.question.title),
           const SizedBox(height: AppTheme.spacingMedium),
-          
+
           // Scrollable Content Area (Code + Description)
           Expanded(
             flex: 2,
@@ -116,12 +117,15 @@ class _QuestionCardState extends State<QuestionCard> {
                         if (widget.question.codeSnippet != null &&
                             widget.question.codeSnippet!.isNotEmpty)
                           _CodeSnippetSection(
-                              codeSnippet: widget.question.codeSnippet!),
+                            codeSnippet: widget.question.codeSnippet!,
+                          ),
                         _QuestionDescription(
-                            description: widget.question.description),
+                          description: widget.question.description,
+                        ),
                         if (_isSubmitted)
                           _ExplanationSection(
-                              explanation: widget.question.explanation),
+                            explanation: widget.question.explanation,
+                          ),
                         const SizedBox(height: AppTheme.spacingMedium),
                       ],
                     ),
@@ -158,17 +162,17 @@ class _QuestionCardState extends State<QuestionCard> {
               ),
             ),
           ),
-          
+
           const SizedBox(height: AppTheme.spacingSmall),
-          
+
           // Like and Comment Actions (Instagram style - above options)
           _ActionButtons(
             questionId: widget.question.id,
             onCommentTap: _showComments,
           ),
-          
+
           const SizedBox(height: AppTheme.spacingSmall),
-          
+
           // Fixed Options Area - All visible without scrolling
           Expanded(
             flex: 1,
@@ -182,7 +186,9 @@ class _QuestionCardState extends State<QuestionCard> {
                 ),
               ),
               child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: AppTheme.spacingSmall),
+                padding: const EdgeInsets.symmetric(
+                  vertical: AppTheme.spacingSmall,
+                ),
                 child: _OptionsList(
                   options: widget.question.options,
                   correctOption: widget.question.correctOption,
@@ -193,7 +199,7 @@ class _QuestionCardState extends State<QuestionCard> {
               ),
             ),
           ),
-          
+
           const SizedBox(height: AppTheme.spacingSmall),
         ],
       ),
@@ -215,18 +221,12 @@ class _QuestionHeader extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Chip(
-            label: Text(
-              question.difficulty,
-              style: AppTheme.chipTextStyle,
-            ),
+            label: Text(question.difficulty, style: AppTheme.chipTextStyle),
             backgroundColor: AppTheme.getDifficultyColor(question.difficulty),
             padding: EdgeInsets.zero,
             materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
           ),
-          Text(
-            question.category,
-            style: AppTheme.labelStyle,
-          ),
+          Text(question.category, style: AppTheme.labelStyle),
         ],
       ),
     );
@@ -285,7 +285,8 @@ class _QuestionTitleState extends State<_QuestionTitle> {
 
     // Get available width (screen width - horizontal padding)
     final screenWidth = MediaQuery.of(context).size.width;
-    final availableWidth = screenWidth - (AppTheme.horizontalPadding.horizontal);
+    final availableWidth =
+        screenWidth - (AppTheme.horizontalPadding.horizontal);
 
     textPainter.layout(maxWidth: availableWidth);
 
@@ -389,33 +390,35 @@ class _OptionsList extends StatelessWidget {
     // Base font size
     const double baseFontSize = 14.0;
     const double minFontSize = 11.0;
-    
+
     // Calculate approximate height per option
     // Padding + border + text height
     const double verticalPaddingPerOption = 12.0 * 2; // top + bottom padding
     const double verticalMarginPerOption = 6.0 * 2; // top + bottom margin
     const double baseLineHeight = 1.2;
-    
+
     // Total non-text height per option
-    const double fixedHeightPerOption = verticalPaddingPerOption + verticalMarginPerOption;
-    
+    const double fixedHeightPerOption =
+        verticalPaddingPerOption + verticalMarginPerOption;
+
     // Available height for text
-    final double availableTextHeight = availableHeight - (fixedHeightPerOption * optionCount);
-    
+    final double availableTextHeight =
+        availableHeight - (fixedHeightPerOption * optionCount);
+
     // Calculate max lines per option
     final double heightPerOption = availableTextHeight / optionCount;
     final double maxTextHeight = heightPerOption;
-    
+
     // Adjust font size based on available space
     double fontSize = baseFontSize;
-    
+
     if (optionCount > 3) {
       fontSize = baseFontSize - ((optionCount - 3) * 1.0);
     }
-    
+
     // Ensure minimum font size
     fontSize = fontSize.clamp(minFontSize, baseFontSize);
-    
+
     return fontSize;
   }
 
@@ -423,8 +426,11 @@ class _OptionsList extends StatelessWidget {
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraints) {
-        final fontSize = _calculateFontSize(constraints.maxHeight, options.length);
-        
+        final fontSize = _calculateFontSize(
+          constraints.maxHeight,
+          options.length,
+        );
+
         return Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: List.generate(
@@ -505,16 +511,17 @@ class _AnswerOption extends StatelessWidget {
               Expanded(
                 child: MarkdownBody(
                   data: option,
-                  styleSheet: MarkdownStyleSheet.fromTheme(Theme.of(context)).copyWith(
-                    p: GoogleFonts.firaCode(
-                      color: AppTheme.secondaryText,
-                      fontSize: fontSize,
-                    ),
-                    code: GoogleFonts.firaCode(
-                      backgroundColor: AppTheme.vsCodeInputBg,
-                      fontSize: fontSize - 1,
-                    ),
-                  ),
+                  styleSheet: MarkdownStyleSheet.fromTheme(Theme.of(context))
+                      .copyWith(
+                        p: GoogleFonts.firaCode(
+                          color: AppTheme.secondaryText,
+                          fontSize: fontSize,
+                        ),
+                        code: GoogleFonts.firaCode(
+                          backgroundColor: AppTheme.vsCodeInputBg,
+                          fontSize: fontSize - 1,
+                        ),
+                      ),
                 ),
               ),
               if (isSubmitted && isSelected)
@@ -578,10 +585,7 @@ class _ActionButtons extends StatelessWidget {
   final String? questionId;
   final VoidCallback onCommentTap;
 
-  const _ActionButtons({
-    required this.questionId,
-    required this.onCommentTap,
-  });
+  const _ActionButtons({required this.questionId, required this.onCommentTap});
 
   @override
   Widget build(BuildContext context) {
@@ -600,7 +604,8 @@ class _ActionButtons extends StatelessWidget {
                 isActive: state.isLiked,
                 showLabel: true,
                 onTap: questionId != null
-                    ? () => context.read<QuestionCubit>().toggleLike(questionId!)
+                    ? () =>
+                          context.read<QuestionCubit>().toggleLike(questionId!)
                     : null,
               ),
               const SizedBox(width: 16),
@@ -619,9 +624,9 @@ class _ActionButtons extends StatelessWidget {
                   Share.share('Check out this question on LeetScroll!');
                 },
               ),
-              
+
               const Spacer(),
-              
+
               // Right side - Bookmark (Instagram style)
               _ActionButton(
                 icon: Icons.bookmark_border,
@@ -631,7 +636,9 @@ class _ActionButtons extends StatelessWidget {
                 isActive: state.isBookmarked,
                 showLabel: false,
                 onTap: questionId != null
-                    ? () => context.read<QuestionCubit>().toggleBookmark(questionId!)
+                    ? () => context.read<QuestionCubit>().toggleBookmark(
+                        questionId!,
+                      )
                     : null,
               ),
               const SizedBox(width: 12),
@@ -644,7 +651,9 @@ class _ActionButtons extends StatelessWidget {
                 showLabel: false,
                 onTap: questionId != null && !state.isReported
                     ? () {
-                        context.read<QuestionCubit>().reportQuestion(questionId!);
+                        context.read<QuestionCubit>().reportQuestion(
+                          questionId!,
+                        );
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(
                             content: Text('Question reported. Thank you!'),

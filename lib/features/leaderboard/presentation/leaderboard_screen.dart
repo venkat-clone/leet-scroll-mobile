@@ -19,7 +19,10 @@ class LeaderboardScreen extends StatelessWidget {
         appBar: AppBar(
           title: Text(
             '<Leaderboard />',
-            style: GoogleFonts.firaCode(color: Colors.green, fontWeight: FontWeight.bold),
+            style: GoogleFonts.firaCode(
+              color: Colors.green,
+              fontWeight: FontWeight.bold,
+            ),
           ),
           backgroundColor: const Color(0xFF1E1E1E),
           elevation: 0,
@@ -32,7 +35,8 @@ class LeaderboardScreen extends StatelessWidget {
               loaded: (entries) {
                 return ListView.separated(
                   itemCount: entries.length,
-                  separatorBuilder: (context, index) => Divider(color: Colors.grey[800]),
+                  separatorBuilder: (context, index) =>
+                      Divider(color: Colors.grey[800]),
                   itemBuilder: (context, index) {
                     final entry = entries[index];
                     return ListTile(
@@ -48,7 +52,10 @@ class LeaderboardScreen extends StatelessWidget {
                       ),
                       title: Text(
                         entry.name ?? 'Anonymous',
-                        style: GoogleFonts.firaCode(color: Colors.white, fontWeight: FontWeight.bold),
+                        style: GoogleFonts.firaCode(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                       subtitle: Text(
                         'Solved: ${entry.problemsSolved}',
@@ -70,9 +77,13 @@ class LeaderboardScreen extends StatelessWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text('Error: $message', style: const TextStyle(color: Colors.red)),
+                    Text(
+                      'Error: $message',
+                      style: const TextStyle(color: Colors.red),
+                    ),
                     ElevatedButton(
-                      onPressed: () => context.read<LeaderboardCubit>().loadLeaderboard(),
+                      onPressed: () =>
+                          context.read<LeaderboardCubit>().loadLeaderboard(),
                       child: const Text('Retry'),
                     ),
                   ],
@@ -111,4 +122,3 @@ class LeaderboardScreen extends StatelessWidget {
     }
   }
 }
-

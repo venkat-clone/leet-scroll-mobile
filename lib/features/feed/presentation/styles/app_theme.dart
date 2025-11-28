@@ -57,36 +57,27 @@ class AppTheme {
 
   /// Common text styles
   static TextStyle get titleStyle => GoogleFonts.firaCode(
-        color: primaryText,
-        fontSize: 20,
-        fontWeight: FontWeight.bold,
-      );
+    color: primaryText,
+    fontSize: 20,
+    fontWeight: FontWeight.bold,
+  );
 
-  static TextStyle get bodyStyle => GoogleFonts.firaCode(
-        color: secondaryText,
-        fontSize: 15,
-        height: 1.5,
-      );
+  static TextStyle get bodyStyle =>
+      GoogleFonts.firaCode(color: secondaryText, fontSize: 15, height: 1.5);
 
-  static TextStyle get codeStyle => GoogleFonts.firaCode(
-        fontSize: 14,
-      );
+  static TextStyle get codeStyle => GoogleFonts.firaCode(fontSize: 14);
 
-  static TextStyle get commentStyle => GoogleFonts.firaCode(
-        color: draculaComment,
-        fontSize: 14,
-      );
+  static TextStyle get commentStyle =>
+      GoogleFonts.firaCode(color: draculaComment, fontSize: 14);
 
-  static TextStyle get labelStyle => GoogleFonts.firaCode(
-        color: tertiaryText,
-        fontSize: 12,
-      );
+  static TextStyle get labelStyle =>
+      GoogleFonts.firaCode(color: tertiaryText, fontSize: 12);
 
   static TextStyle get chipTextStyle => const TextStyle(
-        color: Colors.black,
-        fontSize: 12,
-        fontWeight: FontWeight.bold,
-      );
+    color: Colors.black,
+    fontSize: 12,
+    fontWeight: FontWeight.bold,
+  );
 
   /// Markdown style sheet for title
   static MarkdownStyleSheet getTitleMarkdownStyle(BuildContext context) {
@@ -122,10 +113,7 @@ class AppTheme {
   static MarkdownStyleSheet getOptionMarkdownStyle(BuildContext context) {
     return MarkdownStyleSheet.fromTheme(Theme.of(context)).copyWith(
       p: GoogleFonts.firaCode(color: secondaryText, fontSize: 14),
-      code: GoogleFonts.firaCode(
-        backgroundColor: vsCodeInputBg,
-        fontSize: 13,
-      ),
+      code: GoogleFonts.firaCode(backgroundColor: vsCodeInputBg, fontSize: 13),
     );
   }
 
@@ -142,15 +130,21 @@ class AppTheme {
 
   /// Common padding values
   static const EdgeInsets cardPadding = EdgeInsets.all(16.0);
-  static const EdgeInsets horizontalPadding = EdgeInsets.symmetric(horizontal: 16.0);
+  static const EdgeInsets horizontalPadding = EdgeInsets.symmetric(
+    horizontal: 16.0,
+  );
   static const EdgeInsets verticalPadding = EdgeInsets.symmetric(vertical: 6.0);
-  static const EdgeInsets optionPadding = EdgeInsets.symmetric(horizontal: 16.0, vertical: 6.0);
+  static const EdgeInsets optionPadding = EdgeInsets.symmetric(
+    horizontal: 16.0,
+    vertical: 6.0,
+  );
   static const EdgeInsets buttonPadding = EdgeInsets.all(12);
 
   /// Common border radius
   static BorderRadius get cardRadius => BorderRadius.circular(8);
   static BorderRadius get buttonRadius => BorderRadius.circular(4);
-  static BorderRadius get sheetRadius => const BorderRadius.vertical(top: Radius.circular(20));
+  static BorderRadius get sheetRadius =>
+      const BorderRadius.vertical(top: Radius.circular(20));
 
   /// Common spacing
   static const double spacingSmall = 8.0;
