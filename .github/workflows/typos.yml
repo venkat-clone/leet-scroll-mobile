@@ -1,8 +1,10 @@
 name: check typos
 
 on:
-  workflow_call:
+  push:
+    branches: [ "master","main" ]
   pull_request:
+    branches: [ "master","main" ]
 
 jobs:
   check-typos:
