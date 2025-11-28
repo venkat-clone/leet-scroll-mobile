@@ -6,26 +6,50 @@ on:
   pull_request:
     branches: [ main ]
 
+permissions:
+  contents: read
+  security-events: write  # For SARIF upload if needed
+
 jobs:
   security:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: dart-lang/setup-dart@v1
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Dart
+        uses: dart-lang/setup-dart@v1
+        with:
+          sdk: stable
 
       - name: Install dependencies
         run: dart pub get
 
-      - name: Run strict analysis (includes security rules)
+      - name: Run strict analysis (built-in security & lints)
         run: dart analyze --fatal-infos --fatal-warnings
 
-      - name: Run dart_code_metrics (security, anti-patterns, maintainability)
-        uses: dart-code-checker/dart-code-metrics-action@v5
+      - name: Run DCM analyze (advanced security, metrics, anti-patterns)
+        uses: DCM4J/dcm-action@v3  # Latest maintained action (free tier)
         with:
-          fail-on-issues: true
-          # It catches: hardcoded secrets, insecure crypto, unsafe native calls, etc.
+          github_token: ${{ secrets.GITHUB_TOKEN }}  # Required for comments/PR reviews
+          config: ./analysis_options.yaml  # Uses your existing config
+          fail-on-violation: true  # Fail CI on issues
+          # Optional: Focus on security-relevant rules
+          rules: |
+            avoid-hardcoded-keys
+            avoid-leaking-immutable-global
+            avoid-passing-async-when-sync-expected
+            dead-code
+            secure-pubspec-dependencies
 
-      - name: Run pana (scans pubspec, licensing, potential security issues)
+      - name: Run pana (dependency security & health check)
         run: |
           dart pub global activate pana
-          dart pub global run pana --scores --no-wait
+          pana --scores --no-wait --exit-code
+
+      # Optional: Upload SARIF for GitHub Advanced Security
+      - name: Upload DCM results to Security tab
+        if: always()
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: dcm-results.sarif  # DCM auto-generates this
