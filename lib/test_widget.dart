@@ -29,6 +29,7 @@ class AutoNestedPageView extends StatelessWidget {
 
     return NestedScrollPage();
 
+    // ignore: dead_code
     return PageView.builder(
       // physics: const AlwaysScrollableScrollPhysics(),
       // scrollBehavior: ScrollBehavior(),

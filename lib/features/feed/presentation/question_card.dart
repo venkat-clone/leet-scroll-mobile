@@ -1,3 +1,5 @@
+// ignore_for_file: unused_local_variable
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_highlight/flutter_highlight.dart';
@@ -38,11 +40,9 @@ class _QuestionCardState extends State<QuestionCard> {
   }
 
   void _loadLikeStatus() {
-    if (widget.question.id != null) {
-      context.read<QuestionCubit>().loadLikeStatus(widget.question.id!);
-      context.read<QuestionCubit>().loadBookmarkStatus(widget.question.id!);
+    context.read<QuestionCubit>().loadLikeStatus(widget.question.id);
+    context.read<QuestionCubit>().loadBookmarkStatus(widget.question.id);
     }
-  }
 
   void _showComments() {
     showModalBottomSheet(
@@ -52,14 +52,14 @@ class _QuestionCardState extends State<QuestionCard> {
       shape: RoundedRectangleBorder(borderRadius: AppTheme.sheetRadius),
       builder: (context) => BlocProvider(
         create: (context) =>
-            getIt<QuestionCubit>()..loadComments(widget.question.id!),
-        child: CommentsSheet(questionId: widget.question.id!),
+            getIt<QuestionCubit>()..loadComments(widget.question.id),
+        child: CommentsSheet(questionId: widget.question.id),
       ),
     );
   }
 
   Future<void> _submitAnswer(int index) async {
-    if (_isSubmitted || widget.question.id == null) return;
+    if (_isSubmitted) return;
 
     setState(() {
       _selectedOption = index;
@@ -68,7 +68,7 @@ class _QuestionCardState extends State<QuestionCard> {
 
     try {
       await context.read<QuestionCubit>().submitAnswer(
-        widget.question.id!,
+        widget.question.id,
         index,
       );
     } catch (e) {
@@ -393,21 +393,14 @@ class _OptionsList extends StatelessWidget {
 
     // Calculate approximate height per option
     // Padding + border + text height
-    const double verticalPaddingPerOption = 12.0 * 2; // top + bottom padding
+// top + bottom padding
     const double verticalMarginPerOption = 6.0 * 2; // top + bottom margin
-    const double baseLineHeight = 1.2;
 
     // Total non-text height per option
-    const double fixedHeightPerOption =
-        verticalPaddingPerOption + verticalMarginPerOption;
 
     // Available height for text
-    final double availableTextHeight =
-        availableHeight - (fixedHeightPerOption * optionCount);
 
     // Calculate max lines per option
-    final double heightPerOption = availableTextHeight / optionCount;
-    final double maxTextHeight = heightPerOption;
 
     // Adjust font size based on available space
     double fontSize = baseFontSize;
@@ -676,7 +669,6 @@ class _ActionButton extends StatelessWidget {
   final IconData icon;
   final String label;
   final IconData? activeIcon;
-  final String? activeLabel;
   final Color? activeColor;
   final bool isActive;
   final VoidCallback? onTap;
@@ -686,7 +678,6 @@ class _ActionButton extends StatelessWidget {
     required this.icon,
     required this.label,
     this.activeIcon,
-    this.activeLabel,
     this.activeColor,
     this.isActive = false,
     this.onTap,
@@ -710,7 +701,7 @@ class _ActionButton extends StatelessWidget {
           if (showLabel && label.isNotEmpty) ...[
             const SizedBox(width: 4),
             Text(
-              isActive ? activeLabel ?? label : label,
+              label,
               style: GoogleFonts.firaCode(
                 color: AppTheme.draculaComment,
                 fontSize: 12,

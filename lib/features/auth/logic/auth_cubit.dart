@@ -35,7 +35,6 @@ class AuthCubit extends Cubit<AuthState> {
   Future<void> register(String email, String password, String name) async {
     emit(const AuthState.loading());
     try {
-      final user = await _repository.register(email, password, name);
       // If register logs in automatically
       // emit(AuthState.authenticated(user));
       // Or if it requires login
