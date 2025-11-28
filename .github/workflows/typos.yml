@@ -22,7 +22,3 @@ jobs:
         with:
           version: v1.40.0
           config: .typos.toml
-
-      - name: Run typos check 📝
-        run: typos --format brief
-        # You can use `--write` in a separate workflow/PR bot if you want auto-correction
