@@ -42,7 +42,7 @@ class _QuestionCardState extends State<QuestionCard> {
   void _loadLikeStatus() {
     context.read<QuestionCubit>().loadLikeStatus(widget.question.id);
     context.read<QuestionCubit>().loadBookmarkStatus(widget.question.id);
-    }
+  }
 
   void _showComments() {
     showModalBottomSheet(
@@ -393,7 +393,7 @@ class _OptionsList extends StatelessWidget {
 
     // Calculate approximate height per option
     // Padding + border + text height
-// top + bottom padding
+    // top + bottom padding
     const double verticalMarginPerOption = 6.0 * 2; // top + bottom margin
 
     // Total non-text height per option
