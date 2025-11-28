@@ -17,13 +17,25 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Setup Dart
-        uses: dart-lang/setup-dart@v1
+      - name: Flutter FVM config action
+        uses: kuhnroyal/flutter-fvm-config-action@v3.1
+      - name: Setup Flutter 💻
+        uses: subosito/flutter-action@v2.21.0
+        id: setup-flutter
         with:
-          sdk: stable
-
+          flutter-version: ${{ steps.fvm-config.outputs.FLUTTER_VERSION }}
+          cache: true
+          cache-key: ${{ runner.os }}-flutter-${{ steps.fvm-config.outputs.FLUTTER_VERSION }}-${{ hashFiles('**/pubspec.lock') }}
+      - name: Cache Pub 💾
+        uses: actions/cache@v4
+        with:
+          path: |
+            **/.dart_tool
+          key: ${{ runner.os }}-pub-${{ hashFiles('**/pubspec.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-pub-
       - name: Install dependencies
-        run: dart pub get
+        run: flutter pub get
 
       - name: Run strict analysis (built-in security & lints)
         run: dart analyze --fatal-infos --fatal-warnings
@@ -48,8 +60,8 @@ jobs:
           pana --scores --no-wait --exit-code
 
       # Optional: Upload SARIF for GitHub Advanced Security
-      - name: Upload DCM results to Security tab
-        if: always()
-        uses: github/codeql-action/upload-sarif@v3
-        with:
-          sarif_file: dcm-results.sarif  # DCM auto-generates this
+#      - name: Upload DCM results to Security tab
+#        if: always()
+#        uses: github/codeql-action/upload-sarif@v3
+#        with:
+#          sarif_file: dcm-results.sarif  # DCM auto-generates this
