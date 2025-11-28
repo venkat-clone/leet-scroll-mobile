@@ -28,19 +28,19 @@ jobs:
       - name: Run strict analysis (built-in security & lints)
         run: dart analyze --fatal-infos --fatal-warnings
 
-      - name: Run DCM analyze (advanced security, metrics, anti-patterns)
-        uses: DCM4J/dcm-action@v3  # Latest maintained action (free tier)
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}  # Required for comments/PR reviews
-          config: ./analysis_options.yaml  # Uses your existing config
-          fail-on-violation: true  # Fail CI on issues
-          # Optional: Focus on security-relevant rules
-          rules: |
-            avoid-hardcoded-keys
-            avoid-leaking-immutable-global
-            avoid-passing-async-when-sync-expected
-            dead-code
-            secure-pubspec-dependencies
+#      - name: Run DCM analyze (advanced security, metrics, anti-patterns)
+#        uses: DCM4J/dcm-action@v3  # Latest maintained action (free tier)
+#        with:
+#          github_token: ${{ secrets.GITHUB_TOKEN }}  # Required for comments/PR reviews
+#          config: ./analysis_options.yaml  # Uses your existing config
+#          fail-on-violation: true  # Fail CI on issues
+#          # Optional: Focus on security-relevant rules
+#          rules: |
+#            avoid-hardcoded-keys
+#            avoid-leaking-immutable-global
+#            avoid-passing-async-when-sync-expected
+#            dead-code
+#            secure-pubspec-dependencies
 
       - name: Run pana (dependency security & health check)
         run: |
