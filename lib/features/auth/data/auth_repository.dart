@@ -1,13 +1,21 @@
 import 'dart:convert';
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'user_model.dart';
 
 abstract class IAuthRepository {
   Future<UserModel> login(String email, String password);
+
   Future<UserModel> register(String email, String password, String name);
+
+  Future<UserModel> signInWithGoogle();
+
   Future<void> logout();
+
   Future<UserModel?> getUser();
 }
 
@@ -69,6 +77,61 @@ class AuthRepository implements IAuthRepository {
       throw Exception(e.response?.data['error'] ?? e.message);
     } catch (e) {
       throw Exception(e.toString());
+    }
+  }
+
+  Future<UserCredential> _signInWithGoogle() async {
+    if (kIsWeb) {
+      final UserCredential userCredential = await FirebaseAuth.instance
+          .signInWithPopup(GoogleAuthProvider());
+      return userCredential;
+    }else{
+
+      final GoogleSignInAccount? googleUser = await GoogleSignIn.instance
+          .authenticate();
+      if (googleUser == null) {
+        throw Exception('Google Sign-In aborted');
+      }
+
+      final GoogleSignInAuthentication googleAuth = googleUser.authentication;
+      final AuthCredential credential = GoogleAuthProvider.credential(
+        idToken: googleAuth.idToken,
+      );
+
+      final UserCredential userCredential = await FirebaseAuth.instance
+          .signInWithCredential(credential);
+      return userCredential;
+    }
+  }
+
+  @override
+  Future<UserModel> signInWithGoogle() async {
+    try {
+
+      final UserCredential userCredential = await _signInWithGoogle();
+      final String? idToken = await userCredential.user?.getIdToken();
+
+      if (idToken == null) {
+        throw Exception('Failed to get ID Token');
+      }
+
+      final response = await _dio.post(
+        '/mobile/login',
+        data: {'idToken': idToken},
+      );
+
+      if ([200,204].contains(response.statusCode)) {
+        final data = response.data;
+        final user = UserModel.fromJson(data['user']);
+        await _saveSession(data['token'], user);
+        return user;
+      } else {
+        throw Exception(response.data['error'] ?? 'Login failed');
+      }
+    } on DioException catch (e) {
+      rethrow;
+    } catch (e) {
+      rethrow;
     }
   }
 

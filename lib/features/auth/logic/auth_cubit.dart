@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 import '../data/auth_repository.dart';
@@ -28,6 +29,18 @@ class AuthCubit extends Cubit<AuthState> {
       final user = await _repository.login(email, password);
       emit(AuthState.authenticated(user));
     } catch (e) {
+      emit(AuthState.error(e.toString()));
+    }
+  }
+
+  Future<void> signInWithGoogle() async {
+    emit(const AuthState.loading());
+    try {
+      final user = await _repository.signInWithGoogle();
+      emit(AuthState.authenticated(user));
+    } on Exception catch (e,s) {
+      debugPrint(e.toString());
+      debugPrintStack(stackTrace: s);
       emit(AuthState.error(e.toString()));
     }
   }

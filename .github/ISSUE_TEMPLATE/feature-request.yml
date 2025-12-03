@@ -1,0 +1,18 @@
+name: Feature Request
+description : Suggest an Idea for this Project
+title: [FEATURE]
+labels: [enhancement]
+
+body:
+  - type: textarea
+    id: feature
+    attributes:
+      label: "what kind of feature are u missing?"
+      description: "a clear and concise description of the feature"
+    validations:
+      required: true
+  - type: description
+    id: additional-context
+    attributes:
+      label: "Additional Context"
+      description: "Any other context or screenshorts about the feature request"

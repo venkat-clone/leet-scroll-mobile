@@ -1,13 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:mobile/firebase_options.dart';
 import 'core/injection.dart';
 import 'core/router/app_router.dart';
 import 'features/auth/logic/auth_cubit.dart';
 
-void main() {
+import 'package:firebase_core/firebase_core.dart';
+
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  configureDependencies();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  // Firebase.app().
+  await GoogleSignIn.instance.initialize(
+      clientId: "test"
+  );
+  await configureDependencies();
   runApp(MyApp());
 }
 
