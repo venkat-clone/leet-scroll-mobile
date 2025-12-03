@@ -1,0 +1,41 @@
+{
+  "flutter": {
+    "platforms": {
+      "android": {
+        "default": {
+          "projectId": "leet-scroll-8ee16",
+          "appId": "1:146095455614:android:99258f7f0465db5129872f",
+          "fileOutput": "android/app/google-services.json"
+        }
+      },
+      "ios": {
+        "default": {
+          "projectId": "leet-scroll-8ee16",
+          "appId": "1:146095455614:ios:929145af87a7e70229872f",
+          "uploadDebugSymbols": false,
+          "fileOutput": "ios/Runner/GoogleService-Info.plist"
+        }
+      },
+      "macos": {
+        "default": {
+          "projectId": "leet-scroll-8ee16",
+          "appId": "1:146095455614:ios:929145af87a7e70229872f",
+          "uploadDebugSymbols": false,
+          "fileOutput": "macos/Runner/GoogleService-Info.plist"
+        }
+      },
+      "dart": {
+        "lib/firebase_options.dart": {
+          "projectId": "leet-scroll-8ee16",
+          "configurations": {
+            "android": "1:146095455614:android:99258f7f0465db5129872f",
+            "ios": "1:146095455614:ios:929145af87a7e70229872f",
+            "macos": "1:146095455614:ios:929145af87a7e70229872f",
+            "web": "1:146095455614:web:ce752c79856407b729872f",
+            "windows": "1:146095455614:web:6d76a879c47ecb0329872f"
+          }
+        }
+      }
+    }
+  }
+}
