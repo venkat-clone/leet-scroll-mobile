@@ -87,121 +87,122 @@ class _QuestionCardState extends State<QuestionCard> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: AppTheme.vsCodeBackground,
-      child: Column(
-        children: [
-          // Fixed Header
-          _QuestionHeader(question: widget.question),
-          _QuestionTitle(title: widget.question.title),
-          const SizedBox(height: AppTheme.spacingMedium),
+      color: AppTheme.vsCodeBackground,      child: SafeArea(
+        child: Column(
+          children: [
+            // Fixed Header
+            _QuestionHeader(question: widget.question),
+            _QuestionTitle(title: widget.question.title),
+            const SizedBox(height: AppTheme.spacingMedium),
 
-          // Scrollable Content Area (Code + Description)
-          Expanded(
-            flex: 2,
-            child: Container(
-              decoration: BoxDecoration(
-                border: Border(
-                  bottom: BorderSide(
-                    color: AppTheme.vsCodeBorder.withOpacity(0.3),
-                    width: 1,
-                  ),
-                ),
-              ),
-              child: Stack(
-                children: [
-                  SingleChildScrollView(
-                    physics: const BouncingScrollPhysics(),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        if (widget.question.codeSnippet != null &&
-                            widget.question.codeSnippet!.isNotEmpty)
-                          _CodeSnippetSection(
-                            codeSnippet: widget.question.codeSnippet!,
-                          ),
-                        _QuestionDescription(
-                          description: widget.question.description,
-                        ),
-                        if (_isSubmitted)
-                          _ExplanationSection(
-                            explanation: widget.question.explanation,
-                          ),
-                        const SizedBox(height: AppTheme.spacingMedium),
-                      ],
+            // Scrollable Content Area (Code + Description)
+            Expanded(
+              flex: 5,
+              child: Container(
+                decoration: BoxDecoration(
+                  border: Border(
+                    bottom: BorderSide(
+                      color: AppTheme.vsCodeBorder.withOpacity(0.3),
+                      width: 1,
                     ),
                   ),
-                  // Scroll indicator at bottom
-                  Positioned(
-                    bottom: 0,
-                    left: 0,
-                    right: 0,
-                    child: IgnorePointer(
-                      child: Container(
-                        height: 30,
-                        decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            begin: Alignment.topCenter,
-                            end: Alignment.bottomCenter,
-                            colors: [
-                              Colors.transparent,
-                              AppTheme.vsCodeBackground.withOpacity(0.3),
-                            ],
+                ),
+                child: Stack(
+                  children: [
+                    SingleChildScrollView(
+                      physics: const BouncingScrollPhysics(),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          if (widget.question.codeSnippet != null &&
+                              widget.question.codeSnippet!.isNotEmpty)
+                            _CodeSnippetSection(
+                              codeSnippet: widget.question.codeSnippet!,
+                            ),
+                          _QuestionDescription(
+                            description: widget.question.description,
                           ),
-                        ),
-                        child: Center(
-                          child: Icon(
-                            Icons.keyboard_arrow_down,
-                            color: AppTheme.draculaComment.withOpacity(0.5),
-                            size: 20,
+                          if (_isSubmitted)
+                            _ExplanationSection(
+                              explanation: widget.question.explanation,
+                            ),
+                          const SizedBox(height: AppTheme.spacingMedium),
+                        ],
+                      ),
+                    ),
+                    // Scroll indicator at bottom
+                    Positioned(
+                      bottom: 0,
+                      left: 0,
+                      right: 0,
+                      child: IgnorePointer(
+                        child: Container(
+                          height: 30,
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              begin: Alignment.topCenter,
+                              end: Alignment.bottomCenter,
+                              colors: [
+                                Colors.transparent,
+                                AppTheme.vsCodeBackground.withOpacity(0.3),
+                              ],
+                            ),
+                          ),
+                          child: Center(
+                            child: Icon(
+                              Icons.keyboard_arrow_down,
+                              color: AppTheme.draculaComment.withOpacity(0.5),
+                              size: 20,
+                            ),
                           ),
                         ),
                       ),
                     ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-
-          const SizedBox(height: AppTheme.spacingSmall),
-
-          // Like and Comment Actions (Instagram style - above options)
-          _ActionButtons(
-            questionId: widget.question.id,
-            onCommentTap: _showComments,
-          ),
-
-          const SizedBox(height: AppTheme.spacingSmall),
-
-          // Fixed Options Area - All visible without scrolling
-          Expanded(
-            flex: 1,
-            child: Container(
-              decoration: BoxDecoration(
-                border: Border(
-                  top: BorderSide(
-                    color: AppTheme.vsCodeBorder.withOpacity(0.3),
-                    width: 1,
-                  ),
-                ),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(
-                  vertical: AppTheme.spacingSmall,
-                ),
-                child: _OptionsList(
-                  options: widget.question.options,
-                  correctOption: widget.question.correctOption,
-                  selectedOption: _selectedOption,
-                  isSubmitted: _isSubmitted,
-                  onOptionTap: _submitAnswer,
+                  ],
                 ),
               ),
             ),
-          ),
 
-          const SizedBox(height: AppTheme.spacingSmall),
-        ],
+            const SizedBox(height: AppTheme.spacingSmall),
+
+            // Like and Comment Actions (Instagram style - above options)
+            _ActionButtons(
+              questionId: widget.question.id,
+              onCommentTap: _showComments,
+            ),
+
+            const SizedBox(height: AppTheme.spacingSmall),
+
+            // Fixed Options Area - All visible without scrolling
+            Expanded(
+              flex: 4,
+              child: Container(
+                decoration: BoxDecoration(
+                  border: Border(
+                    top: BorderSide(
+                      color: AppTheme.vsCodeBorder.withOpacity(0.3),
+                      width: 1,
+                    ),
+                  ),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                    vertical: AppTheme.spacingSmall,
+                  ),
+                  child: _OptionsList(
+                    options: widget.question.options,
+                    correctOption: widget.question.correctOption,
+                    selectedOption: _selectedOption,
+                    isSubmitted: _isSubmitted,
+                    onOptionTap: _submitAnswer,
+                  ),
+                ),
+              ),
+            ),
+
+            const SizedBox(height: AppTheme.spacingSmall),
+          ],
+        ),
       ),
     );
   }
@@ -417,6 +418,24 @@ class _OptionsList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    return Column(
+    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+    children: List.generate(
+      options.length,
+          (index) => Flexible(
+        child: _AnswerOption(
+          option: options[index],
+          index: index,
+          correctOption: correctOption,
+          selectedOption: selectedOption,
+          isSubmitted: isSubmitted,
+          onTap: () => onOptionTap(index),
+          fontSize: 12,
+        ),
+      ),
+    ),
+    );
     return LayoutBuilder(
       builder: (context, constraints) {
         final fontSize = _calculateFontSize(
@@ -501,22 +520,25 @@ class _AnswerOption extends StatelessWidget {
           ),
           child: Row(
             children: [
-              Expanded(
-                child: MarkdownBody(
-                  data: option,
-                  styleSheet: MarkdownStyleSheet.fromTheme(Theme.of(context))
-                      .copyWith(
-                        p: GoogleFonts.firaCode(
-                          color: AppTheme.secondaryText,
-                          fontSize: fontSize,
-                        ),
-                        code: GoogleFonts.firaCode(
-                          backgroundColor: AppTheme.vsCodeInputBg,
-                          fontSize: fontSize - 1,
-                        ),
-                      ),
-                ),
-              ),
+              Expanded(child: Text(option)),
+              // Expanded(
+              //   child: MarkdownBody(
+              //     data: option,
+              //     shrinkWrap: true,
+              //
+              //     styleSheet: MarkdownStyleSheet.fromTheme(Theme.of(context))
+              //         .copyWith(
+              //           p: GoogleFonts.firaCode(
+              //             color: AppTheme.secondaryText,
+              //             fontSize: fontSize,
+              //           ),
+              //           code: GoogleFonts.firaCode(
+              //             backgroundColor: AppTheme.vsCodeInputBg,
+              //             fontSize: fontSize - 1,
+              //           ),
+              //         ),
+              //   ),
+              // ),
               if (isSubmitted && isSelected)
                 Padding(
                   padding: const EdgeInsets.only(left: AppTheme.spacingSmall),

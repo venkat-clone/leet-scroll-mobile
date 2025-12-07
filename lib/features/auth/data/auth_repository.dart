@@ -86,12 +86,10 @@ class AuthRepository implements IAuthRepository {
           .signInWithPopup(GoogleAuthProvider());
       return userCredential;
     }else{
-
-      final GoogleSignInAccount? googleUser = await GoogleSignIn.instance
+      final GoogleSignInAccount googleUser = await GoogleSignIn.instance
           .authenticate();
-      if (googleUser == null) {
-        throw Exception('Google Sign-In aborted');
-      }
+
+
 
       final GoogleSignInAuthentication googleAuth = googleUser.authentication;
       final AuthCredential credential = GoogleAuthProvider.credential(

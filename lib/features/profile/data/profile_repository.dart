@@ -15,7 +15,7 @@ class ProfileRepository implements IProfileRepository {
   @override
   Future<ProfileModel> getProfile() async {
     try {
-      final response = await _dio.get('/profile');
+      final response = await _dio.get('/mobile/profile');
 
       if (response.statusCode == 200) {
         return ProfileModel.fromJson(response.data);

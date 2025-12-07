@@ -12,9 +12,8 @@ import 'package:firebase_core/firebase_core.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  // Firebase.app().
   await GoogleSignIn.instance.initialize(
-      clientId: "test"
+      clientId: DefaultFirebaseOptions.currentPlatform.androidClientId
   );
   await configureDependencies();
   runApp(MyApp());
