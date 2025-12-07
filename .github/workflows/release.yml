@@ -1,0 +1,55 @@
+name: Release
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: "temurin"
+          java-version: "17"
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: "3.32.8"
+          channel: "stable"
+
+      - name: Setup Shorebird
+        uses: shorebird/setup-shorebird@v1
+        with:
+          shorebird-token: ${{ secrets.SHOREBIRD_TOKEN }}
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Run Smoke Test
+        run: flutter test test/widget_test.dart
+
+      - name: Build and Release with Shorebird
+        run: shorebird release android --artifact=apk
+
+      - name: Get Version
+        id: get_version
+        run: |
+          version=$(grep 'version:' pubspec.yaml | sed 's/version: //')
+          echo "VERSION=$version" >> $GITHUB_ENV
+
+      - name: Create GitHub Release
+        uses: ncipollo/release-action@v1
+        with:
+          tag: v${{ env.VERSION }}
+          name: Release v${{ env.VERSION }}
+          artifacts: "build/app/outputs/flutter-apk/app-release.apk"
+          token: ${{ secrets.GITHUB_TOKEN }}
+          allowUpdates: true

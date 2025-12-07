@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -36,6 +37,8 @@ abstract class NetworkModule {
           if (token != null) {
             options.headers['Authorization'] = 'Bearer $token';
           }
+          debugPrint('Request: ${options.method} ${options.path}');
+          debugPrint('Headers: ${options.headers}');
 
           return handler.next(options);
         },
