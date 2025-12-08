@@ -1,3 +1,4 @@
+import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../core/injection.dart';
@@ -6,14 +7,15 @@ import '../logic/feed_state.dart';
 import '../logic/question_cubit.dart';
 import 'question_card.dart';
 
-class QuestionFeed extends StatefulWidget {
-  const QuestionFeed({super.key});
+@RoutePage()
+class QuestionFeedScreen extends StatefulWidget {
+  const QuestionFeedScreen({super.key});
 
   @override
-  State<QuestionFeed> createState() => _QuestionFeedState();
+  State<QuestionFeedScreen> createState() => _QuestionFeedState();
 }
 
-class _QuestionFeedState extends State<QuestionFeed> {
+class _QuestionFeedState extends State<QuestionFeedScreen> {
   final PageController _pageController = PageController();
 
   @override

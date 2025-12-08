@@ -2,12 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:mobile/features/auth/logic/auth_state.dart';
 import 'package:mobile/firebase_options.dart';
 import 'core/injection.dart';
 import 'core/router/app_router.dart';
+import 'core/router/app_router.gr.dart';
 import 'features/auth/logic/auth_cubit.dart';
 
 import 'package:firebase_core/firebase_core.dart';
+
+import 'features/profile/logic/profile_cubit.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -16,7 +20,12 @@ void main() async {
       clientId: DefaultFirebaseOptions.currentPlatform.androidClientId
   );
   await configureDependencies();
-  runApp(MyApp());
+  runApp(MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (context) => getIt<AuthCubit>()..checkAuth()),
+        BlocProvider(create: (context) => getIt<ProfileCubit>()..loadProfile()),
+      ],
+      child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -25,14 +34,16 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Initialize AppRouter
-    // We need to keep the instance of AppRouter to ensure navigation state is preserved
-    // But since MyApp is stateless and created once (usually), it's fine to create it here
-    // or better, create it outside or use a singleton if needed.
-    // For simplicity:
 
-    return BlocProvider(
-      create: (context) => getIt<AuthCubit>()..checkAuth(),
+    return BlocListener<AuthCubit,AuthState>(
+      listener: (context, state) {
+        state.maybeWhen(
+            unauthenticated: (){
+              appRouter.popUntilRoot();
+              appRouter.push(const LoginRoute());
+            },
+            orElse: (){});
+      },
       child: MaterialApp.router(
         debugShowCheckedModeBanner: false,
         title: 'LeetScroll',
@@ -40,7 +51,7 @@ class MyApp extends StatelessWidget {
           colorScheme: ColorScheme.fromSeed(
             seedColor: Colors.green,
             brightness: Brightness.dark,
-            background: const Color(0xFF0A0A0A),
+            surface: const Color(0xFF0A0A0A),
           ),
           scaffoldBackgroundColor: const Color(0xFF0A0A0A),
           useMaterial3: true,

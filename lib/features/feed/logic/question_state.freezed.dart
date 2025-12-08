@@ -12,8 +12,7 @@ part of 'question_state.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
-);
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$QuestionState {
@@ -37,23 +36,21 @@ mixin _$QuestionState {
 /// @nodoc
 abstract class $QuestionStateCopyWith<$Res> {
   factory $QuestionStateCopyWith(
-    QuestionState value,
-    $Res Function(QuestionState) then,
-  ) = _$QuestionStateCopyWithImpl<$Res, QuestionState>;
+          QuestionState value, $Res Function(QuestionState) then) =
+      _$QuestionStateCopyWithImpl<$Res, QuestionState>;
   @useResult
-  $Res call({
-    int likesCount,
-    bool isLiked,
-    bool isLoadingLike,
-    List<dynamic> comments,
-    bool isLoadingComments,
-    bool isPostingComment,
-    bool isBookmarked,
-    bool isLoadingBookmark,
-    bool isReporting,
-    bool isReported,
-    String? error,
-  });
+  $Res call(
+      {int likesCount,
+      bool isLiked,
+      bool isLoadingLike,
+      List<dynamic> comments,
+      bool isLoadingComments,
+      bool isPostingComment,
+      bool isBookmarked,
+      bool isLoadingBookmark,
+      bool isReporting,
+      bool isReported,
+      String? error});
 }
 
 /// @nodoc
@@ -81,55 +78,52 @@ class _$QuestionStateCopyWithImpl<$Res, $Val extends QuestionState>
     Object? isReported = null,
     Object? error = freezed,
   }) {
-    return _then(
-      _value.copyWith(
-            likesCount: null == likesCount
-                ? _value.likesCount
-                : likesCount // ignore: cast_nullable_to_non_nullable
-                      as int,
-            isLiked: null == isLiked
-                ? _value.isLiked
-                : isLiked // ignore: cast_nullable_to_non_nullable
-                      as bool,
-            isLoadingLike: null == isLoadingLike
-                ? _value.isLoadingLike
-                : isLoadingLike // ignore: cast_nullable_to_non_nullable
-                      as bool,
-            comments: null == comments
-                ? _value.comments
-                : comments // ignore: cast_nullable_to_non_nullable
-                      as List<dynamic>,
-            isLoadingComments: null == isLoadingComments
-                ? _value.isLoadingComments
-                : isLoadingComments // ignore: cast_nullable_to_non_nullable
-                      as bool,
-            isPostingComment: null == isPostingComment
-                ? _value.isPostingComment
-                : isPostingComment // ignore: cast_nullable_to_non_nullable
-                      as bool,
-            isBookmarked: null == isBookmarked
-                ? _value.isBookmarked
-                : isBookmarked // ignore: cast_nullable_to_non_nullable
-                      as bool,
-            isLoadingBookmark: null == isLoadingBookmark
-                ? _value.isLoadingBookmark
-                : isLoadingBookmark // ignore: cast_nullable_to_non_nullable
-                      as bool,
-            isReporting: null == isReporting
-                ? _value.isReporting
-                : isReporting // ignore: cast_nullable_to_non_nullable
-                      as bool,
-            isReported: null == isReported
-                ? _value.isReported
-                : isReported // ignore: cast_nullable_to_non_nullable
-                      as bool,
-            error: freezed == error
-                ? _value.error
-                : error // ignore: cast_nullable_to_non_nullable
-                      as String?,
-          )
-          as $Val,
-    );
+    return _then(_value.copyWith(
+      likesCount: null == likesCount
+          ? _value.likesCount
+          : likesCount // ignore: cast_nullable_to_non_nullable
+              as int,
+      isLiked: null == isLiked
+          ? _value.isLiked
+          : isLiked // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isLoadingLike: null == isLoadingLike
+          ? _value.isLoadingLike
+          : isLoadingLike // ignore: cast_nullable_to_non_nullable
+              as bool,
+      comments: null == comments
+          ? _value.comments
+          : comments // ignore: cast_nullable_to_non_nullable
+              as List<dynamic>,
+      isLoadingComments: null == isLoadingComments
+          ? _value.isLoadingComments
+          : isLoadingComments // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isPostingComment: null == isPostingComment
+          ? _value.isPostingComment
+          : isPostingComment // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isBookmarked: null == isBookmarked
+          ? _value.isBookmarked
+          : isBookmarked // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isLoadingBookmark: null == isLoadingBookmark
+          ? _value.isLoadingBookmark
+          : isLoadingBookmark // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isReporting: null == isReporting
+          ? _value.isReporting
+          : isReporting // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isReported: null == isReported
+          ? _value.isReported
+          : isReported // ignore: cast_nullable_to_non_nullable
+              as bool,
+      error: freezed == error
+          ? _value.error
+          : error // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ) as $Val);
   }
 }
 
@@ -137,24 +131,22 @@ class _$QuestionStateCopyWithImpl<$Res, $Val extends QuestionState>
 abstract class _$$QuestionStateImplCopyWith<$Res>
     implements $QuestionStateCopyWith<$Res> {
   factory _$$QuestionStateImplCopyWith(
-    _$QuestionStateImpl value,
-    $Res Function(_$QuestionStateImpl) then,
-  ) = __$$QuestionStateImplCopyWithImpl<$Res>;
+          _$QuestionStateImpl value, $Res Function(_$QuestionStateImpl) then) =
+      __$$QuestionStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({
-    int likesCount,
-    bool isLiked,
-    bool isLoadingLike,
-    List<dynamic> comments,
-    bool isLoadingComments,
-    bool isPostingComment,
-    bool isBookmarked,
-    bool isLoadingBookmark,
-    bool isReporting,
-    bool isReported,
-    String? error,
-  });
+  $Res call(
+      {int likesCount,
+      bool isLiked,
+      bool isLoadingLike,
+      List<dynamic> comments,
+      bool isLoadingComments,
+      bool isPostingComment,
+      bool isBookmarked,
+      bool isLoadingBookmark,
+      bool isReporting,
+      bool isReported,
+      String? error});
 }
 
 /// @nodoc
@@ -162,9 +154,8 @@ class __$$QuestionStateImplCopyWithImpl<$Res>
     extends _$QuestionStateCopyWithImpl<$Res, _$QuestionStateImpl>
     implements _$$QuestionStateImplCopyWith<$Res> {
   __$$QuestionStateImplCopyWithImpl(
-    _$QuestionStateImpl _value,
-    $Res Function(_$QuestionStateImpl) _then,
-  ) : super(_value, _then);
+      _$QuestionStateImpl _value, $Res Function(_$QuestionStateImpl) _then)
+      : super(_value, _then);
 
   @pragma('vm:prefer-inline')
   @override
@@ -181,73 +172,71 @@ class __$$QuestionStateImplCopyWithImpl<$Res>
     Object? isReported = null,
     Object? error = freezed,
   }) {
-    return _then(
-      _$QuestionStateImpl(
-        likesCount: null == likesCount
-            ? _value.likesCount
-            : likesCount // ignore: cast_nullable_to_non_nullable
-                  as int,
-        isLiked: null == isLiked
-            ? _value.isLiked
-            : isLiked // ignore: cast_nullable_to_non_nullable
-                  as bool,
-        isLoadingLike: null == isLoadingLike
-            ? _value.isLoadingLike
-            : isLoadingLike // ignore: cast_nullable_to_non_nullable
-                  as bool,
-        comments: null == comments
-            ? _value._comments
-            : comments // ignore: cast_nullable_to_non_nullable
-                  as List<dynamic>,
-        isLoadingComments: null == isLoadingComments
-            ? _value.isLoadingComments
-            : isLoadingComments // ignore: cast_nullable_to_non_nullable
-                  as bool,
-        isPostingComment: null == isPostingComment
-            ? _value.isPostingComment
-            : isPostingComment // ignore: cast_nullable_to_non_nullable
-                  as bool,
-        isBookmarked: null == isBookmarked
-            ? _value.isBookmarked
-            : isBookmarked // ignore: cast_nullable_to_non_nullable
-                  as bool,
-        isLoadingBookmark: null == isLoadingBookmark
-            ? _value.isLoadingBookmark
-            : isLoadingBookmark // ignore: cast_nullable_to_non_nullable
-                  as bool,
-        isReporting: null == isReporting
-            ? _value.isReporting
-            : isReporting // ignore: cast_nullable_to_non_nullable
-                  as bool,
-        isReported: null == isReported
-            ? _value.isReported
-            : isReported // ignore: cast_nullable_to_non_nullable
-                  as bool,
-        error: freezed == error
-            ? _value.error
-            : error // ignore: cast_nullable_to_non_nullable
-                  as String?,
-      ),
-    );
+    return _then(_$QuestionStateImpl(
+      likesCount: null == likesCount
+          ? _value.likesCount
+          : likesCount // ignore: cast_nullable_to_non_nullable
+              as int,
+      isLiked: null == isLiked
+          ? _value.isLiked
+          : isLiked // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isLoadingLike: null == isLoadingLike
+          ? _value.isLoadingLike
+          : isLoadingLike // ignore: cast_nullable_to_non_nullable
+              as bool,
+      comments: null == comments
+          ? _value._comments
+          : comments // ignore: cast_nullable_to_non_nullable
+              as List<dynamic>,
+      isLoadingComments: null == isLoadingComments
+          ? _value.isLoadingComments
+          : isLoadingComments // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isPostingComment: null == isPostingComment
+          ? _value.isPostingComment
+          : isPostingComment // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isBookmarked: null == isBookmarked
+          ? _value.isBookmarked
+          : isBookmarked // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isLoadingBookmark: null == isLoadingBookmark
+          ? _value.isLoadingBookmark
+          : isLoadingBookmark // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isReporting: null == isReporting
+          ? _value.isReporting
+          : isReporting // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isReported: null == isReported
+          ? _value.isReported
+          : isReported // ignore: cast_nullable_to_non_nullable
+              as bool,
+      error: freezed == error
+          ? _value.error
+          : error // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ));
   }
 }
 
 /// @nodoc
 
 class _$QuestionStateImpl implements _QuestionState {
-  const _$QuestionStateImpl({
-    this.likesCount = 0,
-    this.isLiked = false,
-    this.isLoadingLike = false,
-    final List<dynamic> comments = const [],
-    this.isLoadingComments = false,
-    this.isPostingComment = false,
-    this.isBookmarked = false,
-    this.isLoadingBookmark = false,
-    this.isReporting = false,
-    this.isReported = false,
-    this.error,
-  }) : _comments = comments;
+  const _$QuestionStateImpl(
+      {this.likesCount = 0,
+      this.isLiked = false,
+      this.isLoadingLike = false,
+      final List<dynamic> comments = const [],
+      this.isLoadingComments = false,
+      this.isPostingComment = false,
+      this.isBookmarked = false,
+      this.isLoadingBookmark = false,
+      this.isReporting = false,
+      this.isReported = false,
+      this.error})
+      : _comments = comments;
 
   @override
   @JsonKey()
@@ -321,19 +310,18 @@ class _$QuestionStateImpl implements _QuestionState {
 
   @override
   int get hashCode => Object.hash(
-    runtimeType,
-    likesCount,
-    isLiked,
-    isLoadingLike,
-    const DeepCollectionEquality().hash(_comments),
-    isLoadingComments,
-    isPostingComment,
-    isBookmarked,
-    isLoadingBookmark,
-    isReporting,
-    isReported,
-    error,
-  );
+      runtimeType,
+      likesCount,
+      isLiked,
+      isLoadingLike,
+      const DeepCollectionEquality().hash(_comments),
+      isLoadingComments,
+      isPostingComment,
+      isBookmarked,
+      isLoadingBookmark,
+      isReporting,
+      isReported,
+      error);
 
   @JsonKey(ignore: true)
   @override
@@ -343,19 +331,18 @@ class _$QuestionStateImpl implements _QuestionState {
 }
 
 abstract class _QuestionState implements QuestionState {
-  const factory _QuestionState({
-    final int likesCount,
-    final bool isLiked,
-    final bool isLoadingLike,
-    final List<dynamic> comments,
-    final bool isLoadingComments,
-    final bool isPostingComment,
-    final bool isBookmarked,
-    final bool isLoadingBookmark,
-    final bool isReporting,
-    final bool isReported,
-    final String? error,
-  }) = _$QuestionStateImpl;
+  const factory _QuestionState(
+      {final int likesCount,
+      final bool isLiked,
+      final bool isLoadingLike,
+      final List<dynamic> comments,
+      final bool isLoadingComments,
+      final bool isPostingComment,
+      final bool isBookmarked,
+      final bool isLoadingBookmark,
+      final bool isReporting,
+      final bool isReported,
+      final String? error}) = _$QuestionStateImpl;
 
   @override
   int get likesCount;

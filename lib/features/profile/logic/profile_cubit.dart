@@ -4,6 +4,7 @@ import '../data/profile_repository.dart';
 import 'profile_state.dart';
 
 @injectable
+@singleton
 class ProfileCubit extends Cubit<ProfileState> {
   final IProfileRepository _repository;
 

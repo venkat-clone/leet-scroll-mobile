@@ -35,7 +35,7 @@ class _HomeScreenState extends State<HomeScreen> {
           scrollDirection: Axis.horizontal,
           children: [
             HomeOverview(onStart: _navigateToFeed),
-            const QuestionFeed(),
+            const QuestionFeedScreen(),
           ],
         ),
       ),

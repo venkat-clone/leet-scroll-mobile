@@ -16,6 +16,7 @@ class AppRouter extends $AppRouter {
         AutoRoute(page: HomeRoute.page, path: 'home'),
         AutoRoute(page: LeaderboardRoute.page, path: 'leaderboard'),
         AutoRoute(page: ProfileRoute.page, path: 'profile'),
+        AutoRoute(page: QuestionFeedRoute.page, path: 'question-feed')
       ],
     ),
   ];

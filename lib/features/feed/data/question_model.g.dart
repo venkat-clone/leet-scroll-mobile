@@ -11,9 +11,8 @@ _$QuestionImpl _$$QuestionImplFromJson(Map<String, dynamic> json) =>
       id: json['id'] as String,
       title: json['title'] as String,
       description: json['description'] as String,
-      options: (json['options'] as List<dynamic>)
-          .map((e) => e as String)
-          .toList(),
+      options:
+          (json['options'] as List<dynamic>).map((e) => e as String).toList(),
       correctOption: (json['correctOption'] as num).toInt(),
       explanation: json['explanation'] as String?,
       difficulty: json['difficulty'] as String,

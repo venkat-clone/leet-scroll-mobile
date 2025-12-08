@@ -2,7 +2,8 @@ import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
+import 'package:dio_cookie_manager/dio_cookie_manager.dart';
+import 'package:cookie_jar/cookie_jar.dart';
 @module
 abstract class NetworkModule {
   @preResolve
@@ -13,7 +14,9 @@ abstract class NetworkModule {
     final dio = Dio(
       BaseOptions(
         baseUrl:
-            'https://leet-scroll.vercel.app/api', // Use 10.0.2.2 for Android Emulator
+            // 'https://leet-scroll.vercel.app/api',
+            'http://localhost:3000/api',
+
         connectTimeout: const Duration(seconds: 5),
         receiveTimeout: const Duration(seconds: 3),
         headers: {
@@ -22,7 +25,8 @@ abstract class NetworkModule {
         },
       ),
     );
-
+    final cookieJar = CookieJar();
+    dio.interceptors.add(CookieManager(cookieJar));
     dio.interceptors.add(
       InterceptorsWrapper(
         onRequest: (options, handler) async {
@@ -36,6 +40,11 @@ abstract class NetworkModule {
           final token = prefs.getString('token');
           if (token != null) {
             options.headers['Authorization'] = 'Bearer $token';
+          }
+
+          if (token != null) {
+            // Replace Authorization header with Cookie
+            options.headers['Cookie'] = 'next-auth.session-token=$token';
           }
           debugPrint('Request: ${options.method} ${options.path}');
           debugPrint('Headers: ${options.headers}');

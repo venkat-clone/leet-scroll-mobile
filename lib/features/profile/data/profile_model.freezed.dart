@@ -12,8 +12,7 @@ part of 'profile_model.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
-);
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 ProfileModel _$ProfileModelFromJson(Map<String, dynamic> json) {
   return _ProfileModel.fromJson(json);
@@ -33,9 +32,8 @@ mixin _$ProfileModel {
 /// @nodoc
 abstract class $ProfileModelCopyWith<$Res> {
   factory $ProfileModelCopyWith(
-    ProfileModel value,
-    $Res Function(ProfileModel) then,
-  ) = _$ProfileModelCopyWithImpl<$Res, ProfileModel>;
+          ProfileModel value, $Res Function(ProfileModel) then) =
+      _$ProfileModelCopyWithImpl<$Res, ProfileModel>;
   @useResult
   $Res call({UserModel user, ProfileStats stats});
 
@@ -55,20 +53,20 @@ class _$ProfileModelCopyWithImpl<$Res, $Val extends ProfileModel>
 
   @pragma('vm:prefer-inline')
   @override
-  $Res call({Object? user = null, Object? stats = null}) {
-    return _then(
-      _value.copyWith(
-            user: null == user
-                ? _value.user
-                : user // ignore: cast_nullable_to_non_nullable
-                      as UserModel,
-            stats: null == stats
-                ? _value.stats
-                : stats // ignore: cast_nullable_to_non_nullable
-                      as ProfileStats,
-          )
-          as $Val,
-    );
+  $Res call({
+    Object? user = null,
+    Object? stats = null,
+  }) {
+    return _then(_value.copyWith(
+      user: null == user
+          ? _value.user
+          : user // ignore: cast_nullable_to_non_nullable
+              as UserModel,
+      stats: null == stats
+          ? _value.stats
+          : stats // ignore: cast_nullable_to_non_nullable
+              as ProfileStats,
+    ) as $Val);
   }
 
   @override
@@ -92,9 +90,8 @@ class _$ProfileModelCopyWithImpl<$Res, $Val extends ProfileModel>
 abstract class _$$ProfileModelImplCopyWith<$Res>
     implements $ProfileModelCopyWith<$Res> {
   factory _$$ProfileModelImplCopyWith(
-    _$ProfileModelImpl value,
-    $Res Function(_$ProfileModelImpl) then,
-  ) = __$$ProfileModelImplCopyWithImpl<$Res>;
+          _$ProfileModelImpl value, $Res Function(_$ProfileModelImpl) then) =
+      __$$ProfileModelImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({UserModel user, ProfileStats stats});
@@ -110,25 +107,25 @@ class __$$ProfileModelImplCopyWithImpl<$Res>
     extends _$ProfileModelCopyWithImpl<$Res, _$ProfileModelImpl>
     implements _$$ProfileModelImplCopyWith<$Res> {
   __$$ProfileModelImplCopyWithImpl(
-    _$ProfileModelImpl _value,
-    $Res Function(_$ProfileModelImpl) _then,
-  ) : super(_value, _then);
+      _$ProfileModelImpl _value, $Res Function(_$ProfileModelImpl) _then)
+      : super(_value, _then);
 
   @pragma('vm:prefer-inline')
   @override
-  $Res call({Object? user = null, Object? stats = null}) {
-    return _then(
-      _$ProfileModelImpl(
-        user: null == user
-            ? _value.user
-            : user // ignore: cast_nullable_to_non_nullable
-                  as UserModel,
-        stats: null == stats
-            ? _value.stats
-            : stats // ignore: cast_nullable_to_non_nullable
-                  as ProfileStats,
-      ),
-    );
+  $Res call({
+    Object? user = null,
+    Object? stats = null,
+  }) {
+    return _then(_$ProfileModelImpl(
+      user: null == user
+          ? _value.user
+          : user // ignore: cast_nullable_to_non_nullable
+              as UserModel,
+      stats: null == stats
+          ? _value.stats
+          : stats // ignore: cast_nullable_to_non_nullable
+              as ProfileStats,
+    ));
   }
 }
 
@@ -171,15 +168,16 @@ class _$ProfileModelImpl implements _ProfileModel {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$ProfileModelImplToJson(this);
+    return _$$ProfileModelImplToJson(
+      this,
+    );
   }
 }
 
 abstract class _ProfileModel implements ProfileModel {
-  const factory _ProfileModel({
-    required final UserModel user,
-    required final ProfileStats stats,
-  }) = _$ProfileModelImpl;
+  const factory _ProfileModel(
+      {required final UserModel user,
+      required final ProfileStats stats}) = _$ProfileModelImpl;
 
   factory _ProfileModel.fromJson(Map<String, dynamic> json) =
       _$ProfileModelImpl.fromJson;
@@ -213,9 +211,8 @@ mixin _$ProfileStats {
 /// @nodoc
 abstract class $ProfileStatsCopyWith<$Res> {
   factory $ProfileStatsCopyWith(
-    ProfileStats value,
-    $Res Function(ProfileStats) then,
-  ) = _$ProfileStatsCopyWithImpl<$Res, ProfileStats>;
+          ProfileStats value, $Res Function(ProfileStats) then) =
+      _$ProfileStatsCopyWithImpl<$Res, ProfileStats>;
   @useResult
   $Res call({int correctAnswers, int wrongAnswers, int questionsAttempted});
 }
@@ -237,23 +234,20 @@ class _$ProfileStatsCopyWithImpl<$Res, $Val extends ProfileStats>
     Object? wrongAnswers = null,
     Object? questionsAttempted = null,
   }) {
-    return _then(
-      _value.copyWith(
-            correctAnswers: null == correctAnswers
-                ? _value.correctAnswers
-                : correctAnswers // ignore: cast_nullable_to_non_nullable
-                      as int,
-            wrongAnswers: null == wrongAnswers
-                ? _value.wrongAnswers
-                : wrongAnswers // ignore: cast_nullable_to_non_nullable
-                      as int,
-            questionsAttempted: null == questionsAttempted
-                ? _value.questionsAttempted
-                : questionsAttempted // ignore: cast_nullable_to_non_nullable
-                      as int,
-          )
-          as $Val,
-    );
+    return _then(_value.copyWith(
+      correctAnswers: null == correctAnswers
+          ? _value.correctAnswers
+          : correctAnswers // ignore: cast_nullable_to_non_nullable
+              as int,
+      wrongAnswers: null == wrongAnswers
+          ? _value.wrongAnswers
+          : wrongAnswers // ignore: cast_nullable_to_non_nullable
+              as int,
+      questionsAttempted: null == questionsAttempted
+          ? _value.questionsAttempted
+          : questionsAttempted // ignore: cast_nullable_to_non_nullable
+              as int,
+    ) as $Val);
   }
 }
 
@@ -261,9 +255,8 @@ class _$ProfileStatsCopyWithImpl<$Res, $Val extends ProfileStats>
 abstract class _$$ProfileStatsImplCopyWith<$Res>
     implements $ProfileStatsCopyWith<$Res> {
   factory _$$ProfileStatsImplCopyWith(
-    _$ProfileStatsImpl value,
-    $Res Function(_$ProfileStatsImpl) then,
-  ) = __$$ProfileStatsImplCopyWithImpl<$Res>;
+          _$ProfileStatsImpl value, $Res Function(_$ProfileStatsImpl) then) =
+      __$$ProfileStatsImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({int correctAnswers, int wrongAnswers, int questionsAttempted});
@@ -274,9 +267,8 @@ class __$$ProfileStatsImplCopyWithImpl<$Res>
     extends _$ProfileStatsCopyWithImpl<$Res, _$ProfileStatsImpl>
     implements _$$ProfileStatsImplCopyWith<$Res> {
   __$$ProfileStatsImplCopyWithImpl(
-    _$ProfileStatsImpl _value,
-    $Res Function(_$ProfileStatsImpl) _then,
-  ) : super(_value, _then);
+      _$ProfileStatsImpl _value, $Res Function(_$ProfileStatsImpl) _then)
+      : super(_value, _then);
 
   @pragma('vm:prefer-inline')
   @override
@@ -285,33 +277,30 @@ class __$$ProfileStatsImplCopyWithImpl<$Res>
     Object? wrongAnswers = null,
     Object? questionsAttempted = null,
   }) {
-    return _then(
-      _$ProfileStatsImpl(
-        correctAnswers: null == correctAnswers
-            ? _value.correctAnswers
-            : correctAnswers // ignore: cast_nullable_to_non_nullable
-                  as int,
-        wrongAnswers: null == wrongAnswers
-            ? _value.wrongAnswers
-            : wrongAnswers // ignore: cast_nullable_to_non_nullable
-                  as int,
-        questionsAttempted: null == questionsAttempted
-            ? _value.questionsAttempted
-            : questionsAttempted // ignore: cast_nullable_to_non_nullable
-                  as int,
-      ),
-    );
+    return _then(_$ProfileStatsImpl(
+      correctAnswers: null == correctAnswers
+          ? _value.correctAnswers
+          : correctAnswers // ignore: cast_nullable_to_non_nullable
+              as int,
+      wrongAnswers: null == wrongAnswers
+          ? _value.wrongAnswers
+          : wrongAnswers // ignore: cast_nullable_to_non_nullable
+              as int,
+      questionsAttempted: null == questionsAttempted
+          ? _value.questionsAttempted
+          : questionsAttempted // ignore: cast_nullable_to_non_nullable
+              as int,
+    ));
   }
 }
 
 /// @nodoc
 @JsonSerializable()
 class _$ProfileStatsImpl implements _ProfileStats {
-  const _$ProfileStatsImpl({
-    this.correctAnswers = 0,
-    this.wrongAnswers = 0,
-    this.questionsAttempted = 0,
-  });
+  const _$ProfileStatsImpl(
+      {this.correctAnswers = 0,
+      this.wrongAnswers = 0,
+      this.questionsAttempted = 0});
 
   factory _$ProfileStatsImpl.fromJson(Map<String, dynamic> json) =>
       _$$ProfileStatsImplFromJson(json);
@@ -347,11 +336,7 @@ class _$ProfileStatsImpl implements _ProfileStats {
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
-    runtimeType,
-    correctAnswers,
-    wrongAnswers,
-    questionsAttempted,
-  );
+      runtimeType, correctAnswers, wrongAnswers, questionsAttempted);
 
   @JsonKey(ignore: true)
   @override
@@ -361,16 +346,17 @@ class _$ProfileStatsImpl implements _ProfileStats {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$ProfileStatsImplToJson(this);
+    return _$$ProfileStatsImplToJson(
+      this,
+    );
   }
 }
 
 abstract class _ProfileStats implements ProfileStats {
-  const factory _ProfileStats({
-    final int correctAnswers,
-    final int wrongAnswers,
-    final int questionsAttempted,
-  }) = _$ProfileStatsImpl;
+  const factory _ProfileStats(
+      {final int correctAnswers,
+      final int wrongAnswers,
+      final int questionsAttempted}) = _$ProfileStatsImpl;
 
   factory _ProfileStats.fromJson(Map<String, dynamic> json) =
       _$ProfileStatsImpl.fromJson;

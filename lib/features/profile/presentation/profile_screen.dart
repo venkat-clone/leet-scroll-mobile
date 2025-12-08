@@ -2,7 +2,6 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
-import '../../../core/injection.dart';
 import '../data/profile_model.dart';
 import '../logic/profile_cubit.dart';
 import '../logic/profile_state.dart';
@@ -14,74 +13,71 @@ class ProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => getIt<ProfileCubit>()..loadProfile(),
-      child: Scaffold(
-        appBar: AppBar(
-          title: const Text('Profile'),
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-        ),
-        body: BlocBuilder<ProfileCubit, ProfileState>(
-          builder: (context, state) {
-            return state.when(
-              initial: () => const Center(child: CircularProgressIndicator()),
-              loading: () => const Center(child: CircularProgressIndicator()),
-              loaded: (profile) {
-                return SingleChildScrollView(
-                  padding: const EdgeInsets.all(24.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      const CircleAvatar(
-                        radius: 50,
-                        backgroundColor: Colors.green,
-                        child: Icon(
-                          Icons.person,
-                          size: 50,
-                          color: Colors.white,
-                        ),
-                      ),
-                      const SizedBox(height: 16),
-                      Text(
-                        profile.user.name,
-                        style: GoogleFonts.outfit(
-                          fontSize: 24,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      Text(
-                        profile.user.email,
-                        style: TextStyle(color: Colors.grey[400], fontSize: 16),
-                      ),
-                      const SizedBox(height: 32),
-                      _buildStatsCard(profile.stats),
-                    ],
-                  ),
-                );
-              },
-              error: (message) => Center(
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Profile'),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+      ),
+      body: BlocBuilder<ProfileCubit, ProfileState>(
+        builder: (context, state) {
+          return state.when(
+            initial: () => const Center(child: CircularProgressIndicator()),
+            loading: () => const Center(child: CircularProgressIndicator()),
+            loaded: (profile) {
+              return SingleChildScrollView(
+                padding: const EdgeInsets.all(24.0),
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Text('Error: $message'),
-                    ElevatedButton(
-                      onPressed: () =>
-                          context.read<ProfileCubit>().loadProfile(),
-                      child: const Text('Retry'),
+                    const CircleAvatar(
+                      radius: 50,
+                      backgroundColor: Colors.green,
+                      child: Icon(
+                        Icons.person,
+                        size: 50,
+                        color: Colors.white,
+                      ),
                     ),
                     const SizedBox(height: 16),
-                    TextButton(
-                      onPressed: () => context.read<AuthCubit>().logout(),
-                      style: TextButton.styleFrom(foregroundColor: Colors.red),
-                      child: const Text('Logout'),
+                    Text(
+                      profile.user.name,
+                      style: GoogleFonts.outfit(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
+                    Text(
+                      profile.user.email,
+                      style: TextStyle(color: Colors.grey[400], fontSize: 16),
+                    ),
+                    const SizedBox(height: 32),
+                    _buildStatsCard(profile.stats),
                   ],
                 ),
+              );
+            },
+            error: (message) => Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text('Error: $message'),
+                  ElevatedButton(
+                    onPressed: () =>
+                        context.read<ProfileCubit>().loadProfile(),
+                    child: const Text('Retry'),
+                  ),
+                  const SizedBox(height: 16),
+                  TextButton(
+                    onPressed: () => context.read<AuthCubit>().logout(),
+                    style: TextButton.styleFrom(foregroundColor: Colors.red),
+                    child: const Text('Logout'),
+                  ),
+                ],
               ),
-            );
-          },
-        ),
+            ),
+          );
+        },
       ),
     );
   }
