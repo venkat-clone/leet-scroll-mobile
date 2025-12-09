@@ -10,15 +10,16 @@ abstract class NetworkModule {
   @preResolve
   Future<SharedPreferences> get prefs => SharedPreferences.getInstance();
 
-
   // ignore: non_constant_identifier_names
-  String get _BASE_URL => kDebugMode?'http://localhost:3000/api':'https://leet-scroll.vercel.app/api';
+  String get _BASE_URL => kDebugMode
+      ? 'http://localhost:3000/api'
+      : 'https://leet-scroll.vercel.app/api';
 
   @lazySingleton
   Dio dio(SharedPreferences prefs) {
     final dio = Dio(
       BaseOptions(
-        baseUrl:_BASE_URL,
+        baseUrl: _BASE_URL,
 
         connectTimeout: const Duration(seconds: 5),
         receiveTimeout: const Duration(seconds: 3),
