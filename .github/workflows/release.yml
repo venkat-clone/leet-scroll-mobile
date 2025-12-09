@@ -15,7 +15,17 @@ jobs:
       - name: Inject Firebase Config
         run: |
           echo "${{ secrets.FIREBASE_ANDROID_CONFIG }}" | base64 --decode > android/app/google-services.json
-
+      - name: Validate JSON structure
+        run: |
+          python3 - << 'EOF'
+          import json, sys
+          try:
+            json.load(open("android/app/google-services.json"))
+            print("JSON is valid.")
+          except Exception as e:
+            print("Invalid JSON:", e)
+            sys.exit(1)
+            EOF
       - name: Flutter FVM config action
         id: fvm-config
         uses: kuhnroyal/flutter-fvm-config-action@v3.1
