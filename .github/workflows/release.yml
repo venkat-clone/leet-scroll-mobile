@@ -52,19 +52,19 @@ jobs:
           SHOREBIRD_TOKEN: ${{ secrets.SHOREBIRD_TOKEN }}
 
       # Auto-bump build number (from our earlier script)
-      - name: Auto-bump Build Number
-        run: |
-          BUILD=$(grep '^version: ' pubspec.yaml | sed 's/.*+//' | tr -d '[:space:]')
-          NEW_BUILD=$((BUILD + 1))
-          sed -i "s/\(version: .*\+\)$BUILD/\1$NEW_BUILD/" pubspec.yaml
-          echo "Bumped build number: $BUILD → $NEW_BUILD"
-          git config user.name "github-actions"
-          git config user.email "actions@github.com"
-          git add pubspec.yaml
-          git commit -m "chore: auto bump build to $NEW_BUILD" || echo "No changes to commit"
-          git push
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#      - name: Auto-bump Build Number
+#        run: |
+#          BUILD=$(grep '^version: ' pubspec.yaml | sed 's/.*+//' | tr -d '[:space:]')
+#          NEW_BUILD=$((BUILD + 1))
+#          sed -i "s/\(version: .*\+\)$BUILD/\1$NEW_BUILD/" pubspec.yaml
+#          echo "Bumped build number: $BUILD → $NEW_BUILD"
+#          git config user.name "github-actions"
+#          git config user.email "actions@github.com"
+#          git add pubspec.yaml
+#          git commit -m "chore: auto bump build to $NEW_BUILD" || echo "No changes to commit"
+#          git push
+#        env:
+#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       # Re-run pub get after bump
       - name: Install dependencies (post-bump)
