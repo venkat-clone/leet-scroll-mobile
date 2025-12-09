@@ -16,7 +16,7 @@ jobs:
         uses: jsdaniell/create-json@v1.2.3
         with:
           name: "credentials.json"
-          json: ${{ secrets.SAMPLE_JSON }}
+          json: ${{ vars.SAMPLE_JSON }}
       - name: Log JSON file (safe)
         run: |
           echo "---- JSON CONTENT START ----"
