@@ -1,4 +1,4 @@
-name: Release
+name: CI CD PlayGround
 on:
   push:
     branches: [ci/cd]
@@ -11,3 +11,12 @@ jobs:
     steps:
       - name: test
         run: echo "${{ vars.SAMPLE_JSON }}"
+      - name: create-json
+        id: create-json
+        uses: jsdaniell/create-json@v1.2.3
+        with:
+          name: "credentials.json"
+          json: ${{ secrets.SAMPLE_JSON }}
+      - name: view File
+        run: cat credentials.json
+
