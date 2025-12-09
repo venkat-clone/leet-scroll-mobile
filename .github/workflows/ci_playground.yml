@@ -1,0 +1,13 @@
+name: Release
+on:
+  push:
+    branches: [ci/cd]
+permissions:
+  contents: write
+
+jobs:
+  build-and-release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: test
+        run: echo "${{ vars.SAMPLE_JSON }}"
