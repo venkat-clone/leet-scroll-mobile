@@ -97,7 +97,7 @@ jobs:
 
       - name: Create GitHub Release
         if: startsWith(github.ref, 'refs/tags/') || github.event_name == 'push'  # Conditional for tags/main
-        uses: ncipollo/release-action@v2  # Upgraded
+        uses: ncipollo/release-action@v1  # Upgraded
         with:
           tag: v${{ env.VERSION }}
           name: Release v${{ env.VERSION }}
