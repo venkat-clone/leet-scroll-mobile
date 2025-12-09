@@ -76,9 +76,7 @@ jobs:
 
       # Inject Firebase (from our earlier chat)
       - name: Inject Firebase Config
-        run: |
-          echo "${{ secrets.FIREBASE_ANDROID_CONFIG }}" | base64 --decode > android/app/google-services.json
-      
+        run: echo "${{ secrets.FIREBASE_ANDROID_CONFIG }}" > android/app/google-services.json
 
       # Inject Android Signing (from our earlier chat)
 #      - name: Setup Android Signing
