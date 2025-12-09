@@ -12,9 +12,9 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Inject Firebase Config
-        run: |
-          echo "${{ secrets.FIREBASE_ANDROID_CONFIG }}" | base64 --decode > android/app/google-services.json
+#      - name: Inject Firebase Config
+#        run: |
+#          echo "${{ secrets.FIREBASE_ANDROID_CONFIG }}" | base64 --decode > android/app/google-services.json
       - name: Validate JSON structure
         run: |
           python3 - << 'EOF'
@@ -85,8 +85,8 @@ jobs:
         run: flutter pub get
 
       # Inject Firebase (from our earlier chat)
-      - name: Inject Firebase Config
-        run: echo "${{ secrets.FIREBASE_ANDROID_CONFIG }}" > android/app/google-services.json
+#      - name: Inject Firebase Config
+#        run: echo "${{ secrets.FIREBASE_ANDROID_CONFIG }}" > android/app/google-services.json
 
       # Inject Android Signing (from our earlier chat)
 #      - name: Setup Android Signing
