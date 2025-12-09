@@ -44,8 +44,7 @@ jobs:
       - name: Install dependencies
         run: flutter pub get
 
-      - name: Run Tests
-        run: flutter test test/widget_test.dart
+
 
       - name: Cache Pub 💾
         uses: actions/cache@v4

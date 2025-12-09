@@ -1,18 +1,28 @@
-name: Dart CI + Coverage
+name: CI
+
 on:
-  #  push:
-  #    branches: [ "master", "main" ]
-  #  pull_request:
-  #    branches: [ "master", "main" ]
-  workflow_call:
+  push:
+    branches: [ "master", "main" ]
+  pull_request:
+    branches: [ "master", "main" ]
+  workflow_dispatch:
 
 jobs:
-  test:
+  build-and-test:
+    name: Build & Test
     runs-on: ubuntu-latest
+    timeout-minutes: 15
+
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # Important for typos and some analysis tools
+
       - name: Flutter FVM config action
+        id: fvm-config
         uses: kuhnroyal/flutter-fvm-config-action@v3.1
+
       - name: Setup Flutter 💻
         uses: subosito/flutter-action@v2.21.0
         id: setup-flutter
@@ -20,31 +30,41 @@ jobs:
           flutter-version: ${{ steps.fvm-config.outputs.FLUTTER_VERSION }}
           cache: true
           cache-key: ${{ runner.os }}-flutter-${{ steps.fvm-config.outputs.FLUTTER_VERSION }}-${{ hashFiles('**/pubspec.lock') }}
+
       - name: Cache Pub 💾
         uses: actions/cache@v4
         with:
           path: |
             **/.dart_tool
+            ~/.pub-cache
           key: ${{ runner.os }}-pub-${{ hashFiles('**/pubspec.lock') }}
           restore-keys: |
             ${{ runner.os }}-pub-
+
       - name: Install dependencies
         run: flutter pub get
-      - name: Generate code (build_runner)
+
+      - name: Check Typos 📝
+        uses: crate-ci/typos@master
+        with:
+          version: v1.40.0
+          config: .typos.toml
+
+      - name: Check formatting 🎨
+        run: dart format --output=none --set-exit-if-changed .
+
+      - name: Analyze (Lint) 🔍
+        run: dart analyze --fatal-infos --fatal-warnings
+
+      - name: Generate Code (Build Runner) 🏗️
         run: flutter pub run build_runner build --delete-conflicting-outputs
-      - name: Run tests with coverage
+
+      - name: Run Tests with Coverage 🧪
         run: flutter test --coverage --concurrency=12
-        # Generates coverage/lcov.info automatically—no extra tools needed!
-      # - name: Upload coverage to Codecov (optional)
-      #   uses: codecov/codecov-action@v4
-      #   with:
-      #     files: coverage/lcov.info
-      #     token: ${{ secrets.CODECOV_TOKEN }}  # Only for private repos
-      - name: Check minimum coverage (90%)
+
+      - name: Check minimum coverage (90%) 📊
         run: |
-          # Use Flutter's built-in lcov.info
           COVERAGE=$(grep -m1 "^SF:" coverage/lcov.info -A 100 | grep -m1 "^end_of_record" -B 100 | grep "^DA:" | awk '{sum+=$2} END {if (NR>0) print (sum/NR)*100}' | awk '{printf "%.0f", $1}')
-          # Fallback if no lines: 0%
           if [ -z "$COVERAGE" ]; then COVERAGE=0; fi
           echo "Current coverage: $COVERAGE%"
           if (( $(echo "$COVERAGE < 90" | bc -l) )); then
@@ -53,3 +73,8 @@ jobs:
           else
             echo "Coverage $COVERAGE% — good!"
           fi
+
+      - name: Run Pana (Health Check) 🩺
+        run: |
+          dart pub global activate pana
+          pana --scores --no-wait --exit-code
