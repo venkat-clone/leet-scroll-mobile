@@ -17,6 +17,10 @@ jobs:
         with:
           name: "credentials.json"
           json: ${{ secrets.SAMPLE_JSON }}
-      - name: view File
-        run: cat credentials.json
+      - name: Log JSON file (safe)
+        run: |
+          echo "---- JSON CONTENT START ----"
+          cat credentials.json
+          echo "---- JSON CONTENT END ----"
+
 
