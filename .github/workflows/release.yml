@@ -12,6 +12,10 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Inject Firebase Config
+        run: |
+          echo "${{ secrets.GOOGLE_SERVICES_JSON }}" | base64 --decode > android/app/google-services.json
+
       - name: Flutter FVM config action
         id: fvm-config
         uses: kuhnroyal/flutter-fvm-config-action@v3.1
@@ -72,7 +76,9 @@ jobs:
 
       # Inject Firebase (from our earlier chat)
       - name: Inject Firebase Config
-        run: echo "${{ secrets.FIREBASE_ANDROID_CONFIG }}" > android/app/google-services.json
+        run: |
+          echo "${{ secrets.GOOGLE_SERVICES_JSON }}" | base64 --decode > android/app/google-services.json
+      
 
       # Inject Android Signing (from our earlier chat)
 #      - name: Setup Android Signing
