@@ -10,17 +10,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: test
-        run: echo "${{ secrets.FIREBASE_ANDROID_CONFIG }}"
+        run: echo "${{ vars.FIREBASE_ANDROID_CONFIG }}"
       - name: create-json
         id: create-json
         uses: jsdaniell/create-json@v1.2.3
         with:
-          name: "credentials.json"
-          json: ${{ secrets.FIREBASE_ANDROID_CONFIG }}
+          name: "google-services.json"
+          json: ${{ vars.FIREBASE_ANDROID_CONFIG }}
+          dir: "android/app/"
       - name: Log JSON file (safe)
         run: |
           echo "---- JSON CONTENT START ----"
-          cat credentials.json
+          cat android/app/google-services.json
           echo "---- JSON CONTENT END ----"
 
 
