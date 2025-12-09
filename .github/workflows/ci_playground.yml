@@ -10,13 +10,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: test
-        run: echo "${{ vars.SAMPLE_JSON }}"
+        run: echo "${{ secrets.FIREBASE_ANDROID_CONFIG }}"
       - name: create-json
         id: create-json
         uses: jsdaniell/create-json@v1.2.3
         with:
           name: "credentials.json"
-          json: ${{ vars.SAMPLE_JSON }}
+          json: ${{ secrets.FIREBASE_ANDROID_CONFIG }}
       - name: Log JSON file (safe)
         run: |
           echo "---- JSON CONTENT START ----"
