@@ -388,7 +388,6 @@ class _OptionsList extends StatelessWidget {
     required this.onOptionTap,
   });
 
-
   @override
   Widget build(BuildContext context) {
     return Column(
