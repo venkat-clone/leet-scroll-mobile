@@ -73,10 +73,7 @@ abstract class $AppRouter extends _i8.RootStackRouter {
 /// [_i1.HomeScreen]
 class HomeRoute extends _i8.PageRouteInfo<void> {
   const HomeRoute({List<_i8.PageRouteInfo>? children})
-      : super(
-          HomeRoute.name,
-          initialChildren: children,
-        );
+    : super(HomeRoute.name, initialChildren: children);
 
   static const String name = 'HomeRoute';
 
@@ -87,10 +84,7 @@ class HomeRoute extends _i8.PageRouteInfo<void> {
 /// [_i2.LeaderboardScreen]
 class LeaderboardRoute extends _i8.PageRouteInfo<void> {
   const LeaderboardRoute({List<_i8.PageRouteInfo>? children})
-      : super(
-          LeaderboardRoute.name,
-          initialChildren: children,
-        );
+    : super(LeaderboardRoute.name, initialChildren: children);
 
   static const String name = 'LeaderboardRoute';
 
@@ -101,10 +95,7 @@ class LeaderboardRoute extends _i8.PageRouteInfo<void> {
 /// [_i3.LoginScreen]
 class LoginRoute extends _i8.PageRouteInfo<void> {
   const LoginRoute({List<_i8.PageRouteInfo>? children})
-      : super(
-          LoginRoute.name,
-          initialChildren: children,
-        );
+    : super(LoginRoute.name, initialChildren: children);
 
   static const String name = 'LoginRoute';
 
@@ -115,10 +106,7 @@ class LoginRoute extends _i8.PageRouteInfo<void> {
 /// [_i4.ProfileScreen]
 class ProfileRoute extends _i8.PageRouteInfo<void> {
   const ProfileRoute({List<_i8.PageRouteInfo>? children})
-      : super(
-          ProfileRoute.name,
-          initialChildren: children,
-        );
+    : super(ProfileRoute.name, initialChildren: children);
 
   static const String name = 'ProfileRoute';
 
@@ -129,10 +117,7 @@ class ProfileRoute extends _i8.PageRouteInfo<void> {
 /// [_i5.QuestionFeedScreen]
 class QuestionFeedRoute extends _i8.PageRouteInfo<void> {
   const QuestionFeedRoute({List<_i8.PageRouteInfo>? children})
-      : super(
-          QuestionFeedRoute.name,
-          initialChildren: children,
-        );
+    : super(QuestionFeedRoute.name, initialChildren: children);
 
   static const String name = 'QuestionFeedRoute';
 
@@ -143,10 +128,7 @@ class QuestionFeedRoute extends _i8.PageRouteInfo<void> {
 /// [_i6.RegisterScreen]
 class RegisterRoute extends _i8.PageRouteInfo<void> {
   const RegisterRoute({List<_i8.PageRouteInfo>? children})
-      : super(
-          RegisterRoute.name,
-          initialChildren: children,
-        );
+    : super(RegisterRoute.name, initialChildren: children);
 
   static const String name = 'RegisterRoute';
 
@@ -157,10 +139,7 @@ class RegisterRoute extends _i8.PageRouteInfo<void> {
 /// [_i7.ShellScreen]
 class ShellRoute extends _i8.PageRouteInfo<void> {
   const ShellRoute({List<_i8.PageRouteInfo>? children})
-      : super(
-          ShellRoute.name,
-          initialChildren: children,
-        );
+    : super(ShellRoute.name, initialChildren: children);
 
   static const String name = 'ShellRoute';
 

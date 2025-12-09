@@ -23,11 +23,11 @@ class ProfileRepository implements IProfileRepository {
       } else {
         throw Exception('Failed to load profile');
       }
-    } on DioException catch (e,s) {
+    } on DioException catch (e, s) {
       debugPrint(e.message);
       debugPrintStack(stackTrace: s);
       throw Exception(e.response?.data['error'] ?? e.message);
-    } catch (e,s) {
+    } catch (e, s) {
       debugPrint(e.toString());
       debugPrintStack(stackTrace: s);
       throw Exception(e.toString());

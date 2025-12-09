@@ -17,15 +17,18 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   await GoogleSignIn.instance.initialize(
-      clientId: DefaultFirebaseOptions.currentPlatform.androidClientId
+    clientId: DefaultFirebaseOptions.currentPlatform.androidClientId,
   );
   await configureDependencies();
-  runApp(MultiBlocProvider(
+  runApp(
+    MultiBlocProvider(
       providers: [
         BlocProvider(create: (context) => getIt<AuthCubit>()..checkAuth()),
         BlocProvider(create: (context) => getIt<ProfileCubit>()..loadProfile()),
       ],
-      child: MyApp()));
+      child: MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -34,15 +37,15 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
-    return BlocListener<AuthCubit,AuthState>(
+    return BlocListener<AuthCubit, AuthState>(
       listener: (context, state) {
         state.maybeWhen(
-            unauthenticated: (){
-              appRouter.popUntilRoot();
-              appRouter.push(const LoginRoute());
-            },
-            orElse: (){});
+          unauthenticated: () {
+            appRouter.popUntilRoot();
+            appRouter.push(const LoginRoute());
+          },
+          orElse: () {},
+        );
       },
       child: MaterialApp.router(
         debugShowCheckedModeBanner: false,

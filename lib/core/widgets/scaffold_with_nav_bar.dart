@@ -15,13 +15,12 @@ class ShellScreen extends StatelessWidget {
       routes: const [HomeRoute(), LeaderboardRoute(), ProfileRoute()],
 
       bottomNavigationBuilder: (_, tabsRouter) {
-
         return BottomNavigationBar(
           currentIndex: tabsRouter.activeIndex,
-          onTap: (index){
-            if(index==2){
+          onTap: (index) {
+            if (index == 2) {
               context.read<ProfileCubit>().loadProfile();
-            }else if(index==1){
+            } else if (index == 1) {
               context.read<LeaderboardCubit>().loadLeaderboard();
             }
             tabsRouter.setActiveIndex(index);

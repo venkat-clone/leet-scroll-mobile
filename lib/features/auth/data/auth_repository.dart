@@ -85,11 +85,9 @@ class AuthRepository implements IAuthRepository {
       final UserCredential userCredential = await FirebaseAuth.instance
           .signInWithPopup(GoogleAuthProvider());
       return userCredential;
-    }else{
+    } else {
       final GoogleSignInAccount googleUser = await GoogleSignIn.instance
           .authenticate();
-
-
 
       final GoogleSignInAuthentication googleAuth = googleUser.authentication;
       final AuthCredential credential = GoogleAuthProvider.credential(
@@ -105,7 +103,6 @@ class AuthRepository implements IAuthRepository {
   @override
   Future<UserModel> signInWithGoogle() async {
     try {
-
       final UserCredential userCredential = await _signInWithGoogle();
       final String? idToken = await userCredential.user?.getIdToken();
 
@@ -118,7 +115,7 @@ class AuthRepository implements IAuthRepository {
         data: {'idToken': idToken},
       );
 
-      if ([200,204].contains(response.statusCode)) {
+      if ([200, 204].contains(response.statusCode)) {
         final data = response.data;
         final user = UserModel.fromJson(data['user']);
         await _saveSession(data['token'], user);
@@ -126,8 +123,6 @@ class AuthRepository implements IAuthRepository {
       } else {
         throw Exception(response.data['error'] ?? 'Login failed');
       }
-    } on DioException catch (e) {
-      rethrow;
     } catch (e) {
       rethrow;
     }

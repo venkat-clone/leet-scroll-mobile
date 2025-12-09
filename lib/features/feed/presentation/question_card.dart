@@ -87,7 +87,8 @@ class _QuestionCardState extends State<QuestionCard> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: AppTheme.vsCodeBackground,      child: SafeArea(
+      color: AppTheme.vsCodeBackground,
+      child: SafeArea(
         child: Column(
           children: [
             // Fixed Header
@@ -387,81 +388,52 @@ class _OptionsList extends StatelessWidget {
     required this.onOptionTap,
   });
 
-  double _calculateFontSize(double availableHeight, int optionCount) {
-    // Base font size
-    const double baseFontSize = 14.0;
-    const double minFontSize = 11.0;
-
-    // Calculate approximate height per option
-    // Padding + border + text height
-    // top + bottom padding
-    const double verticalMarginPerOption = 6.0 * 2; // top + bottom margin
-
-    // Total non-text height per option
-
-    // Available height for text
-
-    // Calculate max lines per option
-
-    // Adjust font size based on available space
-    double fontSize = baseFontSize;
-
-    if (optionCount > 3) {
-      fontSize = baseFontSize - ((optionCount - 3) * 1.0);
-    }
-
-    // Ensure minimum font size
-    fontSize = fontSize.clamp(minFontSize, baseFontSize);
-
-    return fontSize;
-  }
 
   @override
   Widget build(BuildContext context) {
-
     return Column(
-    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-    children: List.generate(
-      options.length,
-          (index) => Flexible(
-        child: _AnswerOption(
-          option: options[index],
-          index: index,
-          correctOption: correctOption,
-          selectedOption: selectedOption,
-          isSubmitted: isSubmitted,
-          onTap: () => onOptionTap(index),
-          fontSize: 12,
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: List.generate(
+        options.length,
+        (index) => Flexible(
+          child: _AnswerOption(
+            option: options[index],
+            index: index,
+            correctOption: correctOption,
+            selectedOption: selectedOption,
+            isSubmitted: isSubmitted,
+            onTap: () => onOptionTap(index),
+            fontSize: 12,
+          ),
         ),
       ),
-    ),
     );
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        final fontSize = _calculateFontSize(
-          constraints.maxHeight,
-          options.length,
-        );
-
-        return Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: List.generate(
-            options.length,
-            (index) => Flexible(
-              child: _AnswerOption(
-                option: options[index],
-                index: index,
-                correctOption: correctOption,
-                selectedOption: selectedOption,
-                isSubmitted: isSubmitted,
-                onTap: () => onOptionTap(index),
-                fontSize: fontSize,
-              ),
-            ),
-          ),
-        );
-      },
-    );
+    // return LayoutBuilder(
+    //   builder: (context, constraints) {
+    //     final fontSize = _calculateFontSize(
+    //       constraints.maxHeight,
+    //       options.length,
+    //     );
+    //
+    //     return Column(
+    //       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+    //       children: List.generate(
+    //         options.length,
+    //         (index) => Flexible(
+    //           child: _AnswerOption(
+    //             option: options[index],
+    //             index: index,
+    //             correctOption: correctOption,
+    //             selectedOption: selectedOption,
+    //             isSubmitted: isSubmitted,
+    //             onTap: () => onOptionTap(index),
+    //             fontSize: fontSize,
+    //           ),
+    //         ),
+    //       ),
+    //     );
+    //   },
+    // );
   }
 }
 

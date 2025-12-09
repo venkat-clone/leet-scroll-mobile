@@ -33,11 +33,7 @@ class ProfileScreen extends StatelessWidget {
                     const CircleAvatar(
                       radius: 50,
                       backgroundColor: Colors.green,
-                      child: Icon(
-                        Icons.person,
-                        size: 50,
-                        color: Colors.white,
-                      ),
+                      child: Icon(Icons.person, size: 50, color: Colors.white),
                     ),
                     const SizedBox(height: 16),
                     Text(
@@ -63,8 +59,7 @@ class ProfileScreen extends StatelessWidget {
                 children: [
                   Text('Error: $message'),
                   ElevatedButton(
-                    onPressed: () =>
-                        context.read<ProfileCubit>().loadProfile(),
+                    onPressed: () => context.read<ProfileCubit>().loadProfile(),
                     child: const Text('Retry'),
                   ),
                   const SizedBox(height: 16),

@@ -38,7 +38,7 @@ class AuthCubit extends Cubit<AuthState> {
     try {
       final user = await _repository.signInWithGoogle();
       emit(AuthState.authenticated(user));
-    } on Exception catch (e,s) {
+    } on Exception catch (e, s) {
       debugPrint(e.toString());
       debugPrintStack(stackTrace: s);
       emit(AuthState.error(e.toString()));

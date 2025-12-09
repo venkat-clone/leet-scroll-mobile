@@ -17,8 +17,8 @@ class ResponsiveCenterContainer extends StatelessWidget {
     return Center(
       child: ConstrainedBox(
         constraints: BoxConstraints(
-          maxWidth: maxWidth??double.infinity,
-          maxHeight: maxHeight??double.infinity,
+          maxWidth: maxWidth ?? double.infinity,
+          maxHeight: maxHeight ?? double.infinity,
         ),
         child: child,
       ),

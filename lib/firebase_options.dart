@@ -63,7 +63,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '146095455614',
     projectId: 'leet-scroll-8ee16',
     storageBucket: 'leet-scroll-8ee16.firebasestorage.app',
-    iosClientId: '146095455614-oouveri2c4pore0utd8oi73usoc0vsve.apps.googleusercontent.com',
+    iosClientId:
+        '146095455614-oouveri2c4pore0utd8oi73usoc0vsve.apps.googleusercontent.com',
     iosBundleId: 'com.venkey.leetscroll',
   );
 
@@ -73,7 +74,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '146095455614',
     projectId: 'leet-scroll-8ee16',
     storageBucket: 'leet-scroll-8ee16.firebasestorage.app',
-    iosClientId: '146095455614-oouveri2c4pore0utd8oi73usoc0vsve.apps.googleusercontent.com',
+    iosClientId:
+        '146095455614-oouveri2c4pore0utd8oi73usoc0vsve.apps.googleusercontent.com',
     iosBundleId: 'com.venkey.leetscroll',
   );
 

@@ -1,8 +1,6 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import '../../../../core/router/app_router.gr.dart';
 import '../../logic/auth_cubit.dart';
 
@@ -28,10 +26,8 @@ class _LoginFormState extends State<LoginForm> {
   @override
   Widget build(BuildContext context) {
     final isLoading = context.select(
-      (AuthCubit cubit) => cubit.state.maybeWhen(
-        loading: () => true,
-        orElse: () => false,
-      ),
+      (AuthCubit cubit) =>
+          cubit.state.maybeWhen(loading: () => true, orElse: () => false),
     );
 
     return Form(
@@ -43,9 +39,9 @@ class _LoginFormState extends State<LoginForm> {
           Text(
             'LeetScroll',
             style: Theme.of(context).textTheme.displayMedium?.copyWith(
-                  fontWeight: FontWeight.bold,
-                  color: Theme.of(context).colorScheme.primary,
-                ),
+              fontWeight: FontWeight.bold,
+              color: Theme.of(context).colorScheme.primary,
+            ),
             textAlign: TextAlign.center,
           ),
           const SizedBox(height: 48),
@@ -86,9 +82,9 @@ class _LoginFormState extends State<LoginForm> {
                 : () {
                     if (_formKey.currentState!.validate()) {
                       context.read<AuthCubit>().login(
-                            _emailController.text,
-                            _passwordController.text,
-                          );
+                        _emailController.text,
+                        _passwordController.text,
+                      );
                     }
                   },
             style: ElevatedButton.styleFrom(
@@ -113,7 +109,6 @@ class _LoginFormState extends State<LoginForm> {
               padding: const EdgeInsets.symmetric(vertical: 16),
             ),
           ),
-
 
           const SizedBox(height: 16),
           TextButton(

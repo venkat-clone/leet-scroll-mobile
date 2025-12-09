@@ -12,7 +12,8 @@ part of 'question_model.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
+  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
+);
 
 Question _$QuestionFromJson(Map<String, dynamic> json) {
   return _Question.fromJson(json);
@@ -42,17 +43,18 @@ abstract class $QuestionCopyWith<$Res> {
   factory $QuestionCopyWith(Question value, $Res Function(Question) then) =
       _$QuestionCopyWithImpl<$Res, Question>;
   @useResult
-  $Res call(
-      {String id,
-      String title,
-      String description,
-      List<String> options,
-      int correctOption,
-      String? explanation,
-      String difficulty,
-      String category,
-      List<String> tags,
-      String? codeSnippet});
+  $Res call({
+    String id,
+    String title,
+    String description,
+    List<String> options,
+    int correctOption,
+    String? explanation,
+    String difficulty,
+    String category,
+    List<String> tags,
+    String? codeSnippet,
+  });
 }
 
 /// @nodoc
@@ -79,48 +81,51 @@ class _$QuestionCopyWithImpl<$Res, $Val extends Question>
     Object? tags = null,
     Object? codeSnippet = freezed,
   }) {
-    return _then(_value.copyWith(
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as String,
-      title: null == title
-          ? _value.title
-          : title // ignore: cast_nullable_to_non_nullable
-              as String,
-      description: null == description
-          ? _value.description
-          : description // ignore: cast_nullable_to_non_nullable
-              as String,
-      options: null == options
-          ? _value.options
-          : options // ignore: cast_nullable_to_non_nullable
-              as List<String>,
-      correctOption: null == correctOption
-          ? _value.correctOption
-          : correctOption // ignore: cast_nullable_to_non_nullable
-              as int,
-      explanation: freezed == explanation
-          ? _value.explanation
-          : explanation // ignore: cast_nullable_to_non_nullable
-              as String?,
-      difficulty: null == difficulty
-          ? _value.difficulty
-          : difficulty // ignore: cast_nullable_to_non_nullable
-              as String,
-      category: null == category
-          ? _value.category
-          : category // ignore: cast_nullable_to_non_nullable
-              as String,
-      tags: null == tags
-          ? _value.tags
-          : tags // ignore: cast_nullable_to_non_nullable
-              as List<String>,
-      codeSnippet: freezed == codeSnippet
-          ? _value.codeSnippet
-          : codeSnippet // ignore: cast_nullable_to_non_nullable
-              as String?,
-    ) as $Val);
+    return _then(
+      _value.copyWith(
+            id: null == id
+                ? _value.id
+                : id // ignore: cast_nullable_to_non_nullable
+                      as String,
+            title: null == title
+                ? _value.title
+                : title // ignore: cast_nullable_to_non_nullable
+                      as String,
+            description: null == description
+                ? _value.description
+                : description // ignore: cast_nullable_to_non_nullable
+                      as String,
+            options: null == options
+                ? _value.options
+                : options // ignore: cast_nullable_to_non_nullable
+                      as List<String>,
+            correctOption: null == correctOption
+                ? _value.correctOption
+                : correctOption // ignore: cast_nullable_to_non_nullable
+                      as int,
+            explanation: freezed == explanation
+                ? _value.explanation
+                : explanation // ignore: cast_nullable_to_non_nullable
+                      as String?,
+            difficulty: null == difficulty
+                ? _value.difficulty
+                : difficulty // ignore: cast_nullable_to_non_nullable
+                      as String,
+            category: null == category
+                ? _value.category
+                : category // ignore: cast_nullable_to_non_nullable
+                      as String,
+            tags: null == tags
+                ? _value.tags
+                : tags // ignore: cast_nullable_to_non_nullable
+                      as List<String>,
+            codeSnippet: freezed == codeSnippet
+                ? _value.codeSnippet
+                : codeSnippet // ignore: cast_nullable_to_non_nullable
+                      as String?,
+          )
+          as $Val,
+    );
   }
 }
 
@@ -128,21 +133,23 @@ class _$QuestionCopyWithImpl<$Res, $Val extends Question>
 abstract class _$$QuestionImplCopyWith<$Res>
     implements $QuestionCopyWith<$Res> {
   factory _$$QuestionImplCopyWith(
-          _$QuestionImpl value, $Res Function(_$QuestionImpl) then) =
-      __$$QuestionImplCopyWithImpl<$Res>;
+    _$QuestionImpl value,
+    $Res Function(_$QuestionImpl) then,
+  ) = __$$QuestionImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {String id,
-      String title,
-      String description,
-      List<String> options,
-      int correctOption,
-      String? explanation,
-      String difficulty,
-      String category,
-      List<String> tags,
-      String? codeSnippet});
+  $Res call({
+    String id,
+    String title,
+    String description,
+    List<String> options,
+    int correctOption,
+    String? explanation,
+    String difficulty,
+    String category,
+    List<String> tags,
+    String? codeSnippet,
+  });
 }
 
 /// @nodoc
@@ -150,8 +157,9 @@ class __$$QuestionImplCopyWithImpl<$Res>
     extends _$QuestionCopyWithImpl<$Res, _$QuestionImpl>
     implements _$$QuestionImplCopyWith<$Res> {
   __$$QuestionImplCopyWithImpl(
-      _$QuestionImpl _value, $Res Function(_$QuestionImpl) _then)
-      : super(_value, _then);
+    _$QuestionImpl _value,
+    $Res Function(_$QuestionImpl) _then,
+  ) : super(_value, _then);
 
   @pragma('vm:prefer-inline')
   @override
@@ -167,67 +175,69 @@ class __$$QuestionImplCopyWithImpl<$Res>
     Object? tags = null,
     Object? codeSnippet = freezed,
   }) {
-    return _then(_$QuestionImpl(
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as String,
-      title: null == title
-          ? _value.title
-          : title // ignore: cast_nullable_to_non_nullable
-              as String,
-      description: null == description
-          ? _value.description
-          : description // ignore: cast_nullable_to_non_nullable
-              as String,
-      options: null == options
-          ? _value._options
-          : options // ignore: cast_nullable_to_non_nullable
-              as List<String>,
-      correctOption: null == correctOption
-          ? _value.correctOption
-          : correctOption // ignore: cast_nullable_to_non_nullable
-              as int,
-      explanation: freezed == explanation
-          ? _value.explanation
-          : explanation // ignore: cast_nullable_to_non_nullable
-              as String?,
-      difficulty: null == difficulty
-          ? _value.difficulty
-          : difficulty // ignore: cast_nullable_to_non_nullable
-              as String,
-      category: null == category
-          ? _value.category
-          : category // ignore: cast_nullable_to_non_nullable
-              as String,
-      tags: null == tags
-          ? _value._tags
-          : tags // ignore: cast_nullable_to_non_nullable
-              as List<String>,
-      codeSnippet: freezed == codeSnippet
-          ? _value.codeSnippet
-          : codeSnippet // ignore: cast_nullable_to_non_nullable
-              as String?,
-    ));
+    return _then(
+      _$QuestionImpl(
+        id: null == id
+            ? _value.id
+            : id // ignore: cast_nullable_to_non_nullable
+                  as String,
+        title: null == title
+            ? _value.title
+            : title // ignore: cast_nullable_to_non_nullable
+                  as String,
+        description: null == description
+            ? _value.description
+            : description // ignore: cast_nullable_to_non_nullable
+                  as String,
+        options: null == options
+            ? _value._options
+            : options // ignore: cast_nullable_to_non_nullable
+                  as List<String>,
+        correctOption: null == correctOption
+            ? _value.correctOption
+            : correctOption // ignore: cast_nullable_to_non_nullable
+                  as int,
+        explanation: freezed == explanation
+            ? _value.explanation
+            : explanation // ignore: cast_nullable_to_non_nullable
+                  as String?,
+        difficulty: null == difficulty
+            ? _value.difficulty
+            : difficulty // ignore: cast_nullable_to_non_nullable
+                  as String,
+        category: null == category
+            ? _value.category
+            : category // ignore: cast_nullable_to_non_nullable
+                  as String,
+        tags: null == tags
+            ? _value._tags
+            : tags // ignore: cast_nullable_to_non_nullable
+                  as List<String>,
+        codeSnippet: freezed == codeSnippet
+            ? _value.codeSnippet
+            : codeSnippet // ignore: cast_nullable_to_non_nullable
+                  as String?,
+      ),
+    );
   }
 }
 
 /// @nodoc
 @JsonSerializable()
 class _$QuestionImpl implements _Question {
-  const _$QuestionImpl(
-      {required this.id,
-      required this.title,
-      required this.description,
-      required final List<String> options,
-      required this.correctOption,
-      this.explanation,
-      required this.difficulty,
-      required this.category,
-      required final List<String> tags,
-      this.codeSnippet})
-      : _options = options,
-        _tags = tags;
+  const _$QuestionImpl({
+    required this.id,
+    required this.title,
+    required this.description,
+    required final List<String> options,
+    required this.correctOption,
+    this.explanation,
+    required this.difficulty,
+    required this.category,
+    required final List<String> tags,
+    this.codeSnippet,
+  }) : _options = options,
+       _tags = tags;
 
   factory _$QuestionImpl.fromJson(Map<String, dynamic> json) =>
       _$$QuestionImplFromJson(json);
@@ -296,17 +306,18 @@ class _$QuestionImpl implements _Question {
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
-      runtimeType,
-      id,
-      title,
-      description,
-      const DeepCollectionEquality().hash(_options),
-      correctOption,
-      explanation,
-      difficulty,
-      category,
-      const DeepCollectionEquality().hash(_tags),
-      codeSnippet);
+    runtimeType,
+    id,
+    title,
+    description,
+    const DeepCollectionEquality().hash(_options),
+    correctOption,
+    explanation,
+    difficulty,
+    category,
+    const DeepCollectionEquality().hash(_tags),
+    codeSnippet,
+  );
 
   @JsonKey(ignore: true)
   @override
@@ -316,24 +327,23 @@ class _$QuestionImpl implements _Question {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$QuestionImplToJson(
-      this,
-    );
+    return _$$QuestionImplToJson(this);
   }
 }
 
 abstract class _Question implements Question {
-  const factory _Question(
-      {required final String id,
-      required final String title,
-      required final String description,
-      required final List<String> options,
-      required final int correctOption,
-      final String? explanation,
-      required final String difficulty,
-      required final String category,
-      required final List<String> tags,
-      final String? codeSnippet}) = _$QuestionImpl;
+  const factory _Question({
+    required final String id,
+    required final String title,
+    required final String description,
+    required final List<String> options,
+    required final int correctOption,
+    final String? explanation,
+    required final String difficulty,
+    required final String category,
+    required final List<String> tags,
+    final String? codeSnippet,
+  }) = _$QuestionImpl;
 
   factory _Question.fromJson(Map<String, dynamic> json) =
       _$QuestionImpl.fromJson;

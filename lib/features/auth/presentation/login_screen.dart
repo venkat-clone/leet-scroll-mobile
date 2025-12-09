@@ -22,9 +22,9 @@ class LoginScreen extends StatelessWidget {
               context.router.replace(const HomeRoute());
             },
             error: (message) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text(message)),
-              );
+              ScaffoldMessenger.of(
+                context,
+              ).showSnackBar(SnackBar(content: Text(message)));
             },
             orElse: () {},
           );
