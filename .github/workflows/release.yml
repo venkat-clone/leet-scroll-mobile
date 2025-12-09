@@ -11,8 +11,8 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-      - name: check release action
-        uses: ncipollo/release-action@v1.20.0
+#      - name: check release action
+#        uses: ncipollo/release-action@v1.20.0
 
 
       #      - name: Inject Firebase Config
