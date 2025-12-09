@@ -4,6 +4,8 @@ on:
     branches: [main]
     # Optional: Also trigger on tags for versioned releases
     tags: ['v*']
+permissions:
+  contents: write
 
 jobs:
   build-and-release:
@@ -11,8 +13,6 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-#      - name: check release action
-#        uses: ncipollo/release-action@v1.20.0
 
 
       #      - name: Inject Firebase Config
