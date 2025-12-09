@@ -15,9 +15,15 @@ jobs:
         uses: actions/checkout@v4
 
 
-      #      - name: Inject Firebase Config
-#        run: |
-#          echo "${{ secrets.FIREBASE_ANDROID_CONFIG }}" | base64 --decode > android/app/google-services.json
+      - name: Create JSON file
+        id: create-json
+        uses: jsdaniell/create-json@v1.2.3
+        with:
+          name: "google-services.json"
+          json: ${{ secrets.FIREBASE_ANDROID_CONFIG }}
+          dir: "android/app/"
+
+
       - name: Validate JSON structure
         run: |
           python3 - << 'EOF'
