@@ -1,55 +1,108 @@
 name: Release
-
 on:
   push:
-    branches:
-      - main
+    branches: [main]
+    # Optional: Also trigger on tags for versioned releases
+    tags: ['v*']
 
 jobs:
   build-and-release:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Setup Java
-        uses: actions/setup-java@v4
-        with:
-          distribution: "temurin"
-          java-version: "17"
+      - name: Flutter FVM config action
+        id: fvm-config
+        uses: kuhnroyal/flutter-fvm-config-action@v3.1
 
-      - name: Setup Flutter
-        uses: subosito/flutter-action@v2
+      - name: Setup Flutter 💻
+        uses: subosito/flutter-action@v2.21.0
+        id: setup-flutter
         with:
-          flutter-version: "3.32.8"
-          channel: "stable"
-
-      - name: Setup Shorebird
-        uses: shorebird/setup-shorebird@v1
-        with:
-          shorebird-token: ${{ secrets.SHOREBIRD_TOKEN }}
+          flutter-version: ${{ steps.fvm-config.outputs.FLUTTER_VERSION }}
+          cache: true
+          cache-key: ${{ runner.os }}-flutter-${{ steps.fvm-config.outputs.FLUTTER_VERSION }}-${{ hashFiles('**/pubspec.lock') }}
 
       - name: Install dependencies
         run: flutter pub get
 
-      - name: Run Smoke Test
+      - name: Run Tests
         run: flutter test test/widget_test.dart
 
+      - name: Cache Pub 💾
+        uses: actions/cache@v4
+        with:
+          path: |
+            **/.dart_tool
+            ~/.pub-cache  # Added for fuller coverage
+          key: ${{ runner.os }}-pub-${{ hashFiles('**/pubspec.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-pub-
+
+      - name: Setup Shorebird
+        uses: shorebirdtech/setup-shorebird@v1
+        with:
+          cache: true
+
+      # Optional: Verify Shorebird auth
+      - name: Verify Shorebird Setup
+        run: shorebird doctor
+        env:
+          SHOREBIRD_TOKEN: ${{ secrets.SHOREBIRD_TOKEN }}
+
+      # Auto-bump build number (from our earlier script)
+      - name: Auto-bump Build Number
+        run: |
+          BUILD=$(grep '^version: ' pubspec.yaml | sed 's/.*+//' | tr -d '[:space:]')
+          NEW_BUILD=$((BUILD + 1))
+          sed -i "s/\(version: .*\+\)$BUILD/\1$NEW_BUILD/" pubspec.yaml
+          echo "Bumped build number: $BUILD → $NEW_BUILD"
+          git config user.name "github-actions"
+          git config user.email "actions@github.com"
+          git add pubspec.yaml
+          git commit -m "chore: auto bump build to $NEW_BUILD" || echo "No changes to commit"
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # Re-run pub get after bump
+      - name: Install dependencies (post-bump)
+        run: flutter pub get
+
+      # Inject Firebase (from our earlier chat)
+      - name: Inject Firebase Config
+        run: echo "${{ secrets.FIREBASE_ANDROID_CONFIG }}" > android/app/google-services.json
+
+      # Inject Android Signing (from our earlier chat)
+#      - name: Setup Android Signing
+#        run: |
+#          echo "${{ secrets.ANDROID_KEYSTORE_BASE64 }}" | base64 -d > keystore.jks
+#          echo "storePassword=${{ secrets.ANDROID_KEYSTORE_PASSWORD }}" > android/local.properties
+#          echo "keyPassword=${{ secrets.ANDROID_KEY_PASSWORD }}" >> android/local.properties
+#          echo "keyAlias=${{ secrets.ANDROID_KEY_ALIAS }}" >> android/local.properties
+#          echo "storeFile=keystore.jks" >> android/local.properties
+#        if: env.ANDROID_KEYSTORE_BASE64 != ''
+
       - name: Build and Release with Shorebird
-        run: shorebird release android --artifact=apk
+        run: shorebird release android --artifact=apk --flavor=production  # Add your flavor
+        env:
+          SHOREBIRD_TOKEN: ${{ secrets.SHOREBIRD_TOKEN }}
 
       - name: Get Version
         id: get_version
         run: |
-          version=$(grep 'version:' pubspec.yaml | sed 's/version: //')
+          version=$(grep '^version: ' pubspec.yaml | awk '{print $2}' | sed 's/[[:space:]]//g')  # Trimmed & robust
           echo "VERSION=$version" >> $GITHUB_ENV
 
       - name: Create GitHub Release
-        uses: ncipollo/release-action@v1
+        if: startsWith(github.ref, 'refs/tags/') || github.event_name == 'push'  # Conditional for tags/main
+        uses: ncipollo/release-action@v2  # Upgraded
         with:
           tag: v${{ env.VERSION }}
           name: Release v${{ env.VERSION }}
+          body: "Automated release with Shorebird support."  # Optional changelog
           artifacts: "build/app/outputs/flutter-apk/app-release.apk"
           token: ${{ secrets.GITHUB_TOKEN }}
           allowUpdates: true
+          prerelease: true  # If beta
