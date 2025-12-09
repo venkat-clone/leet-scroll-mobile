@@ -11,8 +11,11 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+      - name: check release action
+        uses: ncipollo/release-action@v1.20.0
 
-#      - name: Inject Firebase Config
+
+      #      - name: Inject Firebase Config
 #        run: |
 #          echo "${{ secrets.FIREBASE_ANDROID_CONFIG }}" | base64 --decode > android/app/google-services.json
       - name: Validate JSON structure
@@ -111,7 +114,7 @@ jobs:
 
       - name: Create GitHub Release
         if: startsWith(github.ref, 'refs/tags/') || github.event_name == 'push'  # Conditional for tags/main
-        uses: ncipollo/release-action@v1  # Upgraded
+        uses: ncipollo/release-action@v1.20.0
         with:
           tag: v${{ env.VERSION }}
           name: Release v${{ env.VERSION }}
