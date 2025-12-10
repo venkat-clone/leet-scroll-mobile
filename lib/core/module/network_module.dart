@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:dio_smart_retry/dio_smart_retry.dart';
 import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -12,7 +13,7 @@ abstract class NetworkModule {
 
   // ignore: non_constant_identifier_names
   String get _BASE_URL => kDebugMode
-      ? 'http://localhost:3000/api'
+      ? 'https://configxleetscroll.vercel.app/api'
       : 'https://leet-scroll.vercel.app/api';
 
   @lazySingleton
@@ -23,6 +24,7 @@ abstract class NetworkModule {
 
         connectTimeout: const Duration(seconds: 5),
         receiveTimeout: const Duration(seconds: 3),
+
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json',
@@ -31,6 +33,7 @@ abstract class NetworkModule {
     );
     final cookieJar = CookieJar();
     dio.interceptors.add(CookieManager(cookieJar));
+    dio.interceptors.add(RetryInterceptor(dio: dio));
     dio.interceptors.add(
       InterceptorsWrapper(
         onRequest: (options, handler) async {
@@ -48,7 +51,8 @@ abstract class NetworkModule {
 
           if (token != null) {
             // Replace Authorization header with Cookie
-            options.headers['Cookie'] = 'next-auth.session-token=$token';
+            options.headers['Cookie'] =
+                '__Secure-next-auth.session-token=$token';
           }
           debugPrint('Request: ${options.method} ${options.path}');
           debugPrint('Headers: ${options.headers}');
