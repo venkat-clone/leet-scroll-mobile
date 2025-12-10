@@ -15,26 +15,25 @@ jobs:
         uses: actions/checkout@v4
 
 
-      - name: Create JSON file
-        id: create-json
+
+      - name: Prepare firebase JSON
         uses: jsdaniell/create-json@v1.2.3
         with:
           name: "google-services.json"
           json: ${{ secrets.FIREBASE_ANDROID_CONFIG }}
           dir: "android/app/"
 
-
-      - name: Validate JSON structure
+      - name: Prepare release keystore
         run: |
-          python3 - << 'EOF'
-          import json, sys
-          try:
-            json.load(open("android/app/google-services.json"))
-            print("JSON is valid.")
-          except Exception as e:
-            print("Invalid JSON:", e)
-            sys.exit(1)
-            EOF
+          echo "${{ secrets.BASE_64_SIGNING_KEY }}" > release_keystore.jks.asc
+          gpg -d --passphrase "${{ secrets.BASE_64_SIGNING_KEY_PASSPHRASE }}" --batch release_keystore.jks.asc > android/app/release_keystore.jks
+
+      - name: Prepare Key Properties
+        run: |
+          echo "${{ secrets.LOCAL_PROPERTIES }}" > android/key.properties
+          
+          
+
       - name: Flutter FVM config action
         id: fvm-config
         uses: kuhnroyal/flutter-fvm-config-action@v3.1
