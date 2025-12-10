@@ -11,6 +11,7 @@ import 'features/auth/logic/auth_cubit.dart';
 
 import 'package:firebase_core/firebase_core.dart';
 
+import 'features/leaderboard/logic/leaderboard_cubit.dart';
 import 'features/profile/logic/profile_cubit.dart';
 
 void main() async {
@@ -24,7 +25,8 @@ void main() async {
     MultiBlocProvider(
       providers: [
         BlocProvider(create: (context) => getIt<AuthCubit>()..checkAuth()),
-        BlocProvider(create: (context) => getIt<ProfileCubit>()..loadProfile()),
+        BlocProvider(create: (context) => getIt<ProfileCubit>()),
+        BlocProvider(create: (context) => getIt<LeaderboardCubit>()),
       ],
       child: MyApp(),
     ),
