@@ -14,12 +14,12 @@ jobs:
 
       - name: Prepare release keystore
         run: |
-          echo "${{ vars.BASE_64_SIGNING_KEY }}" > release_keystore.jks.asc
-          gpg -d --passphrase "${{ vars.BASE_64_SIGNING_KEY_PASSPHRASE }}" --batch release_keystore.jks.asc > android/app/release_keystore.jks
+          echo "${{ secrets.BASE_64_SIGNING_KEY }}" > release_keystore.jks.asc
+          gpg -d --passphrase "${{ secrets.BASE_64_SIGNING_KEY_PASSPHRASE }}" --batch release_keystore.jks.asc > android/app/release_keystore.jks
 
       - name: Verify Key Properties
         run: |
-          echo "${{ vars.LOCAL_PROPERTIES }}" > android/key.properties
+          echo "${{ secrets.LOCAL_PROPERTIES }}" > android/key.properties
 
       - name: Verify KeyStore
         run: |
