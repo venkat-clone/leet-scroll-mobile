@@ -23,7 +23,7 @@ jobs:
 
       - name: Verify KeyStore
         run: |
-          keytool -list -keystore /Users/venkey/upload-keystore.jks -storepass venkey.dev
+          keytool -list -keystore android/app/release_keystore.jks -storepass venkey.dev
           keytool -list -keystore android/app/release_keystore.jks -storepass venkey.dev -alias upload          
           
       
