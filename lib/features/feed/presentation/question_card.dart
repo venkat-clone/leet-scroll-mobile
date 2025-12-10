@@ -103,7 +103,7 @@ class _QuestionCardState extends State<QuestionCard> {
                 decoration: BoxDecoration(
                   border: Border(
                     bottom: BorderSide(
-                      color: AppTheme.vsCodeBorder.withOpacity(0.3),
+                      color: AppTheme.vsCodeBorder.withValues(alpha: 0.3),
                       width: 1,
                     ),
                   ),
@@ -145,14 +145,18 @@ class _QuestionCardState extends State<QuestionCard> {
                               end: Alignment.bottomCenter,
                               colors: [
                                 Colors.transparent,
-                                AppTheme.vsCodeBackground.withOpacity(0.3),
+                                AppTheme.vsCodeBackground.withValues(
+                                  alpha: 0.3,
+                                ),
                               ],
                             ),
                           ),
                           child: Center(
                             child: Icon(
                               Icons.keyboard_arrow_down,
-                              color: AppTheme.draculaComment.withOpacity(0.5),
+                              color: AppTheme.draculaComment.withValues(
+                                alpha: 0.5,
+                              ),
                               size: 20,
                             ),
                           ),
@@ -181,7 +185,7 @@ class _QuestionCardState extends State<QuestionCard> {
                 decoration: BoxDecoration(
                   border: Border(
                     top: BorderSide(
-                      color: AppTheme.vsCodeBorder.withOpacity(0.3),
+                      color: AppTheme.vsCodeBorder.withValues(alpha: 0.3),
                       width: 1,
                     ),
                   ),
@@ -469,11 +473,11 @@ class _AnswerOption extends StatelessWidget {
       if (isSelected) {
         borderColor = isCorrect ? AppTheme.successColor : AppTheme.errorColor;
         backgroundColor = isCorrect
-            ? AppTheme.successColor.withOpacity(0.1)
-            : AppTheme.errorColor.withOpacity(0.1);
+            ? AppTheme.successColor.withValues(alpha: 0.1)
+            : AppTheme.errorColor.withValues(alpha: 0.1);
       } else if (isCorrectOption) {
         borderColor = AppTheme.successColor;
-        backgroundColor = AppTheme.successColor.withOpacity(0.1);
+        backgroundColor = AppTheme.successColor.withValues(alpha: 0.1);
       }
     }
 
