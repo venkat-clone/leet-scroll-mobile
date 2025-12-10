@@ -12,19 +12,13 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: test
-        run: echo "${{ vars.FIREBASE_ANDROID_CONFIG }}"
-      - name: create-json
-        id: create-json
-        uses: jsdaniell/create-json@v1.2.3
-        with:
-          name: "google-services.json"
-          json: ${{ vars.FIREBASE_ANDROID_CONFIG }}
-          dir: "android/app/"
-      - name: Log JSON file (safe)
+      - name: Prepare release keystore
         run: |
-          echo "---- JSON CONTENT START ----"
-          cat android/app/google-services.json
-          echo "---- JSON CONTENT END ----"
+          echo "${{ vars.BASE_64_SIGNING_KEY }}" > release_keystore.jks.asc
+          gpg -d --passphrase "${{ vars.BASE_64_SIGNING_KEY_PASSPHRASE }}" --batch release_keystore.jks.asc > android/app/release_keystore.jks
+
+      - name: Verify KeyStore
+        run: |
+          echo "${{ vars.LOCAL_PROPERTIES }}" > android/key.properties
 
 
