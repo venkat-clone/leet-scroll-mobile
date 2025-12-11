@@ -1,84 +1,42 @@
 import 'dart:convert';
-import 'package:dio/dio.dart';
+import 'package:dio/dio.dart' hide Headers;
 import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
+import 'package:mobile/core/injection.dart';
+import 'package:mobile/core/models/session/session_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'user_model.dart';
+import 'package:retrofit/retrofit.dart';
 
+part 'auth_repository.g.dart';
+
+@RestApi()
 abstract class IAuthRepository {
+  factory IAuthRepository(Dio dio, {String? baseUrl}) = _IAuthRepository;
+
+  @POST("/api")
   Future<UserModel> login(String email, String password);
 
+  @POST("/api")
   Future<UserModel> register(String email, String password, String name);
 
-  Future<UserModel> signInWithGoogle();
+  @GET("/auth/csrf")
+  Future<dynamic> getCsrf();
 
-  Future<void> logout();
+  @POST("/auth/callback/credentials")
+  @Headers({'Content-Type': 'application/x-www-form-urlencoded'})
+  Future<dynamic> getCallback(@Body() Map<String, dynamic> body);
 
-  Future<UserModel?> getUser();
+  @GET("/auth/session")
+  Future<SessionModel> getSession();
 }
 
-@LazySingleton(as: IAuthRepository)
-class AuthRepository implements IAuthRepository {
-  final Dio _dio;
-  final SharedPreferences _prefs;
-
-  AuthRepository(this._dio, this._prefs);
-
-  @override
-  Future<UserModel> login(String email, String password) async {
-    try {
-      final response = await _dio.post(
-        '/mobile/login',
-        data: {'email': email, 'password': password},
-      );
-
-      if (response.statusCode == 200) {
-        final data = response.data;
-        final user = UserModel.fromJson(data['user']);
-        await _saveSession(data['token'], user);
-        return user;
-      } else {
-        throw Exception(response.data['error'] ?? 'Login failed');
-      }
-    } on DioException catch (e) {
-      throw Exception(e.response?.data['error'] ?? e.message);
-    } catch (e) {
-      throw Exception(e.toString());
-    }
-  }
-
-  @override
-  Future<UserModel> register(String email, String password, String name) async {
-    try {
-      final response = await _dio.post(
-        '/register',
-        data: {'email': email, 'password': password, 'name': name},
-      );
-
-      if (response.statusCode == 201) {
-        // Assuming register returns same structure as login or just user
-        // Adjust based on API. The original code returned response.data
-        // If it auto-logins, it might return token.
-        // For now, let's assume it returns user data and we might need to login separately
-        // or it returns token.
-        // Original code: return response.data;
-
-        // If the API returns the created user:
-        // return UserModel.fromJson(response.data['user']);
-
-        // Let's assume it returns { user: ... }
-        return UserModel.fromJson(response.data['user'] ?? response.data);
-      } else {
-        throw Exception(response.data['error'] ?? 'Registration failed');
-      }
-    } on DioException catch (e) {
-      throw Exception(e.response?.data['error'] ?? e.message);
-    } catch (e) {
-      throw Exception(e.toString());
-    }
-  }
+@LazySingleton()
+@injectable
+class AuthRepository extends _IAuthRepository {
+  AuthRepository(super.dio);
 
   Future<UserCredential> _signInWithGoogle() async {
     if (kIsWeb) {
@@ -100,7 +58,6 @@ class AuthRepository implements IAuthRepository {
     }
   }
 
-  @override
   Future<UserModel> signInWithGoogle() async {
     try {
       final UserCredential userCredential = await _signInWithGoogle();
@@ -109,38 +66,34 @@ class AuthRepository implements IAuthRepository {
       if (idToken == null) {
         throw Exception('Failed to get ID Token');
       }
+      final csrf = await getCsrf();
+      await getCallback({
+        "idToken": idToken,
+        "csrfToken": csrf["csrfToken"],
+        "json": true,
+      });
 
-      final response = await _dio.post(
-        '/mobile/login',
-        data: {'idToken': idToken},
-      );
-
-      if ([200, 204].contains(response.statusCode)) {
-        final data = response.data;
-        final user = UserModel.fromJson(data['user']);
-        await _saveSession(data['token'], user);
-        return user;
-      } else {
-        throw Exception(response.data['error'] ?? 'Login failed');
-      }
+      final session = await getSession();
+      _saveSession(session.user);
+      return session.user;
     } catch (e) {
       rethrow;
     }
   }
 
-  Future<void> _saveSession(String token, UserModel user) async {
-    await _prefs.setString('token', token);
-    await _prefs.setString('user', jsonEncode(user.toJson()));
+  Future<void> _saveSession(UserModel user) async {
+    await getIt<SharedPreferences>().setString(
+      'user',
+      jsonEncode(user.toJson()),
+    );
   }
 
-  @override
   Future<void> logout() async {
-    await _prefs.clear();
+    await getIt<SharedPreferences>().clear();
   }
 
-  @override
   Future<UserModel?> getUser() async {
-    final userStr = _prefs.getString('user');
+    final userStr = getIt<SharedPreferences>().getString('user');
     if (userStr != null) {
       return UserModel.fromJson(jsonDecode(userStr));
     }

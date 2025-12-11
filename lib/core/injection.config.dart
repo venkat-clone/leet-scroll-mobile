@@ -48,21 +48,20 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i470.IProfileRepository>(
       () => _i470.ProfileRepository(gh<_i361.Dio>()),
     );
+    gh.lazySingleton<_i1013.AuthRepository>(
+      () => _i1013.AuthRepository(gh<_i361.Dio>()),
+    );
     gh.factory<_i476.QuestionCubit>(
       () => _i476.QuestionCubit(gh<_i323.IFeedRepository>()),
     );
     gh.factory<_i416.FeedCubit>(
       () => _i416.FeedCubit(gh<_i323.IFeedRepository>()),
     );
-    gh.lazySingleton<_i1013.IAuthRepository>(
-      () =>
-          _i1013.AuthRepository(gh<_i361.Dio>(), gh<_i460.SharedPreferences>()),
-    );
     gh.factory<_i384.ProfileCubit>(
       () => _i384.ProfileCubit(gh<_i470.IProfileRepository>()),
     );
     gh.factory<_i329.AuthCubit>(
-      () => _i329.AuthCubit(gh<_i1013.IAuthRepository>()),
+      () => _i329.AuthCubit(gh<_i1013.AuthRepository>()),
     );
     gh.factory<_i783.LeaderboardCubit>(
       () => _i783.LeaderboardCubit(gh<_i230.ILeaderboardRepository>()),

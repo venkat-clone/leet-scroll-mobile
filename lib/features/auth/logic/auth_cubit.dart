@@ -6,7 +6,7 @@ import 'auth_state.dart';
 
 @injectable
 class AuthCubit extends Cubit<AuthState> {
-  final IAuthRepository _repository;
+  final AuthRepository _repository;
 
   AuthCubit(this._repository) : super(const AuthState.initial());
 
@@ -41,6 +41,8 @@ class AuthCubit extends Cubit<AuthState> {
     } on Exception catch (e, s) {
       debugPrint(e.toString());
       debugPrintStack(stackTrace: s);
+      emit(AuthState.error(e.toString()));
+    } catch (e) {
       emit(AuthState.error(e.toString()));
     }
   }
