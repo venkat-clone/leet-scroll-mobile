@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:mobile/core/module/error_loggers.dart';
+import 'package:mobile/core/services/notification_service.dart';
 import 'package:mobile/features/auth/logic/auth_state.dart';
 import 'package:mobile/firebase_options.dart';
 import 'core/injection.dart';
@@ -25,6 +26,7 @@ void main() async {
     clientId: DefaultFirebaseOptions.currentPlatform.androidClientId,
   );
   await configureDependencies();
+  await getIt<NotificationService>().init();
   FlutterError.onError = ErrorLoggers.onError;
   PlatformDispatcher.instance.onError = ErrorLoggers.onErrorAsync;
 
@@ -56,7 +58,9 @@ class MyApp extends StatelessWidget {
         state.maybeWhen(
           unauthenticated: () {
             if (appRouter.current.name != LoginRoute.name) {
-              appRouter.popUntilRoot();
+              if (appRouter.canPop()) {
+                appRouter.popUntilRoot();
+              }
               appRouter.push(const LoginRoute());
             }
           },

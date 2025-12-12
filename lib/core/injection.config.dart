@@ -23,6 +23,8 @@ import '../features/leaderboard/logic/leaderboard_cubit.dart' as _i783;
 import '../features/profile/data/profile_repository.dart' as _i470;
 import '../features/profile/logic/profile_cubit.dart' as _i384;
 import 'module/network_module.dart' as _i881;
+import 'module/notification_module.dart' as _i331;
+import 'services/notification_service.dart' as _i98;
 
 extension GetItInjectableX on _i174.GetIt {
   // initializes the registration of main-scope dependencies inside of GetIt
@@ -32,9 +34,13 @@ extension GetItInjectableX on _i174.GetIt {
   }) async {
     final gh = _i526.GetItHelper(this, environment, environmentFilter);
     final networkModule = _$NetworkModule();
+    final notificationModule = _$NotificationModule();
     await gh.factoryAsync<_i460.SharedPreferences>(
       () => networkModule.prefs,
       preResolve: true,
+    );
+    gh.lazySingleton<_i98.NotificationService>(
+      () => notificationModule.notificationService,
     );
     gh.lazySingleton<_i361.Dio>(
       () => networkModule.dio(gh<_i460.SharedPreferences>()),
@@ -71,3 +77,5 @@ extension GetItInjectableX on _i174.GetIt {
 }
 
 class _$NetworkModule extends _i881.NetworkModule {}
+
+class _$NotificationModule extends _i331.NotificationModule {}
