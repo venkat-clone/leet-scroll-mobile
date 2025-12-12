@@ -1,7 +1,12 @@
+import 'dart:ui';
+
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:mobile/core/module/error_loggers.dart';
+import 'package:mobile/core/services/notification_service.dart';
 import 'package:mobile/features/auth/logic/auth_state.dart';
 import 'package:mobile/firebase_options.dart';
 import 'core/injection.dart';
@@ -21,6 +26,10 @@ void main() async {
     clientId: DefaultFirebaseOptions.currentPlatform.androidClientId,
   );
   await configureDependencies();
+  await getIt<NotificationService>().init();
+  FlutterError.onError = ErrorLoggers.onError;
+  PlatformDispatcher.instance.onError = ErrorLoggers.onErrorAsync;
+
   runApp(
     MultiBlocProvider(
       providers: [
@@ -37,14 +46,23 @@ class MyApp extends StatelessWidget {
   MyApp({super.key});
   final appRouter = AppRouter();
 
+  final FirebaseAnalytics _analytics = FirebaseAnalytics.instance;
+  late final FirebaseAnalyticsObserver _observer = FirebaseAnalyticsObserver(
+    analytics: _analytics,
+  );
+
   @override
   Widget build(BuildContext context) {
     return BlocListener<AuthCubit, AuthState>(
       listener: (context, state) {
         state.maybeWhen(
           unauthenticated: () {
-            appRouter.popUntilRoot();
-            appRouter.push(const LoginRoute());
+            if (appRouter.current.name != LoginRoute.name) {
+              if (appRouter.canPop()) {
+                appRouter.popUntilRoot();
+              }
+              appRouter.push(const LoginRoute());
+            }
           },
           orElse: () {},
         );
@@ -66,7 +84,7 @@ class MyApp extends StatelessWidget {
             fontFamily: GoogleFonts.jetBrainsMono().fontFamily,
           ),
         ),
-        routerConfig: appRouter.config(),
+        routerConfig: appRouter.config(navigatorObservers: () => [_observer]),
       ),
     );
   }

@@ -72,41 +72,15 @@ jobs:
         env:
           SHOREBIRD_TOKEN: ${{ secrets.SHOREBIRD_TOKEN }}
 
-      # Auto-bump build number (from our earlier script)
-#      - name: Auto-bump Build Number
-#        run: |
-#          BUILD=$(grep '^version: ' pubspec.yaml | sed 's/.*+//' | tr -d '[:space:]')
-#          NEW_BUILD=$((BUILD + 1))
-#          sed -i "s/\(version: .*\+\)$BUILD/\1$NEW_BUILD/" pubspec.yaml
-#          echo "Bumped build number: $BUILD → $NEW_BUILD"
-#          git config user.name "github-actions"
-#          git config user.email "actions@github.com"
-#          git add pubspec.yaml
-#          git commit -m "chore: auto bump build to $NEW_BUILD" || echo "No changes to commit"
-#          git push
-#        env:
-#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
 
       # Re-run pub get after bump
       - name: Install dependencies (post-bump)
         run: flutter pub get
 
-      # Inject Firebase (from our earlier chat)
-#      - name: Inject Firebase Config
-#        run: echo "${{ secrets.FIREBASE_ANDROID_CONFIG }}" > android/app/google-services.json
-
-      # Inject Android Signing (from our earlier chat)
-#      - name: Setup Android Signing
-#        run: |
-#          echo "${{ secrets.ANDROID_KEYSTORE_BASE64 }}" | base64 -d > keystore.jks
-#          echo "storePassword=${{ secrets.ANDROID_KEYSTORE_PASSWORD }}" > android/local.properties
-#          echo "keyPassword=${{ secrets.ANDROID_KEY_PASSWORD }}" >> android/local.properties
-#          echo "keyAlias=${{ secrets.ANDROID_KEY_ALIAS }}" >> android/local.properties
-#          echo "storeFile=keystore.jks" >> android/local.properties
-#        if: env.ANDROID_KEYSTORE_BASE64 != ''
 
       - name: Build and Release with Shorebird
-        run: shorebird release android --artifact=apk # --flavor=production  # Add your flavor
+        run: shorebird patch android --release-version latest # --flavor=production
         env:
           SHOREBIRD_TOKEN: ${{ secrets.SHOREBIRD_TOKEN }}
 
