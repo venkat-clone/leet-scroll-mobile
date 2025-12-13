@@ -74,13 +74,9 @@ jobs:
 
 
 
-      # Re-run pub get after bump
-      - name: Install dependencies (post-bump)
-        run: flutter pub get
-
 
       - name: Build and Release with Shorebird
-        run: shorebird patch android --release-version latest # --flavor=production
+        run: shorebird release android --artifact=apk  # --flavor=production
         env:
           SHOREBIRD_TOKEN: ${{ secrets.SHOREBIRD_TOKEN }}
 
