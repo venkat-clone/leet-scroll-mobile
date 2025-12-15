@@ -1,0 +1,84 @@
+# .github/workflows/new-release-branch.yml
+name: New Release Branch
+
+on:
+  create:  # Triggers ONLY when a branch or tag is created
+    branches:
+      - 'release/**'  # Only for branches like release/v1.2.0, release/next, etc.
+  workflow_dispatch:
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  create-new-release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      # Your existing setup steps (keystore, firebase json, flutter, shorebird, etc.)
+      - name: Prepare firebase JSON
+        uses: jsdaniell/create-json@v1.2.3
+        with:
+          name: "google-services.json"
+          json: ${{ secrets.FIREBASE_ANDROID_CONFIG }}
+          dir: "android/app/"
+
+      - name: Prepare release keystore
+        run: |
+          echo "${{ secrets.BASE_64_SIGNING_KEY }}" > release_keystore.jks.asc
+          gpg -d --passphrase "${{ secrets.BASE_64_SIGNING_KEY_PASSPHRASE }}" --batch release_keystore.jks.asc > android/app/upload-keystore.jks
+
+      - name: Prepare Key Properties
+        run: |
+          echo "${{ secrets.LOCAL_PROPERTIES }}" > android/key.properties
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2.21.0
+        with:
+          channel: stable
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Setup Shorebird
+        uses: shorebirdtech/setup-shorebird@v1
+
+      - name: Bump version
+        run: |
+          dart pub global activate bump
+          NEW_VERSION=$(bump bump --patch)  # or --minor depending on your convention
+          sed -i "s/^version: .*/version: $NEW_VERSION/" pubspec.yaml
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+          git add pubspec.yaml
+          git commit -m "chore: bump version to $NEW_VERSION [skip ci]"
+          git tag "v$NEW_VERSION"
+          git push origin ${{ github.ref_name }} --tags
+          echo "VERSION=$NEW_VERSION" >> $GITHUB_ENV
+
+      - name: Shorebird Full Release
+        run: shorebird release android --artifact=apk
+        env:
+          SHOREBIRD_TOKEN: ${{ secrets.SHOREBIRD_TOKEN }}
+
+      - name: Create GitHub Release
+        uses: ncipollo/release-action@v1.20.0
+        with:
+          tag: v${{ env.VERSION }}
+          name: Release v${{ env.VERSION }}
+          body: "New release from branch ${{ github.ref_name }}"
+          artifacts: build/app/outputs/flutter-apk/app-release.apk
+          allowUpdates: true
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Upload to Firebase App Distribution
+        uses: wzieba/Firebase-Distribution-Github-Action@v1
+        with:
+          appId: ${{ secrets.FIREBASE_APP_ID_ANDROID }}
+          token: ${{ secrets.FIREBASE_TOKEN }}
+          file: build/app/outputs/flutter-apk/app-release.apk
+          groups: testers

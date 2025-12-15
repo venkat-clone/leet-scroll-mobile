@@ -1,0 +1,78 @@
+# .github/workflows/patch-release-branch.yml
+name: Patch Release Branch
+
+on:
+  push:
+    branches:
+      - 'release/**'  # Only pushes to existing release branches
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # Same setup as before
+      - name: Prepare firebase JSON
+        uses: jsdaniell/create-json@v1.2.3
+        with:
+          name: "google-services.json"
+          json: ${{ secrets.FIREBASE_ANDROID_CONFIG }}
+          dir: "android/app/"
+
+      - name: Prepare release keystore
+        run: |
+          echo "${{ secrets.BASE_64_SIGNING_KEY }}" > release_keystore.jks.asc
+          gpg -d --passphrase "${{ secrets.BASE_64_SIGNING_KEY_PASSPHRASE }}" --batch release_keystore.jks.asc > android/app/upload-keystore.jks
+
+      - name: Prepare Key Properties
+        run: |
+          echo "${{ secrets.LOCAL_PROPERTIES }}" > android/key.properties
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2.21.0
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Setup Shorebird
+        uses: shorebirdtech/setup-shorebird@v1
+
+      - name: Change detection (only lib changes allowed for patch)
+        uses: dorny/paths-filter@v3
+        id: filter
+        with:
+          filters: |
+            lib:
+              - 'lib/**'
+            forbidden:
+              - 'android/**'
+              - 'pubspec.yaml'
+              - 'shorebird.yaml'
+
+      - name: Shorebird Patch (only if pure Dart changes)
+        if: steps.filter.outputs.lib == 'true' && steps.filter.outputs.forbidden == 'false'
+        run: shorebird patch android --artifact=apk
+        env:
+          SHOREBIRD_TOKEN: ${{ secrets.SHOREBIRD_TOKEN }}
+
+      - name: Fail if non-lib changes (optional safety)
+        if: steps.filter.outputs.forbidden == 'true'
+        run: |
+          echo "Error: Changes in android/, pubspec.yaml or shorebird.yaml detected."
+          echo "Patches are only allowed for lib/ changes. Create a new release branch instead."
+          exit 1
+
+      - name: Upload Patch APK to Firebase
+        if: steps.filter.outputs.lib == 'true' && steps.filter.outputs.forbidden == 'false'
+        uses: wzieba/Firebase-Distribution-Github-Action@v1
+        with:
+          appId: ${{ secrets.FIREBASE_APP_ID_ANDROID }}
+          token: ${{ secrets.FIREBASE_TOKEN }}
+          file: build/app/outputs/flutter-apk/app-release.apk
+          groups: testers
