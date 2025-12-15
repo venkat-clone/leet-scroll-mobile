@@ -1,99 +1,84 @@
-name: Release
+# .github/workflows/merge-to-main.yml
+name: Merge to Main - Branch Decision
+
 on:
   push:
-    branches: [main]
-    # Optional: Also trigger on tags for versioned releases
-    tags: ['v*']
-permissions:
-  contents: write
-
+    branches: [ main ]
+  workflow_dispatch:
 jobs:
-  build-and-release:
+  decide-branch:
+    runs-on: ubuntu-latest
+    outputs:
+      only_lib: ${{ steps.detect.outputs.only_lib }}
+      latest_release_branch: ${{ steps.latest.outputs.branch }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Detect changes
+        uses: dorny/paths-filter@v3
+        id: detect
+        with:
+          filters: |
+            lib:
+              - 'lib/**'
+            forbidden:
+              - 'android/**'
+              - 'pubspec.yaml'
+              - 'shorebird.yaml'
+
+      - name: Set only_lib output
+        id: set
+        run: |
+          if [[ ${{ steps.detect.outputs.lib }} == 'true' && ${{ steps.detect.outputs.forbidden }} == 'false' ]]; then
+            echo "only_lib=true"
+          else
+            echo "only_lib=false"
+          fi >> $GITHUB_OUTPUT
+
+      - name: Find latest release branch
+        id: latest
+        run: |
+          # Get the most recent release/* branch by creation date
+          BRANCH=$(git branch -r --sort=-committerdate | grep 'origin/release/' | head -n1 | sed 's|origin/||' | xargs || echo "")
+          if [[ -z "$BRANCH" ]]; then
+            echo "No existing release branch found. Will create new one."
+            echo "branch=" >> $GITHUB_OUTPUT
+          else
+            echo "branch=$BRANCH" >> $GITHUB_OUTPUT
+          fi
+
+  push-to-existing-release:
+    needs: decide-branch
+    if: needs.decide-branch.outputs.only_lib == 'true' && needs.decide-branch.outputs.latest_release_branch != ''
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
+      - name: Checkout
         uses: actions/checkout@v4
 
-
-
-      - name: Prepare firebase JSON
-        uses: jsdaniell/create-json@v1.2.3
-        with:
-          name: "google-services.json"
-          json: ${{ secrets.FIREBASE_ANDROID_CONFIG }}
-          dir: "android/app/"
-
-      - name: Prepare release keystore
+      - name: Push to latest release branch
         run: |
-          echo "${{ secrets.BASE_64_SIGNING_KEY }}" > release_keystore.jks.asc
-          gpg -d --passphrase "${{ secrets.BASE_64_SIGNING_KEY_PASSPHRASE }}" --batch release_keystore.jks.asc > android/app/upload-keystore.jks
+          git push origin main:${{ needs.decide-branch.outputs.latest_release_branch }}
 
-      - name: Prepare Key Properties
+  create-new-release-branch:
+    needs: decide-branch
+    if: needs.decide-branch.outputs.only_lib == 'false'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Get next version suggestion
+        id: version
         run: |
-          echo "${{ secrets.LOCAL_PROPERTIES }}" > android/key.properties
-          
-          
+          dart pub global activate bump
+          SUGGESTED=$(bump suggest)
+          BRANCH_NAME="release/v$SUGGESTED"
+          echo "branch=$BRANCH_NAME" >> $GITHUB_OUTPUT
+          echo "Suggested new branch: $BRANCH_NAME"
 
-      - name: Flutter FVM config action
-        id: fvm-config
-        uses: kuhnroyal/flutter-fvm-config-action@v3.1
-
-      - name: Setup Flutter 💻
-        uses: subosito/flutter-action@v2.21.0
-        id: setup-flutter
-        with:
-          flutter-version: ${{ steps.fvm-config.outputs.FLUTTER_VERSION }}
-          cache: true
-          cache-key: ${{ runner.os }}-flutter-${{ steps.fvm-config.outputs.FLUTTER_VERSION }}-${{ hashFiles('**/pubspec.lock') }}
-
-      - name: Install dependencies
-        run: flutter pub get
-
-
-
-      - name: Cache Pub 💾
-        uses: actions/cache@v4
-        with:
-          path: |
-            **/.dart_tool
-            ~/.pub-cache  # Added for fuller coverage
-          key: ${{ runner.os }}-pub-${{ hashFiles('**/pubspec.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-pub-
-
-      - name: Setup Shorebird
-        uses: shorebirdtech/setup-shorebird@v1
-        with:
-          cache: true
-
-      # Optional: Verify Shorebird auth
-      - name: Verify Shorebird Setup
-        run: shorebird doctor
-        env:
-          SHOREBIRD_TOKEN: ${{ secrets.SHOREBIRD_TOKEN }}
-
-
-
-
-      - name: Build and Release with Shorebird
-        run: shorebird release android --artifact=apk  # --flavor=production
-        env:
-          SHOREBIRD_TOKEN: ${{ secrets.SHOREBIRD_TOKEN }}
-
-      - name: Get Version
-        id: get_version
+      - name: Create and push new release branch
         run: |
-          version=$(grep '^version: ' pubspec.yaml | awk '{print $2}' | sed 's/[[:space:]]//g')  # Trimmed & robust
-          echo "VERSION=$version" >> $GITHUB_ENV
-
-      - name: Create GitHub Release
-        if: startsWith(github.ref, 'refs/tags/') || github.event_name == 'push'  # Conditional for tags/main
-        uses: ncipollo/release-action@v1.20.0
-        with:
-          tag: v${{ env.VERSION }}
-          name: Release v${{ env.VERSION }}
-          body: "Automated release with Shorebird support."  # Optional changelog
-          artifacts: "build/app/outputs/flutter-apk/app-release.apk"
-          token: ${{ secrets.GITHUB_TOKEN }}
-          allowUpdates: true
-          prerelease: false  # If beta
+          git push origin main:refs/heads/${{ steps.version.outputs.branch }}
