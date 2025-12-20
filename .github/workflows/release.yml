@@ -56,7 +56,7 @@ jobs:
           echo "only_lib: ${{ steps.detect.outputs.lib }}"
           echo "forbidden: ${{ steps.detect.outputs.forbidden }}"
           echo "branch: ${{ steps.latest.outputs.branch }}"
-          echo "latest_release_branch: ${{ steps.latest.outputs.branch }}"
+          echo "latest_release_branch: ${{ steps.latest.outputs.latest_release_branch }}"
 
 
 
