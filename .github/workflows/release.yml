@@ -96,8 +96,8 @@ jobs:
       - name: Get next version suggestion
         id: version
         run: |
-          dart pub global activate bump
-          SUGGESTED=$(bump suggest)
+          dart pub bump patch
+          SUGGESTED=$(grep '^version:' pubspec.yaml | sed 's/version: //')
           BRANCH_NAME="release/v$SUGGESTED"
           echo "branch=$BRANCH_NAME" >> $GITHUB_OUTPUT
           echo "Suggested new branch: $BRANCH_NAME"
