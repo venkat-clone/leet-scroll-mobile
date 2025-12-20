@@ -9,7 +9,7 @@ jobs:
   decide-branch:
     runs-on: ubuntu-latest
     outputs:
-      only_lib: ${{ steps.detect.outputs.only_lib }}
+      only_lib: ${{ steps.detect.outputs.lib && !steps.detect.outputs.forbidden && 'true' || 'false' }}
       latest_release_branch: ${{ steps.latest.outputs.branch }}
     steps:
       - name: Checkout
