@@ -51,7 +51,7 @@ jobs:
         run: |
           dart pub bump patch
           NEW_VERSION=$(grep '^version:' pubspec.yaml | sed 's/version: //')
-#          sed -i "s/^version: .*/version: $NEW_VERSION/" pubspec.yaml
+          # sed -i "s/^version: .*/version: $NEW_VERSION/" pubspec.yaml
           git config user.name "github-actions"
           git config user.email "github-actions@github.com"
           git add pubspec.yaml
