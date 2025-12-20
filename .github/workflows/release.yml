@@ -49,6 +49,16 @@ jobs:
           else
             echo "branch=$BRANCH" >> $GITHUB_OUTPUT
           fi
+          
+
+      - name: Log Outputs
+        run: |
+          echo "only_lib: ${{ steps.detect.outputs.lib }}"
+          echo "forbidden: ${{ steps.detect.outputs.forbidden }}"
+          echo "branch: ${{ steps.latest.outputs.branch }}"
+          echo "latest_release_branch: ${{ steps.latest.outputs.branch }}"
+
+
 
   push-to-existing-release:
     needs: decide-branch
