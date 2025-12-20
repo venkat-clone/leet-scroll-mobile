@@ -64,7 +64,7 @@ jobs:
     steps:
       - name: log outputs
         run: |
-          echo "only_lib: ${{ steps.detect.outputs.lib }}"
+          echo "only_lib: ${{ sneeds.decide-branch.outputs.only_lib }}"
           echo "only_lib: ${{ steps.detect.outputs.only_lib }}"
           echo "forbidden: ${{ steps.detect.outputs.forbidden }}"
           echo "branch: ${{ steps.latest.outputs.branch }}"
