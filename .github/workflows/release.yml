@@ -77,10 +77,11 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-
+        with:
+          fetch-depth: 0
       - name: Push to latest release branch
         run: |
-          git push --force-with-lease origin main:${{ needs.decide-branch.outputs.latest_release_branch }}
+          git push --force origin main:${{ needs.decide-branch.outputs.latest_release_branch }}
 
   create-new-release-branch:
     needs: decide-branch
@@ -89,6 +90,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Get next version suggestion
         id: version
