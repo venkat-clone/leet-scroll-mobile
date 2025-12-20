@@ -69,7 +69,7 @@ class MyApp extends StatelessWidget {
       },
       child: MaterialApp.router(
         debugShowCheckedModeBanner: false,
-        title: 'LeetScroll-T10',
+        title: 'LeetScroll-T11',
         theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(
             seedColor: Colors.green,
