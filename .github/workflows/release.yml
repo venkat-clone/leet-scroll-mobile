@@ -58,7 +58,17 @@ jobs:
           echo "branch: ${{ steps.latest.outputs.branch }}"
           echo "latest_release_branch: ${{ steps.latest.outputs.latest_release_branch }}"
 
-
+  test-log-job:
+    needs: decide-branch
+    if: needs.decide-branch.outputs.only_lib == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - name: log outputs
+        run: |
+          echo "only_lib: ${{ steps.detect.outputs.lib }}"
+          echo "forbidden: ${{ steps.detect.outputs.forbidden }}"
+          echo "branch: ${{ steps.latest.outputs.branch }}"
+          echo "latest_release_branch: ${{ steps.latest.outputs.latest_release_branch }}"
 
   push-to-existing-release:
     needs: decide-branch
