@@ -60,7 +60,6 @@ jobs:
 
   test-log-job:
     needs: decide-branch
-    if: needs.decide-branch.outputs.only_lib == 'true'
     runs-on: ubuntu-latest
     steps:
       - name: log outputs
