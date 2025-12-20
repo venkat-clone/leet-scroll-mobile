@@ -7,6 +7,12 @@ on:
       - 'release/**'  # Only pushes to existing release branches
   workflow_dispatch:
 
+
+workflow_run:
+  workflows: ["Merge to Main - Branch Decision"]   # Name of the first workflow
+  types:
+    - completed
+
 permissions:
   contents: read
 
