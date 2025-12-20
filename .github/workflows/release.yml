@@ -80,7 +80,7 @@ jobs:
 
       - name: Push to latest release branch
         run: |
-          git push origin main:${{ needs.decide-branch.outputs.latest_release_branch }}
+          git push --force-with-lease origin main:${{ needs.decide-branch.outputs.latest_release_branch }}
 
   create-new-release-branch:
     needs: decide-branch
