@@ -64,7 +64,7 @@ jobs:
     steps:
       - name: log outputs
         run: |
-          echo "only_lib: ${{ steps.set.outputs.only_lib }}"
+          echo "only_lib: ${{ needs.decide-branch.outputs.only_lib }}"
           echo "only_lib: ${{ steps.detect.outputs.only_lib }}"
           echo "forbidden: ${{ steps.detect.outputs.forbidden }}"
           echo "branch: ${{ steps.latest.outputs.branch }}"
@@ -72,7 +72,7 @@ jobs:
 
   push-to-existing-release:
     needs: decide-branch
-    if: steps.set.outputs.only_lib == 'true' && steps.latest.outputs.branch != ''
+    if: needs.decide-branch.outputs.only_lib == 'true' && needs.decide-branch.outputs.latest_release_branch != ''
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -80,11 +80,11 @@ jobs:
 
       - name: Push to latest release branch
         run: |
-          git push origin main:${{ steps.latest.outputs.branch }}
+          git push origin main:${{ needs.decide-branch.outputs.latest_release_branch }}
 
   create-new-release-branch:
     needs: decide-branch
-    if: steps.set.outputs.only_lib == 'false'
+    if: needs.decide-branch.outputs.only_lib == 'false'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
