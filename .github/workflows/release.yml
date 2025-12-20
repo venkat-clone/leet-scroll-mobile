@@ -93,6 +93,9 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Setup Dart SDK
+        uses: dart-lang/setup-dart@v1
+
       - name: Get next version suggestion
         id: version
         run: |
