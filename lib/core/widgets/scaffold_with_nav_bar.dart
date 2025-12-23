@@ -26,26 +26,34 @@ class ShellScreen extends StatelessWidget {
             tabsRouter.setActiveIndex(index);
           },
           backgroundColor: Colors.black,
-          selectedItemColor: Colors.white,
+          selectedItemColor: Theme.of(context).colorScheme.primary,
           unselectedItemColor: Colors.grey,
           showSelectedLabels: false,
           showUnselectedLabels: false,
           type: BottomNavigationBarType.fixed,
-
+          selectedIconTheme: IconThemeData(
+            shadows: [
+              Shadow(
+                color: Theme.of(context).colorScheme.primary,
+                blurRadius: 3,
+                offset: const Offset(0, 0),
+              ),
+            ],
+          ),
           items: const [
             BottomNavigationBarItem(
               icon: Icon(Icons.home_outlined),
-              activeIcon: Icon(Icons.home),
+              activeIcon: Icon(Icons.home_rounded),
               label: 'Home',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.leaderboard_outlined),
-              activeIcon: Icon(Icons.leaderboard),
+              icon: Icon(Icons.leaderboard_rounded),
+              activeIcon: Icon(Icons.leaderboard_rounded),
               label: 'Leaderboard',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.person_outline),
-              activeIcon: Icon(Icons.person),
+              icon: Icon(Icons.person_rounded),
+              activeIcon: Icon(Icons.person_rounded),
               label: 'Profile',
             ),
           ],

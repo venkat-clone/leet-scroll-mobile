@@ -30,6 +30,13 @@ mixin _$Question {
   String get difficulty => throw _privateConstructorUsedError;
   String get category => throw _privateConstructorUsedError;
   List<String> get tags => throw _privateConstructorUsedError;
+  int? get viewsCount => throw _privateConstructorUsedError;
+  int? get likesCount => throw _privateConstructorUsedError;
+  int? get commentsCount => throw _privateConstructorUsedError;
+  int? get matchingTagsCount => throw _privateConstructorUsedError;
+  int? get priority => throw _privateConstructorUsedError;
+  int? get userRanking => throw _privateConstructorUsedError;
+  int? get interestedTagsCount => throw _privateConstructorUsedError;
   String? get codeSnippet => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -53,6 +60,13 @@ abstract class $QuestionCopyWith<$Res> {
     String difficulty,
     String category,
     List<String> tags,
+    int? viewsCount,
+    int? likesCount,
+    int? commentsCount,
+    int? matchingTagsCount,
+    int? priority,
+    int? userRanking,
+    int? interestedTagsCount,
     String? codeSnippet,
   });
 }
@@ -79,6 +93,13 @@ class _$QuestionCopyWithImpl<$Res, $Val extends Question>
     Object? difficulty = null,
     Object? category = null,
     Object? tags = null,
+    Object? viewsCount = freezed,
+    Object? likesCount = freezed,
+    Object? commentsCount = freezed,
+    Object? matchingTagsCount = freezed,
+    Object? priority = freezed,
+    Object? userRanking = freezed,
+    Object? interestedTagsCount = freezed,
     Object? codeSnippet = freezed,
   }) {
     return _then(
@@ -119,6 +140,34 @@ class _$QuestionCopyWithImpl<$Res, $Val extends Question>
                 ? _value.tags
                 : tags // ignore: cast_nullable_to_non_nullable
                       as List<String>,
+            viewsCount: freezed == viewsCount
+                ? _value.viewsCount
+                : viewsCount // ignore: cast_nullable_to_non_nullable
+                      as int?,
+            likesCount: freezed == likesCount
+                ? _value.likesCount
+                : likesCount // ignore: cast_nullable_to_non_nullable
+                      as int?,
+            commentsCount: freezed == commentsCount
+                ? _value.commentsCount
+                : commentsCount // ignore: cast_nullable_to_non_nullable
+                      as int?,
+            matchingTagsCount: freezed == matchingTagsCount
+                ? _value.matchingTagsCount
+                : matchingTagsCount // ignore: cast_nullable_to_non_nullable
+                      as int?,
+            priority: freezed == priority
+                ? _value.priority
+                : priority // ignore: cast_nullable_to_non_nullable
+                      as int?,
+            userRanking: freezed == userRanking
+                ? _value.userRanking
+                : userRanking // ignore: cast_nullable_to_non_nullable
+                      as int?,
+            interestedTagsCount: freezed == interestedTagsCount
+                ? _value.interestedTagsCount
+                : interestedTagsCount // ignore: cast_nullable_to_non_nullable
+                      as int?,
             codeSnippet: freezed == codeSnippet
                 ? _value.codeSnippet
                 : codeSnippet // ignore: cast_nullable_to_non_nullable
@@ -148,6 +197,13 @@ abstract class _$$QuestionImplCopyWith<$Res>
     String difficulty,
     String category,
     List<String> tags,
+    int? viewsCount,
+    int? likesCount,
+    int? commentsCount,
+    int? matchingTagsCount,
+    int? priority,
+    int? userRanking,
+    int? interestedTagsCount,
     String? codeSnippet,
   });
 }
@@ -173,6 +229,13 @@ class __$$QuestionImplCopyWithImpl<$Res>
     Object? difficulty = null,
     Object? category = null,
     Object? tags = null,
+    Object? viewsCount = freezed,
+    Object? likesCount = freezed,
+    Object? commentsCount = freezed,
+    Object? matchingTagsCount = freezed,
+    Object? priority = freezed,
+    Object? userRanking = freezed,
+    Object? interestedTagsCount = freezed,
     Object? codeSnippet = freezed,
   }) {
     return _then(
@@ -213,6 +276,34 @@ class __$$QuestionImplCopyWithImpl<$Res>
             ? _value._tags
             : tags // ignore: cast_nullable_to_non_nullable
                   as List<String>,
+        viewsCount: freezed == viewsCount
+            ? _value.viewsCount
+            : viewsCount // ignore: cast_nullable_to_non_nullable
+                  as int?,
+        likesCount: freezed == likesCount
+            ? _value.likesCount
+            : likesCount // ignore: cast_nullable_to_non_nullable
+                  as int?,
+        commentsCount: freezed == commentsCount
+            ? _value.commentsCount
+            : commentsCount // ignore: cast_nullable_to_non_nullable
+                  as int?,
+        matchingTagsCount: freezed == matchingTagsCount
+            ? _value.matchingTagsCount
+            : matchingTagsCount // ignore: cast_nullable_to_non_nullable
+                  as int?,
+        priority: freezed == priority
+            ? _value.priority
+            : priority // ignore: cast_nullable_to_non_nullable
+                  as int?,
+        userRanking: freezed == userRanking
+            ? _value.userRanking
+            : userRanking // ignore: cast_nullable_to_non_nullable
+                  as int?,
+        interestedTagsCount: freezed == interestedTagsCount
+            ? _value.interestedTagsCount
+            : interestedTagsCount // ignore: cast_nullable_to_non_nullable
+                  as int?,
         codeSnippet: freezed == codeSnippet
             ? _value.codeSnippet
             : codeSnippet // ignore: cast_nullable_to_non_nullable
@@ -235,6 +326,13 @@ class _$QuestionImpl implements _Question {
     required this.difficulty,
     required this.category,
     required final List<String> tags,
+    this.viewsCount,
+    this.likesCount,
+    this.commentsCount,
+    this.matchingTagsCount,
+    this.priority,
+    this.userRanking,
+    this.interestedTagsCount,
     this.codeSnippet,
   }) : _options = options,
        _tags = tags;
@@ -273,11 +371,25 @@ class _$QuestionImpl implements _Question {
   }
 
   @override
+  final int? viewsCount;
+  @override
+  final int? likesCount;
+  @override
+  final int? commentsCount;
+  @override
+  final int? matchingTagsCount;
+  @override
+  final int? priority;
+  @override
+  final int? userRanking;
+  @override
+  final int? interestedTagsCount;
+  @override
   final String? codeSnippet;
 
   @override
   String toString() {
-    return 'Question(id: $id, title: $title, description: $description, options: $options, correctOption: $correctOption, explanation: $explanation, difficulty: $difficulty, category: $category, tags: $tags, codeSnippet: $codeSnippet)';
+    return 'Question(id: $id, title: $title, description: $description, options: $options, correctOption: $correctOption, explanation: $explanation, difficulty: $difficulty, category: $category, tags: $tags, viewsCount: $viewsCount, likesCount: $likesCount, commentsCount: $commentsCount, matchingTagsCount: $matchingTagsCount, priority: $priority, userRanking: $userRanking, interestedTagsCount: $interestedTagsCount, codeSnippet: $codeSnippet)';
   }
 
   @override
@@ -299,6 +411,20 @@ class _$QuestionImpl implements _Question {
             (identical(other.category, category) ||
                 other.category == category) &&
             const DeepCollectionEquality().equals(other._tags, _tags) &&
+            (identical(other.viewsCount, viewsCount) ||
+                other.viewsCount == viewsCount) &&
+            (identical(other.likesCount, likesCount) ||
+                other.likesCount == likesCount) &&
+            (identical(other.commentsCount, commentsCount) ||
+                other.commentsCount == commentsCount) &&
+            (identical(other.matchingTagsCount, matchingTagsCount) ||
+                other.matchingTagsCount == matchingTagsCount) &&
+            (identical(other.priority, priority) ||
+                other.priority == priority) &&
+            (identical(other.userRanking, userRanking) ||
+                other.userRanking == userRanking) &&
+            (identical(other.interestedTagsCount, interestedTagsCount) ||
+                other.interestedTagsCount == interestedTagsCount) &&
             (identical(other.codeSnippet, codeSnippet) ||
                 other.codeSnippet == codeSnippet));
   }
@@ -316,6 +442,13 @@ class _$QuestionImpl implements _Question {
     difficulty,
     category,
     const DeepCollectionEquality().hash(_tags),
+    viewsCount,
+    likesCount,
+    commentsCount,
+    matchingTagsCount,
+    priority,
+    userRanking,
+    interestedTagsCount,
     codeSnippet,
   );
 
@@ -342,6 +475,13 @@ abstract class _Question implements Question {
     required final String difficulty,
     required final String category,
     required final List<String> tags,
+    final int? viewsCount,
+    final int? likesCount,
+    final int? commentsCount,
+    final int? matchingTagsCount,
+    final int? priority,
+    final int? userRanking,
+    final int? interestedTagsCount,
     final String? codeSnippet,
   }) = _$QuestionImpl;
 
@@ -366,6 +506,20 @@ abstract class _Question implements Question {
   String get category;
   @override
   List<String> get tags;
+  @override
+  int? get viewsCount;
+  @override
+  int? get likesCount;
+  @override
+  int? get commentsCount;
+  @override
+  int? get matchingTagsCount;
+  @override
+  int? get priority;
+  @override
+  int? get userRanking;
+  @override
+  int? get interestedTagsCount;
   @override
   String? get codeSnippet;
   @override

@@ -75,6 +75,7 @@ class MyApp extends StatelessWidget {
             seedColor: Color(0xff00c950),
             brightness: Brightness.dark,
             primary: Color(0xff00c950),
+            shadow: Color(0xff00c950),
             surface: const Color(0xFF0A0A0A),
           ),
           scaffoldBackgroundColor: const Color(0xFF0A0A0A),
