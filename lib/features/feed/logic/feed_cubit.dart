@@ -11,7 +11,11 @@ class FeedCubit extends Cubit<FeedState> {
   FeedCubit(this._repository) : super(const FeedState.initial());
 
   Future<void> loadQuestions() async {
-    emit(const FeedState.loading());
+    state.whenOrNull(
+      initial: () {
+        emit(const FeedState.loading());
+      },
+    );
     try {
       final questions = await _repository.getQuestions();
       emit(FeedState.loaded(questions));

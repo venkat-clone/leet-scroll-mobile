@@ -36,7 +36,7 @@ class _QuestionFeedState extends State<QuestionFeedScreen> {
               itemCount: questions.length,
               onPageChanged: (i) {
                 // next page index
-                if (i > questions.length - 3) {
+                if (i > questions.length - 5) {
                   context.read<FeedCubit>().loadQuestions();
                 }
               },
