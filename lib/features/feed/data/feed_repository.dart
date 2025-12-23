@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:injectable/injectable.dart';
 import 'question_model.dart';
 
@@ -15,6 +16,8 @@ abstract class IFeedRepository {
   Future<Map<String, dynamic>> toggleBookmark(String questionId);
   Future<Map<String, dynamic>> getBookmarkStatus(String questionId);
   Future<void> reportQuestion(String questionId, String reason);
+
+  Future<Map<String, dynamic>> submitQuestionViewed(String questionId);
 }
 
 @LazySingleton(as: IFeedRepository)
@@ -27,7 +30,7 @@ class FeedRepository implements IFeedRepository {
   Future<List<Question>> getQuestions({int page = 1, int limit = 10}) async {
     try {
       final response = await _dio.get(
-        '/questions',
+        '/feed',
         queryParameters: {'page': page, 'limit': limit},
       );
 
@@ -38,10 +41,12 @@ class FeedRepository implements IFeedRepository {
       } else {
         throw Exception('Failed to load questions');
       }
-    } on DioException catch (e) {
-      throw Exception(e.response?.data['error'] ?? e.message);
+    } on DioException catch (e, s) {
+      debugPrintStack(stackTrace: s);
+      debugPrint(e.response?.data['error'] ?? e.message);
+      rethrow;
     } catch (e) {
-      throw Exception(e.toString());
+      rethrow;
     }
   }
 
@@ -175,5 +180,11 @@ class FeedRepository implements IFeedRepository {
     } catch (e) {
       throw Exception(e.toString());
     }
+  }
+
+  @override
+  Future<Map<String, dynamic>> submitQuestionViewed(String questionId) async {
+    final response = await _dio.get('/questions/$questionId/info');
+    return response.data;
   }
 }

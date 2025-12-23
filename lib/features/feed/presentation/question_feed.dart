@@ -26,10 +26,20 @@ class _QuestionFeedState extends State<QuestionFeedScreen> {
           initial: () => const Center(child: CircularProgressIndicator()),
           loading: () => const Center(child: CircularProgressIndicator()),
           loaded: (questions) {
+            if (questions.isEmpty) {
+              return Center(child: Text("Failed to Load Questions"));
+            }
+
             return PageView.builder(
               controller: _pageController,
               scrollDirection: Axis.vertical,
               itemCount: questions.length,
+              onPageChanged: (i) {
+                // next page index
+                if (i > questions.length - 5) {
+                  context.read<FeedCubit>().loadQuestions();
+                }
+              },
               itemBuilder: (context, index) {
                 return BlocProvider(
                   create: (context) => getIt<QuestionCubit>(),

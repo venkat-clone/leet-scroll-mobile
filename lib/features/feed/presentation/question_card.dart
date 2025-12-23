@@ -14,6 +14,7 @@ import '../logic/question_cubit.dart';
 import '../logic/question_state.dart';
 import 'package:share_plus/share_plus.dart';
 import 'widgets/comments_sheet.dart';
+import 'package:flutter/services.dart';
 
 class QuestionCard extends StatefulWidget {
   final Question question;
@@ -40,8 +41,9 @@ class _QuestionCardState extends State<QuestionCard> {
   }
 
   void _loadLikeStatus() {
-    context.read<QuestionCubit>().loadLikeStatus(widget.question.id);
-    context.read<QuestionCubit>().loadBookmarkStatus(widget.question.id);
+    // context.read<QuestionCubit>().loadLikeStatus(widget.question.id);
+    // context.read<QuestionCubit>().loadBookmarkStatus(widget.question.id);
+    context.read<QuestionCubit>().submitQuestionViewed(widget.question.id);
   }
 
   void _showComments() {
@@ -66,6 +68,13 @@ class _QuestionCardState extends State<QuestionCard> {
       _isSubmitted = true;
     });
 
+    if (index == widget.question.correctOption) {
+      //   vibrate
+      HapticFeedback.heavyImpact();
+    } else {
+      HapticFeedback.lightImpact();
+    }
+
     try {
       await context.read<QuestionCubit>().submitAnswer(
         widget.question.id,
@@ -86,128 +95,111 @@ class _QuestionCardState extends State<QuestionCard> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: AppTheme.vsCodeBackground,
-      child: SafeArea(
-        child: Column(
-          children: [
-            // Fixed Header
-            _QuestionHeader(question: widget.question),
-            _QuestionTitle(title: widget.question.title),
-            const SizedBox(height: AppTheme.spacingMedium),
+    return SafeArea(
+      child: Column(
+        children: [
+          // Fixed Header
+          _QuestionHeader(question: widget.question),
+          _QuestionTitle(title: widget.question.title),
+          const SizedBox(height: AppTheme.spacingMedium),
 
-            // Scrollable Content Area (Code + Description)
-            Expanded(
-              flex: 5,
-              child: Container(
-                decoration: BoxDecoration(
-                  border: Border(
-                    bottom: BorderSide(
-                      color: AppTheme.vsCodeBorder.withValues(alpha: 0.3),
-                      width: 1,
-                    ),
+          // Scrollable Content Area (Code + Description)
+          Expanded(
+            flex: 5,
+            child: Stack(
+              children: [
+                SingleChildScrollView(
+                  physics: const BouncingScrollPhysics(),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      if (widget.question.codeSnippet != null &&
+                          widget.question.codeSnippet!.isNotEmpty)
+                        _CodeSnippetSection(
+                          codeSnippet: widget.question.codeSnippet!,
+                        ),
+                      _QuestionDescription(
+                        description: widget.question.description,
+                      ),
+                      if (_isSubmitted)
+                        _ExplanationSection(
+                          explanation: widget.question.explanation,
+                        ),
+                      const SizedBox(height: AppTheme.spacingMedium),
+                    ],
                   ),
                 ),
-                child: Stack(
-                  children: [
-                    SingleChildScrollView(
-                      physics: const BouncingScrollPhysics(),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          if (widget.question.codeSnippet != null &&
-                              widget.question.codeSnippet!.isNotEmpty)
-                            _CodeSnippetSection(
-                              codeSnippet: widget.question.codeSnippet!,
-                            ),
-                          _QuestionDescription(
-                            description: widget.question.description,
-                          ),
-                          if (_isSubmitted)
-                            _ExplanationSection(
-                              explanation: widget.question.explanation,
-                            ),
-                          const SizedBox(height: AppTheme.spacingMedium),
-                        ],
+                // Scroll indicator at bottom
+                Positioned(
+                  bottom: 0,
+                  left: 0,
+                  right: 0,
+                  child: IgnorePointer(
+                    child: Container(
+                      height: 30,
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                          colors: [
+                            Colors.transparent,
+                            Theme.of(context).colorScheme.primary.withAlpha(10),
+                          ],
+                        ),
                       ),
-                    ),
-                    // Scroll indicator at bottom
-                    Positioned(
-                      bottom: 0,
-                      left: 0,
-                      right: 0,
-                      child: IgnorePointer(
-                        child: Container(
-                          height: 30,
-                          decoration: BoxDecoration(
-                            gradient: LinearGradient(
-                              begin: Alignment.topCenter,
-                              end: Alignment.bottomCenter,
-                              colors: [
-                                Colors.transparent,
-                                AppTheme.vsCodeBackground.withValues(
-                                  alpha: 0.3,
-                                ),
-                              ],
-                            ),
-                          ),
-                          child: Center(
-                            child: Icon(
-                              Icons.keyboard_arrow_down,
-                              color: AppTheme.draculaComment.withValues(
-                                alpha: 0.5,
-                              ),
-                              size: 20,
-                            ),
-                          ),
+                      child: Center(
+                        child: Icon(
+                          Icons.keyboard_arrow_down,
+                          color: AppTheme.draculaComment.withValues(alpha: 0.5),
+                          size: 20,
                         ),
                       ),
                     ),
-                  ],
-                ),
-              ),
-            ),
-
-            const SizedBox(height: AppTheme.spacingSmall),
-
-            // Like and Comment Actions (Instagram style - above options)
-            _ActionButtons(
-              questionId: widget.question.id,
-              onCommentTap: _showComments,
-            ),
-
-            const SizedBox(height: AppTheme.spacingSmall),
-
-            // Fixed Options Area - All visible without scrolling
-            Expanded(
-              flex: 4,
-              child: Container(
-                decoration: BoxDecoration(
-                  border: Border(
-                    top: BorderSide(
-                      color: AppTheme.vsCodeBorder.withValues(alpha: 0.3),
-                      width: 1,
-                    ),
                   ),
                 ),
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                    vertical: AppTheme.spacingSmall,
-                  ),
-                  child: _OptionsList(
-                    options: widget.question.options,
-                    correctOption: widget.question.correctOption,
-                    selectedOption: _selectedOption,
-                    isSubmitted: _isSubmitted,
-                    onOptionTap: _submitAnswer,
+              ],
+            ),
+          ),
+
+          const SizedBox(height: AppTheme.spacingSmall),
+
+          // Like and Comment Actions (Instagram style - above options)
+          _ActionButtons(
+            questionId: widget.question.id,
+            onCommentTap: _showComments,
+          ),
+
+          const SizedBox(height: AppTheme.spacingSmall),
+
+          // Fixed Options Area - All visible without scrolling
+          Expanded(
+            flex: 4,
+            child: Container(
+              decoration: BoxDecoration(
+                border: Border(
+                  top: BorderSide(
+                    color: AppTheme.vsCodeBorder.withValues(alpha: 0.3),
+                    width: 1,
                   ),
                 ),
               ),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                  vertical: AppTheme.spacingSmall,
+                ),
+                child: _OptionsList(
+                  options: widget.question.options,
+                  correctOption: widget.question.correctOption,
+                  selectedOption: _selectedOption,
+                  isSubmitted: _isSubmitted,
+                  onOptionTap: _submitAnswer,
+                ),
+              ),
             ),
+          ),
 
-            const SizedBox(height: AppTheme.spacingSmall),
-          ],
-        ),
+          const SizedBox(height: AppTheme.spacingSmall),
+        ],
       ),
     );
   }
@@ -224,15 +216,47 @@ class _QuestionHeader extends StatelessWidget {
     return Padding(
       padding: AppTheme.cardPadding,
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Chip(
-            label: Text(question.difficulty, style: AppTheme.chipTextStyle),
-            backgroundColor: AppTheme.getDifficultyColor(question.difficulty),
-            padding: EdgeInsets.zero,
-            materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+          Container(
+            decoration: BoxDecoration(
+              color: AppTheme.getDifficultyColor(
+                question.difficulty,
+              ).withAlpha(40),
+              borderRadius: BorderRadius.circular(6),
+              border: Border.all(
+                color: AppTheme.getDifficultyColor(question.difficulty),
+              ),
+              boxShadow: [
+                BoxShadow(
+                  color: AppTheme.getDifficultyColor(question.difficulty),
+                  blurRadius: 3,
+                ),
+                BoxShadow(color: Colors.black),
+              ],
+            ),
+            padding: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+            child: Text(
+              question.difficulty,
+              style: AppTheme.chipTextStyle.copyWith(
+                color: AppTheme.getDifficultyColor(question.difficulty),
+                fontWeight: FontWeight.bold,
+                fontSize: 10,
+              ),
+            ),
           ),
-          Text(question.category, style: AppTheme.labelStyle),
+
+          SizedBox(width: 8),
+          Icon(Icons.circle, size: 12, color: Colors.grey[800]),
+          SizedBox(width: 8),
+          Text(
+            question.category,
+            style: AppTheme.labelStyle.copyWith(
+              color: Colors.grey[500],
+              fontWeight: FontWeight.bold,
+              fontSize: 12,
+            ),
+          ),
+          Spacer(),
         ],
       ),
     );
@@ -253,7 +277,7 @@ class _QuestionTitleState extends State<_QuestionTitle> {
   double _fontSize = 20.0;
   static const double _defaultFontSize = 20.0;
   static const double _reducedFontSize = 16.0;
-  static const int _maxLinesBeforeReduction = 3;
+  static const int _maxLinesBeforeReduction = 2;
 
   @override
   void initState() {
@@ -467,7 +491,7 @@ class _AnswerOption extends StatelessWidget {
     final isCorrect = selectedOption == correctOption;
 
     Color borderColor = AppTheme.vsCodeBorder;
-    Color backgroundColor = AppTheme.vsCodeSidebarBg;
+    Color backgroundColor = Color(0xff18181b);
 
     if (isSubmitted) {
       if (isSelected) {
@@ -587,7 +611,7 @@ class _ActionButtons extends StatelessWidget {
             children: [
               // Left side - Primary actions (Instagram style - icon only)
               _ActionButton(
-                icon: Icons.favorite_border,
+                icon: Icons.favorite,
                 label: '${state.likesCount}',
                 activeIcon: Icons.favorite,
                 activeColor: AppTheme.errorColor,
@@ -600,14 +624,15 @@ class _ActionButtons extends StatelessWidget {
               ),
               const SizedBox(width: 16),
               _ActionButton(
-                icon: Icons.comment_outlined,
+                icon: Icons.mode_comment,
                 label: '',
                 showLabel: false,
                 onTap: onCommentTap,
               ),
               const SizedBox(width: 16),
+              const Spacer(),
               _ActionButton(
-                icon: Icons.share_outlined,
+                icon: Icons.share,
                 label: '',
                 showLabel: false,
                 onTap: () {
@@ -615,44 +640,44 @@ class _ActionButtons extends StatelessWidget {
                 },
               ),
 
-              const Spacer(),
+              // const Spacer(),
 
               // Right side - Bookmark (Instagram style)
-              _ActionButton(
-                icon: Icons.bookmark_border,
-                label: '',
-                activeIcon: Icons.bookmark,
-                activeColor: AppTheme.draculaYellow,
-                isActive: state.isBookmarked,
-                showLabel: false,
-                onTap: questionId != null
-                    ? () => context.read<QuestionCubit>().toggleBookmark(
-                        questionId!,
-                      )
-                    : null,
-              ),
-              const SizedBox(width: 12),
-              _ActionButton(
-                icon: Icons.flag_outlined,
-                label: '',
-                activeIcon: Icons.flag,
-                activeColor: AppTheme.errorColor,
-                isActive: state.isReported,
-                showLabel: false,
-                onTap: questionId != null && !state.isReported
-                    ? () {
-                        context.read<QuestionCubit>().reportQuestion(
-                          questionId!,
-                        );
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text('Question reported. Thank you!'),
-                            duration: Duration(seconds: 2),
-                          ),
-                        );
-                      }
-                    : null,
-              ),
+              // _ActionButton(
+              //   icon: Icons.bookmark,
+              //   label: '',
+              //   activeIcon: Icons.bookmark,
+              //   activeColor: AppTheme.draculaYellow,
+              //   isActive: state.isBookmarked,
+              //   showLabel: false,
+              //   onTap: questionId != null
+              //       ? () => context.read<QuestionCubit>().toggleBookmark(
+              //           questionId!,
+              //         )
+              //       : null,
+              // ),
+              // const SizedBox(width: 12),
+              // _ActionButton(
+              //   icon: Icons.flag,
+              //   label: '',
+              //   activeIcon: Icons.flag,
+              //   activeColor: AppTheme.errorColor,
+              //   isActive: state.isReported,
+              //   showLabel: false,
+              //   onTap: questionId != null && !state.isReported
+              //       ? () {
+              //           context.read<QuestionCubit>().reportQuestion(
+              //             questionId!,
+              //           );
+              //           ScaffoldMessenger.of(context).showSnackBar(
+              //             const SnackBar(
+              //               content: Text('Question reported. Thank you!'),
+              //               duration: Duration(seconds: 2),
+              //             ),
+              //           );
+              //         }
+              //       : null,
+              // ),
             ],
           ),
         );
@@ -692,16 +717,16 @@ class _ActionButton extends StatelessWidget {
             isActive && activeIcon != null ? activeIcon : icon,
             color: isActive && activeColor != null
                 ? activeColor
-                : AppTheme.draculaComment,
-            size: 24,
+                : Color(0xff949ba6),
+            size: 20,
           ),
           if (showLabel && label.isNotEmpty) ...[
             const SizedBox(width: 4),
             Text(
               label,
               style: GoogleFonts.firaCode(
-                color: AppTheme.draculaComment,
-                fontSize: 12,
+                color: Color(0xff949ba6),
+                fontSize: 11,
                 fontWeight: FontWeight.bold,
               ),
             ),
