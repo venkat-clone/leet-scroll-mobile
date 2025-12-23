@@ -69,11 +69,13 @@ class MyApp extends StatelessWidget {
       },
       child: MaterialApp.router(
         debugShowCheckedModeBanner: false,
-        title: 'LeetScroll-T17',
+        title: 'LeetScroll',
         theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(
-            seedColor: Colors.green,
+            seedColor: Color(0xff00c950),
             brightness: Brightness.dark,
+            primary: Color(0xff00c950),
+            shadow: Color(0xff00c950),
             surface: const Color(0xFF0A0A0A),
           ),
           scaffoldBackgroundColor: const Color(0xFF0A0A0A),
@@ -81,7 +83,7 @@ class MyApp extends StatelessWidget {
           textTheme: (Theme.of(context).textTheme).apply(
             bodyColor: const Color(0xFFEDEDED),
             displayColor: const Color(0xFFEDEDED),
-            fontFamily: GoogleFonts.jetBrainsMono().fontFamily,
+            fontFamily: GoogleFonts.spaceGrotesk().fontFamily,
           ),
         ),
         routerConfig: appRouter.config(navigatorObservers: () => [_observer]),
