@@ -35,7 +35,9 @@ abstract class NetworkModule {
     });
 
     dio.interceptors.add(RetryInterceptor(dio: dio));
-    dio.interceptors.add(LogInterceptor());
+    dio.interceptors.add(
+      LogInterceptor(requestHeader: false, responseHeader: false),
+    );
 
     return dio;
   }

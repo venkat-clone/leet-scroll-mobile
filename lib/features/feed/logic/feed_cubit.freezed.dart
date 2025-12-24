@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'feed_state.dart';
+part of 'feed_cubit.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -15,27 +15,55 @@ final _privateConstructorUsedError = UnsupportedError(
   'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
 );
 
+FeedState _$FeedStateFromJson(Map<String, dynamic> json) {
+  switch (json['runtimeType']) {
+    case 'initial':
+      return _Initial.fromJson(json);
+    case 'loading':
+      return _Loading.fromJson(json);
+    case 'loaded':
+      return _Loaded.fromJson(json);
+    case 'error':
+      return _Error.fromJson(json);
+
+    default:
+      throw CheckedFromJsonException(
+        json,
+        'runtimeType',
+        'FeedState',
+        'Invalid union type "${json['runtimeType']}"!',
+      );
+  }
+}
+
 /// @nodoc
 mixin _$FeedState {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(List<Question> questions) loaded,
+    required TResult Function(
+      List<Question> questions,
+      String? error,
+      bool? loading,
+    )
+    loaded,
     required TResult Function(String message) error,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(List<Question> questions)? loaded,
+    TResult? Function(List<Question> questions, String? error, bool? loading)?
+    loaded,
     TResult? Function(String message)? error,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(List<Question> questions)? loaded,
+    TResult Function(List<Question> questions, String? error, bool? loading)?
+    loaded,
     TResult Function(String message)? error,
     required TResult orElse(),
   }) => throw _privateConstructorUsedError;
@@ -61,6 +89,7 @@ mixin _$FeedState {
     TResult Function(_Error value)? error,
     required TResult orElse(),
   }) => throw _privateConstructorUsedError;
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -99,13 +128,25 @@ class __$$InitialImplCopyWithImpl<$Res>
 }
 
 /// @nodoc
+@JsonSerializable()
+class _$InitialImpl with DiagnosticableTreeMixin implements _Initial {
+  const _$InitialImpl({final String? $type}) : $type = $type ?? 'initial';
 
-class _$InitialImpl implements _Initial {
-  const _$InitialImpl();
+  factory _$InitialImpl.fromJson(Map<String, dynamic> json) =>
+      _$$InitialImplFromJson(json);
+
+  @JsonKey(name: 'runtimeType')
+  final String $type;
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'FeedState.initial()';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties.add(DiagnosticsProperty('type', 'FeedState.initial'));
   }
 
   @override
@@ -114,6 +155,7 @@ class _$InitialImpl implements _Initial {
         (other.runtimeType == runtimeType && other is _$InitialImpl);
   }
 
+  @JsonKey(ignore: true)
   @override
   int get hashCode => runtimeType.hashCode;
 
@@ -122,7 +164,12 @@ class _$InitialImpl implements _Initial {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(List<Question> questions) loaded,
+    required TResult Function(
+      List<Question> questions,
+      String? error,
+      bool? loading,
+    )
+    loaded,
     required TResult Function(String message) error,
   }) {
     return initial();
@@ -133,7 +180,8 @@ class _$InitialImpl implements _Initial {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(List<Question> questions)? loaded,
+    TResult? Function(List<Question> questions, String? error, bool? loading)?
+    loaded,
     TResult? Function(String message)? error,
   }) {
     return initial?.call();
@@ -144,7 +192,8 @@ class _$InitialImpl implements _Initial {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(List<Question> questions)? loaded,
+    TResult Function(List<Question> questions, String? error, bool? loading)?
+    loaded,
     TResult Function(String message)? error,
     required TResult orElse(),
   }) {
@@ -190,10 +239,17 @@ class _$InitialImpl implements _Initial {
     }
     return orElse();
   }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$InitialImplToJson(this);
+  }
 }
 
 abstract class _Initial implements FeedState {
   const factory _Initial() = _$InitialImpl;
+
+  factory _Initial.fromJson(Map<String, dynamic> json) = _$InitialImpl.fromJson;
 }
 
 /// @nodoc
@@ -215,13 +271,25 @@ class __$$LoadingImplCopyWithImpl<$Res>
 }
 
 /// @nodoc
+@JsonSerializable()
+class _$LoadingImpl with DiagnosticableTreeMixin implements _Loading {
+  const _$LoadingImpl({final String? $type}) : $type = $type ?? 'loading';
 
-class _$LoadingImpl implements _Loading {
-  const _$LoadingImpl();
+  factory _$LoadingImpl.fromJson(Map<String, dynamic> json) =>
+      _$$LoadingImplFromJson(json);
+
+  @JsonKey(name: 'runtimeType')
+  final String $type;
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'FeedState.loading()';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties.add(DiagnosticsProperty('type', 'FeedState.loading'));
   }
 
   @override
@@ -230,6 +298,7 @@ class _$LoadingImpl implements _Loading {
         (other.runtimeType == runtimeType && other is _$LoadingImpl);
   }
 
+  @JsonKey(ignore: true)
   @override
   int get hashCode => runtimeType.hashCode;
 
@@ -238,7 +307,12 @@ class _$LoadingImpl implements _Loading {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(List<Question> questions) loaded,
+    required TResult Function(
+      List<Question> questions,
+      String? error,
+      bool? loading,
+    )
+    loaded,
     required TResult Function(String message) error,
   }) {
     return loading();
@@ -249,7 +323,8 @@ class _$LoadingImpl implements _Loading {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(List<Question> questions)? loaded,
+    TResult? Function(List<Question> questions, String? error, bool? loading)?
+    loaded,
     TResult? Function(String message)? error,
   }) {
     return loading?.call();
@@ -260,7 +335,8 @@ class _$LoadingImpl implements _Loading {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(List<Question> questions)? loaded,
+    TResult Function(List<Question> questions, String? error, bool? loading)?
+    loaded,
     TResult Function(String message)? error,
     required TResult orElse(),
   }) {
@@ -306,10 +382,17 @@ class _$LoadingImpl implements _Loading {
     }
     return orElse();
   }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$LoadingImplToJson(this);
+  }
 }
 
 abstract class _Loading implements FeedState {
   const factory _Loading() = _$LoadingImpl;
+
+  factory _Loading.fromJson(Map<String, dynamic> json) = _$LoadingImpl.fromJson;
 }
 
 /// @nodoc
@@ -319,7 +402,7 @@ abstract class _$$LoadedImplCopyWith<$Res> {
     $Res Function(_$LoadedImpl) then,
   ) = __$$LoadedImplCopyWithImpl<$Res>;
   @useResult
-  $Res call({List<Question> questions});
+  $Res call({List<Question> questions, String? error, bool? loading});
 }
 
 /// @nodoc
@@ -333,22 +416,43 @@ class __$$LoadedImplCopyWithImpl<$Res>
 
   @pragma('vm:prefer-inline')
   @override
-  $Res call({Object? questions = null}) {
+  $Res call({
+    Object? questions = null,
+    Object? error = freezed,
+    Object? loading = freezed,
+  }) {
     return _then(
       _$LoadedImpl(
         null == questions
             ? _value._questions
             : questions // ignore: cast_nullable_to_non_nullable
                   as List<Question>,
+        error: freezed == error
+            ? _value.error
+            : error // ignore: cast_nullable_to_non_nullable
+                  as String?,
+        loading: freezed == loading
+            ? _value.loading
+            : loading // ignore: cast_nullable_to_non_nullable
+                  as bool?,
       ),
     );
   }
 }
 
 /// @nodoc
+@JsonSerializable()
+class _$LoadedImpl with DiagnosticableTreeMixin implements _Loaded {
+  const _$LoadedImpl(
+    final List<Question> questions, {
+    this.error,
+    this.loading,
+    final String? $type,
+  }) : _questions = questions,
+       $type = $type ?? 'loaded';
 
-class _$LoadedImpl implements _Loaded {
-  const _$LoadedImpl(final List<Question> questions) : _questions = questions;
+  factory _$LoadedImpl.fromJson(Map<String, dynamic> json) =>
+      _$$LoadedImplFromJson(json);
 
   final List<Question> _questions;
   @override
@@ -359,8 +463,26 @@ class _$LoadedImpl implements _Loaded {
   }
 
   @override
-  String toString() {
-    return 'FeedState.loaded(questions: $questions)';
+  final String? error;
+  @override
+  final bool? loading;
+
+  @JsonKey(name: 'runtimeType')
+  final String $type;
+
+  @override
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'FeedState.loaded(questions: $questions, error: $error, loading: $loading)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'FeedState.loaded'))
+      ..add(DiagnosticsProperty('questions', questions))
+      ..add(DiagnosticsProperty('error', error))
+      ..add(DiagnosticsProperty('loading', loading));
   }
 
   @override
@@ -371,12 +493,19 @@ class _$LoadedImpl implements _Loaded {
             const DeepCollectionEquality().equals(
               other._questions,
               _questions,
-            ));
+            ) &&
+            (identical(other.error, error) || other.error == error) &&
+            (identical(other.loading, loading) || other.loading == loading));
   }
 
+  @JsonKey(ignore: true)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(_questions));
+  int get hashCode => Object.hash(
+    runtimeType,
+    const DeepCollectionEquality().hash(_questions),
+    error,
+    loading,
+  );
 
   @JsonKey(ignore: true)
   @override
@@ -389,10 +518,15 @@ class _$LoadedImpl implements _Loaded {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(List<Question> questions) loaded,
+    required TResult Function(
+      List<Question> questions,
+      String? error,
+      bool? loading,
+    )
+    loaded,
     required TResult Function(String message) error,
   }) {
-    return loaded(questions);
+    return loaded(questions, this.error, this.loading);
   }
 
   @override
@@ -400,10 +534,11 @@ class _$LoadedImpl implements _Loaded {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(List<Question> questions)? loaded,
+    TResult? Function(List<Question> questions, String? error, bool? loading)?
+    loaded,
     TResult? Function(String message)? error,
   }) {
-    return loaded?.call(questions);
+    return loaded?.call(questions, this.error, this.loading);
   }
 
   @override
@@ -411,12 +546,13 @@ class _$LoadedImpl implements _Loaded {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(List<Question> questions)? loaded,
+    TResult Function(List<Question> questions, String? error, bool? loading)?
+    loaded,
     TResult Function(String message)? error,
     required TResult orElse(),
   }) {
     if (loaded != null) {
-      return loaded(questions);
+      return loaded(questions, this.error, this.loading);
     }
     return orElse();
   }
@@ -457,12 +593,25 @@ class _$LoadedImpl implements _Loaded {
     }
     return orElse();
   }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$LoadedImplToJson(this);
+  }
 }
 
 abstract class _Loaded implements FeedState {
-  const factory _Loaded(final List<Question> questions) = _$LoadedImpl;
+  const factory _Loaded(
+    final List<Question> questions, {
+    final String? error,
+    final bool? loading,
+  }) = _$LoadedImpl;
+
+  factory _Loaded.fromJson(Map<String, dynamic> json) = _$LoadedImpl.fromJson;
 
   List<Question> get questions;
+  String? get error;
+  bool? get loading;
   @JsonKey(ignore: true)
   _$$LoadedImplCopyWith<_$LoadedImpl> get copyWith =>
       throw _privateConstructorUsedError;
@@ -502,16 +651,31 @@ class __$$ErrorImplCopyWithImpl<$Res>
 }
 
 /// @nodoc
+@JsonSerializable()
+class _$ErrorImpl with DiagnosticableTreeMixin implements _Error {
+  const _$ErrorImpl(this.message, {final String? $type})
+    : $type = $type ?? 'error';
 
-class _$ErrorImpl implements _Error {
-  const _$ErrorImpl(this.message);
+  factory _$ErrorImpl.fromJson(Map<String, dynamic> json) =>
+      _$$ErrorImplFromJson(json);
 
   @override
   final String message;
 
+  @JsonKey(name: 'runtimeType')
+  final String $type;
+
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'FeedState.error(message: $message)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'FeedState.error'))
+      ..add(DiagnosticsProperty('message', message));
   }
 
   @override
@@ -522,6 +686,7 @@ class _$ErrorImpl implements _Error {
             (identical(other.message, message) || other.message == message));
   }
 
+  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(runtimeType, message);
 
@@ -536,7 +701,12 @@ class _$ErrorImpl implements _Error {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(List<Question> questions) loaded,
+    required TResult Function(
+      List<Question> questions,
+      String? error,
+      bool? loading,
+    )
+    loaded,
     required TResult Function(String message) error,
   }) {
     return error(message);
@@ -547,7 +717,8 @@ class _$ErrorImpl implements _Error {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(List<Question> questions)? loaded,
+    TResult? Function(List<Question> questions, String? error, bool? loading)?
+    loaded,
     TResult? Function(String message)? error,
   }) {
     return error?.call(message);
@@ -558,7 +729,8 @@ class _$ErrorImpl implements _Error {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(List<Question> questions)? loaded,
+    TResult Function(List<Question> questions, String? error, bool? loading)?
+    loaded,
     TResult Function(String message)? error,
     required TResult orElse(),
   }) {
@@ -604,10 +776,17 @@ class _$ErrorImpl implements _Error {
     }
     return orElse();
   }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$ErrorImplToJson(this);
+  }
 }
 
 abstract class _Error implements FeedState {
   const factory _Error(final String message) = _$ErrorImpl;
+
+  factory _Error.fromJson(Map<String, dynamic> json) = _$ErrorImpl.fromJson;
 
   String get message;
   @JsonKey(ignore: true)

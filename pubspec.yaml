@@ -73,6 +73,7 @@ dependencies:
   firebase_crashlytics: ^5.0.5
   firebase_messaging: ^16.0.4
   flutter_local_notifications: ^17.2.1
+  hydrated_bloc: ^9.1.5
 
 dependency_overrides:
   platform: ^3.1.0
