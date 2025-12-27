@@ -13,6 +13,9 @@ _$StatsModelImpl _$$StatsModelImplFromJson(Map<String, dynamic> json) =>
       submissions: (json['submissions'] as num?)?.toInt() ?? 0,
       wrongAnswers: (json['wrongAnswers'] as num?)?.toInt() ?? 0,
       questionsAttempted: (json['questionsAttempted'] as num?)?.toInt() ?? 0,
+      rank: (json['rank'] as num?)?.toInt() ?? 0,
+      nextRankedUserPoints: (json['nextRankedUserPoints'] as num?)?.toInt(),
+      noOfUsers: (json['noOfUsers'] as num?)?.toInt() ?? 0,
     );
 
 Map<String, dynamic> _$$StatsModelImplToJson(_$StatsModelImpl instance) =>
@@ -22,4 +25,7 @@ Map<String, dynamic> _$$StatsModelImplToJson(_$StatsModelImpl instance) =>
       'submissions': instance.submissions,
       'wrongAnswers': instance.wrongAnswers,
       'questionsAttempted': instance.questionsAttempted,
+      'rank': instance.rank,
+      'nextRankedUserPoints': instance.nextRankedUserPoints,
+      'noOfUsers': instance.noOfUsers,
     };

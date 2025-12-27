@@ -14,8 +14,10 @@ class SnackBarService {
     SnackBarAction? action,
   }) {
     final messenger = _scaffoldMessengerKey.currentState;
-    if (messenger == null) return;
 
+    if (messenger == null) return;
+    if (!messenger.mounted) return;
+    if (!messenger.context.mounted) return;
     messenger
       ..hideCurrentSnackBar()
       ..showSnackBar(
@@ -41,6 +43,9 @@ class SnackBarService {
   }) {
     final messenger = _scaffoldMessengerKey.currentState;
     if (messenger == null) return;
+
+    if (!messenger.mounted) return;
+    if (!messenger.context.mounted) return;
 
     messenger
       ..hideCurrentSnackBar()
@@ -75,6 +80,8 @@ class SnackBarService {
     final messenger = _scaffoldMessengerKey.currentState;
     if (messenger == null) return;
 
+    if (!messenger.mounted) return;
+    if (!messenger.context.mounted) return;
     messenger
       ..hideCurrentSnackBar()
       ..showSnackBar(
@@ -114,6 +121,8 @@ class SnackBarService {
     final messenger = _scaffoldMessengerKey.currentState;
     if (messenger == null) return;
 
+    if (!messenger.mounted) return;
+    if (!messenger.context.mounted) return;
     messenger
       ..hideCurrentSnackBar()
       ..showSnackBar(

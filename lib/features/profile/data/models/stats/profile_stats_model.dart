@@ -12,8 +12,18 @@ class ProfileStatsModel with _$ProfileStatsModel {
     @Default(0) int submissions,
     @Default(0) int wrongAnswers,
     @Default(0) int questionsAttempted,
+    @Default(0) int rank,
+    int? nextRankedUserPoints,
+    @Default(0) int noOfUsers,
   }) = _StatsModel;
 
   factory ProfileStatsModel.fromJson(Map<String, dynamic> json) =>
       _$ProfileStatsModelFromJson(json);
+}
+
+extension ProfileStatsModelX on ProfileStatsModel {
+  int percentile() {
+    final percentile = (rank / (noOfUsers)) * 100;
+    return percentile.toInt();
+  }
 }

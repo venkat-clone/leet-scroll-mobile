@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:injectable/injectable.dart';
+import 'package:mobile/features/feed/data/streek/streek_model.dart';
 import 'package:mobile/features/profile/data/models/preferences/user_preferences_model.dart';
 import 'package:mobile/features/profile/data/models/submissions/submission_model.dart';
 import 'profile_model.dart';
@@ -15,6 +16,8 @@ abstract class IProfileRepository {
     int? page,
     String? filter,
   });
+
+  Future<StreekModel> getUserActivity();
 }
 
 @LazySingleton(as: IProfileRepository)
@@ -110,6 +113,23 @@ class ProfileRepository implements IProfileRepository {
       );
     } else {
       throw Exception("Failed to load submissions");
+    }
+  }
+
+  @override
+  Future<StreekModel> getUserActivity() async {
+    try {
+      final result = await _dio.get('/streak');
+      if (result.statusCode == 200) {
+        await Future.delayed(Duration(seconds: 5));
+        return StreekModel.fromJson(result.data);
+      } else {
+        throw Exception('Failed to load user activity');
+      }
+    } catch (e, s) {
+      debugPrint(e.toString());
+      debugPrintStack(stackTrace: s);
+      rethrow;
     }
   }
 }

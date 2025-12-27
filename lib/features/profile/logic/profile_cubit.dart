@@ -16,8 +16,10 @@ class ProfileCubit extends HydratedCubit<ProfileState> {
   ProfileCubit(this._repository) : super(const ProfileState.initial());
 
   Future<void> loadProfile() async {
-    // if(state is _Loading) return;
-    emit(const ProfileState.loading());
+    if (state is _Loading) return;
+    if (state is! _Loaded) {
+      emit(const ProfileState.loading());
+    }
 
     try {
       final profile = await _repository.getProfile();
@@ -34,6 +36,9 @@ class ProfileCubit extends HydratedCubit<ProfileState> {
 
   @override
   Map<String, dynamic>? toJson(ProfileState state) {
-    return state.toJson();
+    if (state is _Loaded) {
+      return state.toJson();
+    }
+    return null;
   }
 }

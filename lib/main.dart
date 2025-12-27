@@ -20,6 +20,7 @@ import 'features/auth/logic/auth_cubit.dart';
 
 import 'package:firebase_core/firebase_core.dart';
 
+import 'features/feed/logic/home/home_cubit.dart';
 import 'features/leaderboard/logic/leaderboard_cubit.dart';
 import 'features/profile/logic/preferences/edit_preferences_cubit.dart';
 import 'features/profile/logic/profile_cubit.dart';
@@ -52,6 +53,7 @@ void main() async {
         BlocProvider(create: (context) => getIt<LeaderboardCubit>()),
         BlocProvider(create: (context) => getIt<EditPreferencesCubit>()),
         BlocProvider(create: (context) => getIt<HistoryCubit>()),
+        BlocProvider(create: (context) => getIt<HomeCubit>()),
       ],
       child: MyApp(rootScaffoldKey: rootScaffoldKey),
     ),

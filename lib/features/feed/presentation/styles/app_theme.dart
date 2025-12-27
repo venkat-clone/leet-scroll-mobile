@@ -22,6 +22,7 @@ class AppTheme {
   ); // grey[900] with 0.5 opacity
   static const Color surfaceBlack = Color(0xFF121212);
   static const Color dividerColor = Color(0xFF1A1A1A);
+  static const Color primary = Color(0xff00c950);
 
   // Dracula Theme Colors
   static const Color draculaBackground = Color(0xFF282A36);

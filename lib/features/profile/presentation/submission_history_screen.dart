@@ -247,7 +247,7 @@ class _HistoryList extends StatelessWidget {
   List<_GroupedHistory> _groupSubmissions(List<SubmissionModel> items) {
     final Map<String, List<SubmissionModel>> map = {};
     for (var item in items) {
-      final date = DateTime.parse(item.createdAt);
+      final date = DateTime.parse(item.lastShownAt ?? item.createdAt);
       final now = DateTime.now();
       String key;
       if (date.year == now.year &&
@@ -316,7 +316,7 @@ class _HistoryCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final time = DateFormat(
       "hh:mm a",
-    ).format(DateTime.parse(submission.createdAt));
+    ).format(DateTime.parse(submission.lastShownAt ?? submission.createdAt));
 
     // Status Logic
     final bool isSkipped = submission.attempts == 0;
@@ -331,6 +331,10 @@ class _HistoryCard extends StatelessWidget {
 
     Color statusColor;
     String statusLabel = '${submission.correctAttempts}/${submission.attempts}';
+
+    if (isSkipped) {
+      statusLabel = 'Skipped ${submission.noOfSkips}x';
+    }
     Color? badgeBg;
 
     if (hasCorrect) {

@@ -31,6 +31,12 @@ mixin _$ProfileStatsModel {
   set wrongAnswers(int value) => throw _privateConstructorUsedError;
   int get questionsAttempted => throw _privateConstructorUsedError;
   set questionsAttempted(int value) => throw _privateConstructorUsedError;
+  int get rank => throw _privateConstructorUsedError;
+  set rank(int value) => throw _privateConstructorUsedError;
+  int? get nextRankedUserPoints => throw _privateConstructorUsedError;
+  set nextRankedUserPoints(int? value) => throw _privateConstructorUsedError;
+  int get noOfUsers => throw _privateConstructorUsedError;
+  set noOfUsers(int value) => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -51,6 +57,9 @@ abstract class $ProfileStatsModelCopyWith<$Res> {
     int submissions,
     int wrongAnswers,
     int questionsAttempted,
+    int rank,
+    int? nextRankedUserPoints,
+    int noOfUsers,
   });
 }
 
@@ -72,6 +81,9 @@ class _$ProfileStatsModelCopyWithImpl<$Res, $Val extends ProfileStatsModel>
     Object? submissions = null,
     Object? wrongAnswers = null,
     Object? questionsAttempted = null,
+    Object? rank = null,
+    Object? nextRankedUserPoints = freezed,
+    Object? noOfUsers = null,
   }) {
     return _then(
       _value.copyWith(
@@ -95,6 +107,18 @@ class _$ProfileStatsModelCopyWithImpl<$Res, $Val extends ProfileStatsModel>
                 ? _value.questionsAttempted
                 : questionsAttempted // ignore: cast_nullable_to_non_nullable
                       as int,
+            rank: null == rank
+                ? _value.rank
+                : rank // ignore: cast_nullable_to_non_nullable
+                      as int,
+            nextRankedUserPoints: freezed == nextRankedUserPoints
+                ? _value.nextRankedUserPoints
+                : nextRankedUserPoints // ignore: cast_nullable_to_non_nullable
+                      as int?,
+            noOfUsers: null == noOfUsers
+                ? _value.noOfUsers
+                : noOfUsers // ignore: cast_nullable_to_non_nullable
+                      as int,
           )
           as $Val,
     );
@@ -116,6 +140,9 @@ abstract class _$$StatsModelImplCopyWith<$Res>
     int submissions,
     int wrongAnswers,
     int questionsAttempted,
+    int rank,
+    int? nextRankedUserPoints,
+    int noOfUsers,
   });
 }
 
@@ -136,6 +163,9 @@ class __$$StatsModelImplCopyWithImpl<$Res>
     Object? submissions = null,
     Object? wrongAnswers = null,
     Object? questionsAttempted = null,
+    Object? rank = null,
+    Object? nextRankedUserPoints = freezed,
+    Object? noOfUsers = null,
   }) {
     return _then(
       _$StatsModelImpl(
@@ -159,6 +189,18 @@ class __$$StatsModelImplCopyWithImpl<$Res>
             ? _value.questionsAttempted
             : questionsAttempted // ignore: cast_nullable_to_non_nullable
                   as int,
+        rank: null == rank
+            ? _value.rank
+            : rank // ignore: cast_nullable_to_non_nullable
+                  as int,
+        nextRankedUserPoints: freezed == nextRankedUserPoints
+            ? _value.nextRankedUserPoints
+            : nextRankedUserPoints // ignore: cast_nullable_to_non_nullable
+                  as int?,
+        noOfUsers: null == noOfUsers
+            ? _value.noOfUsers
+            : noOfUsers // ignore: cast_nullable_to_non_nullable
+                  as int,
       ),
     );
   }
@@ -173,6 +215,9 @@ class _$StatsModelImpl implements _StatsModel {
     this.submissions = 0,
     this.wrongAnswers = 0,
     this.questionsAttempted = 0,
+    this.rank = 0,
+    this.nextRankedUserPoints,
+    this.noOfUsers = 0,
   });
 
   factory _$StatsModelImpl.fromJson(Map<String, dynamic> json) =>
@@ -193,10 +238,18 @@ class _$StatsModelImpl implements _StatsModel {
   @override
   @JsonKey()
   int questionsAttempted;
+  @override
+  @JsonKey()
+  int rank;
+  @override
+  int? nextRankedUserPoints;
+  @override
+  @JsonKey()
+  int noOfUsers;
 
   @override
   String toString() {
-    return 'ProfileStatsModel(correctAnswers: $correctAnswers, score: $score, submissions: $submissions, wrongAnswers: $wrongAnswers, questionsAttempted: $questionsAttempted)';
+    return 'ProfileStatsModel(correctAnswers: $correctAnswers, score: $score, submissions: $submissions, wrongAnswers: $wrongAnswers, questionsAttempted: $questionsAttempted, rank: $rank, nextRankedUserPoints: $nextRankedUserPoints, noOfUsers: $noOfUsers)';
   }
 
   @JsonKey(ignore: true)
@@ -218,6 +271,9 @@ abstract class _StatsModel implements ProfileStatsModel {
     int submissions,
     int wrongAnswers,
     int questionsAttempted,
+    int rank,
+    int? nextRankedUserPoints,
+    int noOfUsers,
   }) = _$StatsModelImpl;
 
   factory _StatsModel.fromJson(Map<String, dynamic> json) =
@@ -238,6 +294,15 @@ abstract class _StatsModel implements ProfileStatsModel {
   @override
   int get questionsAttempted;
   set questionsAttempted(int value);
+  @override
+  int get rank;
+  set rank(int value);
+  @override
+  int? get nextRankedUserPoints;
+  set nextRankedUserPoints(int? value);
+  @override
+  int get noOfUsers;
+  set noOfUsers(int value);
   @override
   @JsonKey(ignore: true)
   _$$StatsModelImplCopyWith<_$StatsModelImpl> get copyWith =>
