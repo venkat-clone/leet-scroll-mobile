@@ -21,6 +21,9 @@ import '../features/feed/logic/question_cubit.dart' as _i476;
 import '../features/leaderboard/data/leaderboard_repository.dart' as _i230;
 import '../features/leaderboard/logic/leaderboard_cubit.dart' as _i783;
 import '../features/profile/data/profile_repository.dart' as _i470;
+import '../features/profile/logic/history/history_cubit.dart' as _i433;
+import '../features/profile/logic/preferences/edit_preferences_cubit.dart'
+    as _i544;
 import '../features/profile/logic/profile_cubit.dart' as _i384;
 import 'module/network_module.dart' as _i881;
 import 'module/notification_module.dart' as _i331;
@@ -62,6 +65,12 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i416.FeedCubit>(
       () => _i416.FeedCubit(gh<_i323.IFeedRepository>()),
+    );
+    gh.factory<_i544.EditPreferencesCubit>(
+      () => _i544.EditPreferencesCubit(gh<_i470.IProfileRepository>()),
+    );
+    gh.factory<_i433.HistoryCubit>(
+      () => _i433.HistoryCubit(gh<_i470.IProfileRepository>()),
     );
     gh.factory<_i384.ProfileCubit>(
       () => _i384.ProfileCubit(gh<_i470.IProfileRepository>()),

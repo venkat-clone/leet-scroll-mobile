@@ -19,5 +19,20 @@ class AppRouter extends $AppRouter {
         AutoRoute(page: QuestionFeedRoute.page, path: 'question-feed'),
       ],
     ),
+    AutoRoute(
+      page: SetupPreferencesRoute.page,
+      path: '/setup-preferences',
+      guards: [AuthGuard()],
+    ),
+    AutoRoute(
+      page: SubmissionHistoryRoute.page,
+      path: '/history',
+      guards: [AuthGuard()],
+    ),
+    AutoRoute(
+      page: QuestionSubmissionRoute.page,
+      path: '/history/question',
+      guards: [AuthGuard()],
+    ),
   ];
 }

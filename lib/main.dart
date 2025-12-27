@@ -10,6 +10,7 @@ import 'package:mobile/core/module/error_loggers.dart';
 import 'package:mobile/core/services/notification_service.dart';
 import 'package:mobile/core/services/snack_bar_service.dart';
 import 'package:mobile/features/auth/logic/auth_state.dart';
+import 'package:mobile/features/profile/logic/history/history_cubit.dart';
 import 'package:mobile/firebase_options.dart';
 import 'package:path_provider/path_provider.dart';
 import 'core/injection.dart';
@@ -20,6 +21,7 @@ import 'features/auth/logic/auth_cubit.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 import 'features/leaderboard/logic/leaderboard_cubit.dart';
+import 'features/profile/logic/preferences/edit_preferences_cubit.dart';
 import 'features/profile/logic/profile_cubit.dart';
 
 void main() async {
@@ -36,6 +38,8 @@ void main() async {
   );
 
   final logger = ErrorLoggers(SnackBarService(rootScaffoldKey));
+
+  // InternetService(rootScaffoldKey);
   FlutterError.onError = logger.onError;
 
   PlatformDispatcher.instance.onError = logger.onErrorAsync;
@@ -46,6 +50,8 @@ void main() async {
         BlocProvider(create: (context) => getIt<AuthCubit>()..checkAuth()),
         BlocProvider(create: (context) => getIt<ProfileCubit>()),
         BlocProvider(create: (context) => getIt<LeaderboardCubit>()),
+        BlocProvider(create: (context) => getIt<EditPreferencesCubit>()),
+        BlocProvider(create: (context) => getIt<HistoryCubit>()),
       ],
       child: MyApp(rootScaffoldKey: rootScaffoldKey),
     ),

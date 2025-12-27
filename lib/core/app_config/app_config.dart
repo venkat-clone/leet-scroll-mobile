@@ -4,8 +4,9 @@ import 'package:flutter/foundation.dart';
 
 class AppConfig {
   static String get baseUrl {
-    if (kDebugMode) {
-      return 'http://192.168.31.32:3000/api';
+    if (kDebugMode || kProfileMode) {
+      // return 'http://localhost:3000/api';
+      return 'http://192.168.31.240:3000/api';
       return 'https://configxleetscroll.vercel.app/api';
     }
 
