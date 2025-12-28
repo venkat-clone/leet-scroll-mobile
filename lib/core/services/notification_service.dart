@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
@@ -10,21 +12,69 @@ class NotificationService {
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
 
   Future<void> init() async {
-    await _firebaseMessaging.requestPermission();
-    final fcmToken = await _firebaseMessaging.getToken();
-    debugPrint("FCM Token $fcmToken");
+    // Request permissions (important for iOS)
+    await _firebaseMessaging.requestPermission(
+      alert: true,
+      badge: true,
+      sound: true,
+      provisional: false,
+    );
+    if (Platform.isIOS) {
+      String? apnsToken = await _firebaseMessaging.getAPNSToken();
+
+      // If null (not ready yet), wait and retry a few times
+      int retries = 0;
+      while (apnsToken == null && retries < 5) {
+        await Future.delayed(const Duration(seconds: 2));
+        apnsToken = await _firebaseMessaging.getAPNSToken();
+        retries++;
+      }
+
+      if (apnsToken == null) {
+        debugPrint("Warning: APNs token still null after retries");
+        // You can still proceed, but notifications might be delayed
+      }
+    }
+    // final fcmToken = await _firebaseMessaging.getToken();
+    // debugPrint("FCM Token $fcmToken");
+
+    // Android initialization
     const AndroidInitializationSettings initializationSettingsAndroid =
         AndroidInitializationSettings('@mipmap/ic_launcher');
+
+    // iOS (Darwin) initialization
+    const DarwinInitializationSettings initializationSettingsDarwin =
+        DarwinInitializationSettings(
+          requestAlertPermission: true,
+          requestBadgePermission: true,
+          requestSoundPermission: true,
+        );
+
+    // Combined initialization settings
     const InitializationSettings initializationSettings =
-        InitializationSettings(android: initializationSettingsAndroid);
+        InitializationSettings(
+          android: initializationSettingsAndroid,
+          iOS: initializationSettingsDarwin,
+          macOS: initializationSettingsDarwin,
+        );
+
     await _flutterLocalNotificationsPlugin.initialize(initializationSettings);
 
+    // Allow heads-up notifications on iOS when app is in foreground
+    await _firebaseMessaging.setForegroundNotificationPresentationOptions(
+      alert: true,
+      badge: true,
+      sound: true,
+    );
+
+    // Foreground message handler
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       if (message.notification != null) {
         _showNotification(message);
       }
     });
 
+    // Background/terminated handler
     FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   }
 }
@@ -33,11 +83,11 @@ Future<void> _showNotification(RemoteMessage message) async {
   const AndroidNotificationChannel channel = AndroidNotificationChannel(
     'high_importance_channel', // id
     'High Importance Notifications', // title
-    description:
-        'This channel is used for important notifications.', // description
+    description: 'This channel is used for important notifications.',
     importance: Importance.max,
   );
 
+  // Create the channel on Android
   await _flutterLocalNotificationsPlugin
       .resolvePlatformSpecificImplementation<
         AndroidFlutterLocalNotificationsPlugin
@@ -45,9 +95,8 @@ Future<void> _showNotification(RemoteMessage message) async {
       ?.createNotificationChannel(channel);
 
   RemoteNotification? notification = message.notification;
-  AndroidNotification? android = message.notification?.android;
 
-  if (notification != null && android != null) {
+  if (notification != null) {
     _flutterLocalNotificationsPlugin.show(
       notification.hashCode,
       notification.title,
@@ -57,7 +106,12 @@ Future<void> _showNotification(RemoteMessage message) async {
           channel.id,
           channel.name,
           channelDescription: channel.description,
-          icon: 'launch_background',
+          icon: '@mipmap/ic_launcher', // Use a valid small icon
+        ),
+        iOS: const DarwinNotificationDetails(
+          presentAlert: true,
+          presentBadge: true,
+          presentSound: true,
         ),
       ),
     );

@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../core/injection.dart';
 import '../logic/feed_cubit.dart';
-import '../logic/feed_state.dart';
 import '../logic/question_cubit.dart';
 import 'question_card.dart';
 
@@ -25,7 +24,7 @@ class _QuestionFeedState extends State<QuestionFeedScreen> {
         return state.when(
           initial: () => const Center(child: CircularProgressIndicator()),
           loading: () => const Center(child: CircularProgressIndicator()),
-          loaded: (questions) {
+          loaded: (questions, error, loading) {
             if (questions.isEmpty) {
               return Center(child: Text("Failed to Load Questions"));
             }
@@ -41,12 +40,20 @@ class _QuestionFeedState extends State<QuestionFeedScreen> {
                 }
               },
               itemBuilder: (context, index) {
-                return BlocProvider(
-                  create: (context) => getIt<QuestionCubit>(),
-                  child: QuestionCard(
-                    question: questions[index],
-                    scrollController: _pageController,
-                  ),
+                return Column(
+                  children: [
+                    Expanded(
+                      child: BlocProvider(
+                        create: (context) => getIt<QuestionCubit>(),
+                        child: QuestionCard(
+                          question: questions[index],
+                          scrollController: _pageController,
+                          index: index,
+                        ),
+                      ),
+                    ),
+                    if (loading == true) const LinearProgressIndicator(),
+                  ],
                 );
               },
             );

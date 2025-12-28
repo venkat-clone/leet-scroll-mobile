@@ -6,6 +6,7 @@ import 'package:flutter_highlight/flutter_highlight.dart';
 import 'package:flutter_highlight/themes/dracula.dart';
 import 'package:flutter_markdown_plus/flutter_markdown_plus.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:mobile/features/feed/logic/feed_cubit.dart';
 import 'package:mobile/features/feed/presentation/styles/app_theme.dart';
 import 'package:mobile/features/feed/presentation/widget/custom_builder.dart';
 import '../../../core/injection.dart';
@@ -19,11 +20,13 @@ import 'package:flutter/services.dart';
 class QuestionCard extends StatefulWidget {
   final Question question;
   final ScrollController scrollController;
+  final int index;
 
   const QuestionCard({
     super.key,
     required this.question,
     required this.scrollController,
+    required this.index,
   });
 
   @override
@@ -43,6 +46,7 @@ class _QuestionCardState extends State<QuestionCard> {
   void _loadLikeStatus() {
     // context.read<QuestionCubit>().loadLikeStatus(widget.question.id);
     // context.read<QuestionCubit>().loadBookmarkStatus(widget.question.id);
+    context.read<FeedCubit>().preserveQuestionIndex(widget.index);
     context.read<QuestionCubit>().submitQuestionViewed(widget.question.id);
   }
 

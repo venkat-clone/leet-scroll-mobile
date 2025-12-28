@@ -1,10 +1,23 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:injectable/injectable.dart';
+import 'package:mobile/features/feed/data/streek/streek_model.dart';
+import 'package:mobile/features/profile/data/models/preferences/user_preferences_model.dart';
+import 'package:mobile/features/profile/data/models/submissions/submission_model.dart';
 import 'profile_model.dart';
 
 abstract class IProfileRepository {
   Future<ProfileModel> getProfile();
+  Future<List<String>> getTags({String? search, int? pageLength, int? page});
+  Future<void> updatePreferences(UserPreferencesModel preferences);
+  Future<List<SubmissionModel>> getSubmissions({
+    String? search,
+    int? pageLength,
+    int? page,
+    String? filter,
+  });
+
+  Future<StreekModel> getUserActivity();
 }
 
 @LazySingleton(as: IProfileRepository)
@@ -31,6 +44,92 @@ class ProfileRepository implements IProfileRepository {
       debugPrint(e.toString());
       debugPrintStack(stackTrace: s);
       throw Exception(e.toString());
+    }
+  }
+
+  @override
+  Future<List<String>> getTags({
+    String? search,
+    int? pageLength,
+    int? page,
+  }) async {
+    try {
+      final response = await _dio.get(
+        '/tags',
+        queryParameters: {
+          'search': search,
+          'pageLength': pageLength,
+          'page': page,
+        },
+      );
+      if (response.statusCode == 200) {
+        return List<String>.from(response.data);
+      } else {
+        throw Exception('Failed to load tags');
+      }
+    } catch (e, s) {
+      debugPrint(e.toString());
+      debugPrintStack(stackTrace: s);
+      throw Exception(e.toString());
+    }
+  }
+
+  @override
+  Future<void> updatePreferences(UserPreferencesModel preferences) async {
+    try {
+      await _dio.post('/preferences', data: preferences.toJson());
+    } catch (e, s) {
+      debugPrint(e.toString());
+      debugPrintStack(stackTrace: s);
+      throw Exception(e.toString());
+    }
+  }
+
+  @override
+  Future<List<SubmissionModel>> getSubmissions({
+    String? search,
+    int? pageLength,
+    int? page,
+    String? filter,
+  }) async {
+    final filterKeys = {
+      "SOLVED": 'solved',
+      "ATTEMPTED": 'unsolved',
+      "SKIPPED": 'skipped',
+    };
+
+    final result = await _dio.get(
+      "/history",
+      queryParameters: {
+        'search': search,
+        'pageLength': pageLength,
+        'page': page,
+        'filter': filterKeys[filter],
+      },
+    );
+    if (result.statusCode == 200) {
+      return List<SubmissionModel>.from(
+        result.data['submissions'].map((x) => SubmissionModel.fromJson(x)),
+      );
+    } else {
+      throw Exception("Failed to load submissions");
+    }
+  }
+
+  @override
+  Future<StreekModel> getUserActivity() async {
+    try {
+      final result = await _dio.get('/streak');
+      if (result.statusCode == 200) {
+        await Future.delayed(Duration(seconds: 5));
+        return StreekModel.fromJson(result.data);
+      } else {
+        throw Exception('Failed to load user activity');
+      }
+    } catch (e, s) {
+      debugPrint(e.toString());
+      debugPrintStack(stackTrace: s);
+      rethrow;
     }
   }
 }

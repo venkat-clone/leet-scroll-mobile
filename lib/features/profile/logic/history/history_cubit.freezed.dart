@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'feed_state.dart';
+part of 'history_cubit.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -16,27 +16,57 @@ final _privateConstructorUsedError = UnsupportedError(
 );
 
 /// @nodoc
-mixin _$FeedState {
+mixin _$HistoryState {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(List<Question> questions) loaded,
-    required TResult Function(String message) error,
+    required TResult Function(
+      bool isLoading,
+      bool isError,
+      int page,
+      String filter,
+      String search,
+      bool hasMore,
+      List<SubmissionModel> history,
+      String? errorMsg,
+    )
+    loaded,
+    required TResult Function(String errorMsg) error,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(List<Question> questions)? loaded,
-    TResult? Function(String message)? error,
+    TResult? Function(
+      bool isLoading,
+      bool isError,
+      int page,
+      String filter,
+      String search,
+      bool hasMore,
+      List<SubmissionModel> history,
+      String? errorMsg,
+    )?
+    loaded,
+    TResult? Function(String errorMsg)? error,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(List<Question> questions)? loaded,
-    TResult Function(String message)? error,
+    TResult Function(
+      bool isLoading,
+      bool isError,
+      int page,
+      String filter,
+      String search,
+      bool hasMore,
+      List<SubmissionModel> history,
+      String? errorMsg,
+    )?
+    loaded,
+    TResult Function(String errorMsg)? error,
     required TResult orElse(),
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -64,15 +94,17 @@ mixin _$FeedState {
 }
 
 /// @nodoc
-abstract class $FeedStateCopyWith<$Res> {
-  factory $FeedStateCopyWith(FeedState value, $Res Function(FeedState) then) =
-      _$FeedStateCopyWithImpl<$Res, FeedState>;
+abstract class $HistoryStateCopyWith<$Res> {
+  factory $HistoryStateCopyWith(
+    HistoryState value,
+    $Res Function(HistoryState) then,
+  ) = _$HistoryStateCopyWithImpl<$Res, HistoryState>;
 }
 
 /// @nodoc
-class _$FeedStateCopyWithImpl<$Res, $Val extends FeedState>
-    implements $FeedStateCopyWith<$Res> {
-  _$FeedStateCopyWithImpl(this._value, this._then);
+class _$HistoryStateCopyWithImpl<$Res, $Val extends HistoryState>
+    implements $HistoryStateCopyWith<$Res> {
+  _$HistoryStateCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -90,7 +122,7 @@ abstract class _$$InitialImplCopyWith<$Res> {
 
 /// @nodoc
 class __$$InitialImplCopyWithImpl<$Res>
-    extends _$FeedStateCopyWithImpl<$Res, _$InitialImpl>
+    extends _$HistoryStateCopyWithImpl<$Res, _$InitialImpl>
     implements _$$InitialImplCopyWith<$Res> {
   __$$InitialImplCopyWithImpl(
     _$InitialImpl _value,
@@ -101,11 +133,11 @@ class __$$InitialImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$InitialImpl implements _Initial {
-  const _$InitialImpl();
+  _$InitialImpl();
 
   @override
   String toString() {
-    return 'FeedState.initial()';
+    return 'HistoryState.initial()';
   }
 
   @override
@@ -122,8 +154,18 @@ class _$InitialImpl implements _Initial {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(List<Question> questions) loaded,
-    required TResult Function(String message) error,
+    required TResult Function(
+      bool isLoading,
+      bool isError,
+      int page,
+      String filter,
+      String search,
+      bool hasMore,
+      List<SubmissionModel> history,
+      String? errorMsg,
+    )
+    loaded,
+    required TResult Function(String errorMsg) error,
   }) {
     return initial();
   }
@@ -133,8 +175,18 @@ class _$InitialImpl implements _Initial {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(List<Question> questions)? loaded,
-    TResult? Function(String message)? error,
+    TResult? Function(
+      bool isLoading,
+      bool isError,
+      int page,
+      String filter,
+      String search,
+      bool hasMore,
+      List<SubmissionModel> history,
+      String? errorMsg,
+    )?
+    loaded,
+    TResult? Function(String errorMsg)? error,
   }) {
     return initial?.call();
   }
@@ -144,8 +196,18 @@ class _$InitialImpl implements _Initial {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(List<Question> questions)? loaded,
-    TResult Function(String message)? error,
+    TResult Function(
+      bool isLoading,
+      bool isError,
+      int page,
+      String filter,
+      String search,
+      bool hasMore,
+      List<SubmissionModel> history,
+      String? errorMsg,
+    )?
+    loaded,
+    TResult Function(String errorMsg)? error,
     required TResult orElse(),
   }) {
     if (initial != null) {
@@ -192,8 +254,8 @@ class _$InitialImpl implements _Initial {
   }
 }
 
-abstract class _Initial implements FeedState {
-  const factory _Initial() = _$InitialImpl;
+abstract class _Initial implements HistoryState {
+  factory _Initial() = _$InitialImpl;
 }
 
 /// @nodoc
@@ -206,7 +268,7 @@ abstract class _$$LoadingImplCopyWith<$Res> {
 
 /// @nodoc
 class __$$LoadingImplCopyWithImpl<$Res>
-    extends _$FeedStateCopyWithImpl<$Res, _$LoadingImpl>
+    extends _$HistoryStateCopyWithImpl<$Res, _$LoadingImpl>
     implements _$$LoadingImplCopyWith<$Res> {
   __$$LoadingImplCopyWithImpl(
     _$LoadingImpl _value,
@@ -217,11 +279,11 @@ class __$$LoadingImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$LoadingImpl implements _Loading {
-  const _$LoadingImpl();
+  _$LoadingImpl();
 
   @override
   String toString() {
-    return 'FeedState.loading()';
+    return 'HistoryState.loading()';
   }
 
   @override
@@ -238,8 +300,18 @@ class _$LoadingImpl implements _Loading {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(List<Question> questions) loaded,
-    required TResult Function(String message) error,
+    required TResult Function(
+      bool isLoading,
+      bool isError,
+      int page,
+      String filter,
+      String search,
+      bool hasMore,
+      List<SubmissionModel> history,
+      String? errorMsg,
+    )
+    loaded,
+    required TResult Function(String errorMsg) error,
   }) {
     return loading();
   }
@@ -249,8 +321,18 @@ class _$LoadingImpl implements _Loading {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(List<Question> questions)? loaded,
-    TResult? Function(String message)? error,
+    TResult? Function(
+      bool isLoading,
+      bool isError,
+      int page,
+      String filter,
+      String search,
+      bool hasMore,
+      List<SubmissionModel> history,
+      String? errorMsg,
+    )?
+    loaded,
+    TResult? Function(String errorMsg)? error,
   }) {
     return loading?.call();
   }
@@ -260,8 +342,18 @@ class _$LoadingImpl implements _Loading {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(List<Question> questions)? loaded,
-    TResult Function(String message)? error,
+    TResult Function(
+      bool isLoading,
+      bool isError,
+      int page,
+      String filter,
+      String search,
+      bool hasMore,
+      List<SubmissionModel> history,
+      String? errorMsg,
+    )?
+    loaded,
+    TResult Function(String errorMsg)? error,
     required TResult orElse(),
   }) {
     if (loading != null) {
@@ -308,8 +400,8 @@ class _$LoadingImpl implements _Loading {
   }
 }
 
-abstract class _Loading implements FeedState {
-  const factory _Loading() = _$LoadingImpl;
+abstract class _Loading implements HistoryState {
+  factory _Loading() = _$LoadingImpl;
 }
 
 /// @nodoc
@@ -319,12 +411,21 @@ abstract class _$$LoadedImplCopyWith<$Res> {
     $Res Function(_$LoadedImpl) then,
   ) = __$$LoadedImplCopyWithImpl<$Res>;
   @useResult
-  $Res call({List<Question> questions});
+  $Res call({
+    bool isLoading,
+    bool isError,
+    int page,
+    String filter,
+    String search,
+    bool hasMore,
+    List<SubmissionModel> history,
+    String? errorMsg,
+  });
 }
 
 /// @nodoc
 class __$$LoadedImplCopyWithImpl<$Res>
-    extends _$FeedStateCopyWithImpl<$Res, _$LoadedImpl>
+    extends _$HistoryStateCopyWithImpl<$Res, _$LoadedImpl>
     implements _$$LoadedImplCopyWith<$Res> {
   __$$LoadedImplCopyWithImpl(
     _$LoadedImpl _value,
@@ -333,13 +434,50 @@ class __$$LoadedImplCopyWithImpl<$Res>
 
   @pragma('vm:prefer-inline')
   @override
-  $Res call({Object? questions = null}) {
+  $Res call({
+    Object? isLoading = null,
+    Object? isError = null,
+    Object? page = null,
+    Object? filter = null,
+    Object? search = null,
+    Object? hasMore = null,
+    Object? history = null,
+    Object? errorMsg = freezed,
+  }) {
     return _then(
       _$LoadedImpl(
-        null == questions
-            ? _value._questions
-            : questions // ignore: cast_nullable_to_non_nullable
-                  as List<Question>,
+        isLoading: null == isLoading
+            ? _value.isLoading
+            : isLoading // ignore: cast_nullable_to_non_nullable
+                  as bool,
+        isError: null == isError
+            ? _value.isError
+            : isError // ignore: cast_nullable_to_non_nullable
+                  as bool,
+        page: null == page
+            ? _value.page
+            : page // ignore: cast_nullable_to_non_nullable
+                  as int,
+        filter: null == filter
+            ? _value.filter
+            : filter // ignore: cast_nullable_to_non_nullable
+                  as String,
+        search: null == search
+            ? _value.search
+            : search // ignore: cast_nullable_to_non_nullable
+                  as String,
+        hasMore: null == hasMore
+            ? _value.hasMore
+            : hasMore // ignore: cast_nullable_to_non_nullable
+                  as bool,
+        history: null == history
+            ? _value._history
+            : history // ignore: cast_nullable_to_non_nullable
+                  as List<SubmissionModel>,
+        errorMsg: freezed == errorMsg
+            ? _value.errorMsg
+            : errorMsg // ignore: cast_nullable_to_non_nullable
+                  as String?,
       ),
     );
   }
@@ -348,19 +486,43 @@ class __$$LoadedImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$LoadedImpl implements _Loaded {
-  const _$LoadedImpl(final List<Question> questions) : _questions = questions;
+  _$LoadedImpl({
+    required this.isLoading,
+    required this.isError,
+    required this.page,
+    required this.filter,
+    required this.search,
+    required this.hasMore,
+    required final List<SubmissionModel> history,
+    this.errorMsg,
+  }) : _history = history;
 
-  final List<Question> _questions;
   @override
-  List<Question> get questions {
-    if (_questions is EqualUnmodifiableListView) return _questions;
+  final bool isLoading;
+  @override
+  final bool isError;
+  @override
+  final int page;
+  @override
+  final String filter;
+  @override
+  final String search;
+  @override
+  final bool hasMore;
+  final List<SubmissionModel> _history;
+  @override
+  List<SubmissionModel> get history {
+    if (_history is EqualUnmodifiableListView) return _history;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_questions);
+    return EqualUnmodifiableListView(_history);
   }
 
   @override
+  final String? errorMsg;
+
+  @override
   String toString() {
-    return 'FeedState.loaded(questions: $questions)';
+    return 'HistoryState.loaded(isLoading: $isLoading, isError: $isError, page: $page, filter: $filter, search: $search, hasMore: $hasMore, history: $history, errorMsg: $errorMsg)';
   }
 
   @override
@@ -368,15 +530,30 @@ class _$LoadedImpl implements _Loaded {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$LoadedImpl &&
-            const DeepCollectionEquality().equals(
-              other._questions,
-              _questions,
-            ));
+            (identical(other.isLoading, isLoading) ||
+                other.isLoading == isLoading) &&
+            (identical(other.isError, isError) || other.isError == isError) &&
+            (identical(other.page, page) || other.page == page) &&
+            (identical(other.filter, filter) || other.filter == filter) &&
+            (identical(other.search, search) || other.search == search) &&
+            (identical(other.hasMore, hasMore) || other.hasMore == hasMore) &&
+            const DeepCollectionEquality().equals(other._history, _history) &&
+            (identical(other.errorMsg, errorMsg) ||
+                other.errorMsg == errorMsg));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(_questions));
+  int get hashCode => Object.hash(
+    runtimeType,
+    isLoading,
+    isError,
+    page,
+    filter,
+    search,
+    hasMore,
+    const DeepCollectionEquality().hash(_history),
+    errorMsg,
+  );
 
   @JsonKey(ignore: true)
   @override
@@ -389,10 +566,29 @@ class _$LoadedImpl implements _Loaded {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(List<Question> questions) loaded,
-    required TResult Function(String message) error,
+    required TResult Function(
+      bool isLoading,
+      bool isError,
+      int page,
+      String filter,
+      String search,
+      bool hasMore,
+      List<SubmissionModel> history,
+      String? errorMsg,
+    )
+    loaded,
+    required TResult Function(String errorMsg) error,
   }) {
-    return loaded(questions);
+    return loaded(
+      isLoading,
+      isError,
+      page,
+      filter,
+      search,
+      hasMore,
+      history,
+      errorMsg,
+    );
   }
 
   @override
@@ -400,10 +596,29 @@ class _$LoadedImpl implements _Loaded {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(List<Question> questions)? loaded,
-    TResult? Function(String message)? error,
+    TResult? Function(
+      bool isLoading,
+      bool isError,
+      int page,
+      String filter,
+      String search,
+      bool hasMore,
+      List<SubmissionModel> history,
+      String? errorMsg,
+    )?
+    loaded,
+    TResult? Function(String errorMsg)? error,
   }) {
-    return loaded?.call(questions);
+    return loaded?.call(
+      isLoading,
+      isError,
+      page,
+      filter,
+      search,
+      hasMore,
+      history,
+      errorMsg,
+    );
   }
 
   @override
@@ -411,12 +626,31 @@ class _$LoadedImpl implements _Loaded {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(List<Question> questions)? loaded,
-    TResult Function(String message)? error,
+    TResult Function(
+      bool isLoading,
+      bool isError,
+      int page,
+      String filter,
+      String search,
+      bool hasMore,
+      List<SubmissionModel> history,
+      String? errorMsg,
+    )?
+    loaded,
+    TResult Function(String errorMsg)? error,
     required TResult orElse(),
   }) {
     if (loaded != null) {
-      return loaded(questions);
+      return loaded(
+        isLoading,
+        isError,
+        page,
+        filter,
+        search,
+        hasMore,
+        history,
+        errorMsg,
+      );
     }
     return orElse();
   }
@@ -459,10 +693,26 @@ class _$LoadedImpl implements _Loaded {
   }
 }
 
-abstract class _Loaded implements FeedState {
-  const factory _Loaded(final List<Question> questions) = _$LoadedImpl;
+abstract class _Loaded implements HistoryState {
+  factory _Loaded({
+    required final bool isLoading,
+    required final bool isError,
+    required final int page,
+    required final String filter,
+    required final String search,
+    required final bool hasMore,
+    required final List<SubmissionModel> history,
+    final String? errorMsg,
+  }) = _$LoadedImpl;
 
-  List<Question> get questions;
+  bool get isLoading;
+  bool get isError;
+  int get page;
+  String get filter;
+  String get search;
+  bool get hasMore;
+  List<SubmissionModel> get history;
+  String? get errorMsg;
   @JsonKey(ignore: true)
   _$$LoadedImplCopyWith<_$LoadedImpl> get copyWith =>
       throw _privateConstructorUsedError;
@@ -475,12 +725,12 @@ abstract class _$$ErrorImplCopyWith<$Res> {
     $Res Function(_$ErrorImpl) then,
   ) = __$$ErrorImplCopyWithImpl<$Res>;
   @useResult
-  $Res call({String message});
+  $Res call({String errorMsg});
 }
 
 /// @nodoc
 class __$$ErrorImplCopyWithImpl<$Res>
-    extends _$FeedStateCopyWithImpl<$Res, _$ErrorImpl>
+    extends _$HistoryStateCopyWithImpl<$Res, _$ErrorImpl>
     implements _$$ErrorImplCopyWith<$Res> {
   __$$ErrorImplCopyWithImpl(
     _$ErrorImpl _value,
@@ -489,12 +739,12 @@ class __$$ErrorImplCopyWithImpl<$Res>
 
   @pragma('vm:prefer-inline')
   @override
-  $Res call({Object? message = null}) {
+  $Res call({Object? errorMsg = null}) {
     return _then(
       _$ErrorImpl(
-        null == message
-            ? _value.message
-            : message // ignore: cast_nullable_to_non_nullable
+        null == errorMsg
+            ? _value.errorMsg
+            : errorMsg // ignore: cast_nullable_to_non_nullable
                   as String,
       ),
     );
@@ -504,14 +754,14 @@ class __$$ErrorImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$ErrorImpl implements _Error {
-  const _$ErrorImpl(this.message);
+  _$ErrorImpl(this.errorMsg);
 
   @override
-  final String message;
+  final String errorMsg;
 
   @override
   String toString() {
-    return 'FeedState.error(message: $message)';
+    return 'HistoryState.error(errorMsg: $errorMsg)';
   }
 
   @override
@@ -519,11 +769,12 @@ class _$ErrorImpl implements _Error {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ErrorImpl &&
-            (identical(other.message, message) || other.message == message));
+            (identical(other.errorMsg, errorMsg) ||
+                other.errorMsg == errorMsg));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, message);
+  int get hashCode => Object.hash(runtimeType, errorMsg);
 
   @JsonKey(ignore: true)
   @override
@@ -536,10 +787,20 @@ class _$ErrorImpl implements _Error {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(List<Question> questions) loaded,
-    required TResult Function(String message) error,
+    required TResult Function(
+      bool isLoading,
+      bool isError,
+      int page,
+      String filter,
+      String search,
+      bool hasMore,
+      List<SubmissionModel> history,
+      String? errorMsg,
+    )
+    loaded,
+    required TResult Function(String errorMsg) error,
   }) {
-    return error(message);
+    return error(errorMsg);
   }
 
   @override
@@ -547,10 +808,20 @@ class _$ErrorImpl implements _Error {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(List<Question> questions)? loaded,
-    TResult? Function(String message)? error,
+    TResult? Function(
+      bool isLoading,
+      bool isError,
+      int page,
+      String filter,
+      String search,
+      bool hasMore,
+      List<SubmissionModel> history,
+      String? errorMsg,
+    )?
+    loaded,
+    TResult? Function(String errorMsg)? error,
   }) {
-    return error?.call(message);
+    return error?.call(errorMsg);
   }
 
   @override
@@ -558,12 +829,22 @@ class _$ErrorImpl implements _Error {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(List<Question> questions)? loaded,
-    TResult Function(String message)? error,
+    TResult Function(
+      bool isLoading,
+      bool isError,
+      int page,
+      String filter,
+      String search,
+      bool hasMore,
+      List<SubmissionModel> history,
+      String? errorMsg,
+    )?
+    loaded,
+    TResult Function(String errorMsg)? error,
     required TResult orElse(),
   }) {
     if (error != null) {
-      return error(message);
+      return error(errorMsg);
     }
     return orElse();
   }
@@ -606,10 +887,10 @@ class _$ErrorImpl implements _Error {
   }
 }
 
-abstract class _Error implements FeedState {
-  const factory _Error(final String message) = _$ErrorImpl;
+abstract class _Error implements HistoryState {
+  factory _Error(final String errorMsg) = _$ErrorImpl;
 
-  String get message;
+  String get errorMsg;
   @JsonKey(ignore: true)
   _$$ErrorImplCopyWith<_$ErrorImpl> get copyWith =>
       throw _privateConstructorUsedError;

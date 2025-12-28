@@ -118,10 +118,10 @@ class CustomCodeMarkdownBuilder implements MarkdownElementBuilder {
               language: language,
               theme: theme,
               padding: const mtl.EdgeInsets.all(16),
-              textStyle: const mtl.TextStyle(
-                fontFamily: 'monospace',
-                fontSize: 12,
-              ),
+              // textStyle: const mtl.TextStyle(
+              //   fontFamily: 'monospace',
+              //   fontSize: 12,
+              // ),
             ),
           ),
         ],
