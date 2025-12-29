@@ -48,23 +48,6 @@ jobs:
       - name: Setup Shorebird
         uses: shorebirdtech/setup-shorebird@v1
 
-      - name: Change detection (only lib changes allowed for patch)
-        uses: dorny/paths-filter@v3
-        id: filter
-        with:
-          filters: |
-            lib:
-              - 'lib/**'
-            forbidden:
-              - 'android/**'
-              - 'pubspec.yaml'
-              - 'shorebird.yaml'
-
-      - name: Shorebird Patch (only if pure Dart changes)
-        if: steps.filter.outputs.lib == 'true' && steps.filter.outputs.forbidden == 'false'
-        run: shorebird patch android --artifact=apk
-        env:
-          SHOREBIRD_TOKEN: ${{ secrets.SHOREBIRD_TOKEN }}
 
       - name: Fail if non-lib changes (optional safety)
         if: steps.filter.outputs.forbidden == 'true'
