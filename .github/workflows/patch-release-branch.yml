@@ -49,8 +49,8 @@ jobs:
         uses: shorebirdtech/setup-shorebird@v1
         
 
-      - name: Shorebird Patch (only if pure Dart changes)
-        run: shorebird patch android --artifact=apk
+      - name: Shorebird Patch 
+        run: shorebird patch android    
         env:
           SHOREBIRD_TOKEN: ${{ secrets.SHOREBIRD_TOKEN }}
 
