@@ -50,7 +50,7 @@ jobs:
         
 
       - name: Shorebird Patch 
-        run: shorebird patch android    
+        run: shorebird patch android --release-version=latest
         env:
           SHOREBIRD_TOKEN: ${{ secrets.SHOREBIRD_TOKEN }}
 
