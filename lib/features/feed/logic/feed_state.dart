@@ -8,6 +8,7 @@ class FeedState with _$FeedState {
     List<Question> questions, {
     String? error,
     bool? loading,
+    @Default(0) int questionIndex,
   }) = _Loaded;
   const factory FeedState.error(String message) = _Error;
 

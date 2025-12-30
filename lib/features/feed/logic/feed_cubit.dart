@@ -1,5 +1,7 @@
 // ignore_for_file: unused_import
 
+import 'dart:math';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -15,7 +17,6 @@ part 'feed_cubit.g.dart';
 class FeedCubit extends HydratedCubit<FeedState> {
   final IFeedRepository _repository;
 
-  int _index = 0;
   FeedCubit(this._repository) : super(const FeedState.initial());
 
   Future<void> loadQuestions() async {
@@ -59,7 +60,10 @@ class FeedCubit extends HydratedCubit<FeedState> {
   }
 
   void preserveQuestionIndex(int index) {
-    _index = index;
+    if (state is _Loaded) {
+      final state = this.state as _Loaded;
+      emit((state).copyWith(questionIndex: max(index, (state).questionIndex)));
+    }
   }
 
   @override
@@ -70,7 +74,13 @@ class FeedCubit extends HydratedCubit<FeedState> {
   @override
   Map<String, dynamic>? toJson(FeedState state) {
     if (state is _Loaded) {
-      return FeedState.loaded(state.questions.sublist(_index)).toJson();
+      final questions = state.questions.sublist(state.questionIndex);
+      debugPrint(
+        "Saving Cached Feed cubit State with Questions ${questions.length}",
+      );
+      return FeedState.loaded(questions).toJson();
+    } else {
+      debugPrint("Not Saving Cached Feed cubit State");
     }
     return null;
   }

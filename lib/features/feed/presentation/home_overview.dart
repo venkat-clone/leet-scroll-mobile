@@ -20,8 +20,6 @@ class HomeOverview extends StatefulWidget {
 class _HomeOverviewState extends State<HomeOverview> {
   @override
   void initState() {
-    context.read<HomeCubit>().loadUserActivity();
-
     super.initState();
   }
 

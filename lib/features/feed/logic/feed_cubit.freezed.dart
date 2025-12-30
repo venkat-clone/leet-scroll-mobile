@@ -46,6 +46,7 @@ mixin _$FeedState {
       List<Question> questions,
       String? error,
       bool? loading,
+      int questionIndex,
     )
     loaded,
     required TResult Function(String message) error,
@@ -54,7 +55,12 @@ mixin _$FeedState {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(List<Question> questions, String? error, bool? loading)?
+    TResult? Function(
+      List<Question> questions,
+      String? error,
+      bool? loading,
+      int questionIndex,
+    )?
     loaded,
     TResult? Function(String message)? error,
   }) => throw _privateConstructorUsedError;
@@ -62,7 +68,12 @@ mixin _$FeedState {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(List<Question> questions, String? error, bool? loading)?
+    TResult Function(
+      List<Question> questions,
+      String? error,
+      bool? loading,
+      int questionIndex,
+    )?
     loaded,
     TResult Function(String message)? error,
     required TResult orElse(),
@@ -168,6 +179,7 @@ class _$InitialImpl with DiagnosticableTreeMixin implements _Initial {
       List<Question> questions,
       String? error,
       bool? loading,
+      int questionIndex,
     )
     loaded,
     required TResult Function(String message) error,
@@ -180,7 +192,12 @@ class _$InitialImpl with DiagnosticableTreeMixin implements _Initial {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(List<Question> questions, String? error, bool? loading)?
+    TResult? Function(
+      List<Question> questions,
+      String? error,
+      bool? loading,
+      int questionIndex,
+    )?
     loaded,
     TResult? Function(String message)? error,
   }) {
@@ -192,7 +209,12 @@ class _$InitialImpl with DiagnosticableTreeMixin implements _Initial {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(List<Question> questions, String? error, bool? loading)?
+    TResult Function(
+      List<Question> questions,
+      String? error,
+      bool? loading,
+      int questionIndex,
+    )?
     loaded,
     TResult Function(String message)? error,
     required TResult orElse(),
@@ -311,6 +333,7 @@ class _$LoadingImpl with DiagnosticableTreeMixin implements _Loading {
       List<Question> questions,
       String? error,
       bool? loading,
+      int questionIndex,
     )
     loaded,
     required TResult Function(String message) error,
@@ -323,7 +346,12 @@ class _$LoadingImpl with DiagnosticableTreeMixin implements _Loading {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(List<Question> questions, String? error, bool? loading)?
+    TResult? Function(
+      List<Question> questions,
+      String? error,
+      bool? loading,
+      int questionIndex,
+    )?
     loaded,
     TResult? Function(String message)? error,
   }) {
@@ -335,7 +363,12 @@ class _$LoadingImpl with DiagnosticableTreeMixin implements _Loading {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(List<Question> questions, String? error, bool? loading)?
+    TResult Function(
+      List<Question> questions,
+      String? error,
+      bool? loading,
+      int questionIndex,
+    )?
     loaded,
     TResult Function(String message)? error,
     required TResult orElse(),
@@ -402,7 +435,12 @@ abstract class _$$LoadedImplCopyWith<$Res> {
     $Res Function(_$LoadedImpl) then,
   ) = __$$LoadedImplCopyWithImpl<$Res>;
   @useResult
-  $Res call({List<Question> questions, String? error, bool? loading});
+  $Res call({
+    List<Question> questions,
+    String? error,
+    bool? loading,
+    int questionIndex,
+  });
 }
 
 /// @nodoc
@@ -420,6 +458,7 @@ class __$$LoadedImplCopyWithImpl<$Res>
     Object? questions = null,
     Object? error = freezed,
     Object? loading = freezed,
+    Object? questionIndex = null,
   }) {
     return _then(
       _$LoadedImpl(
@@ -435,6 +474,10 @@ class __$$LoadedImplCopyWithImpl<$Res>
             ? _value.loading
             : loading // ignore: cast_nullable_to_non_nullable
                   as bool?,
+        questionIndex: null == questionIndex
+            ? _value.questionIndex
+            : questionIndex // ignore: cast_nullable_to_non_nullable
+                  as int,
       ),
     );
   }
@@ -447,6 +490,7 @@ class _$LoadedImpl with DiagnosticableTreeMixin implements _Loaded {
     final List<Question> questions, {
     this.error,
     this.loading,
+    this.questionIndex = 0,
     final String? $type,
   }) : _questions = questions,
        $type = $type ?? 'loaded';
@@ -466,13 +510,16 @@ class _$LoadedImpl with DiagnosticableTreeMixin implements _Loaded {
   final String? error;
   @override
   final bool? loading;
+  @override
+  @JsonKey()
+  final int questionIndex;
 
   @JsonKey(name: 'runtimeType')
   final String $type;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'FeedState.loaded(questions: $questions, error: $error, loading: $loading)';
+    return 'FeedState.loaded(questions: $questions, error: $error, loading: $loading, questionIndex: $questionIndex)';
   }
 
   @override
@@ -482,7 +529,8 @@ class _$LoadedImpl with DiagnosticableTreeMixin implements _Loaded {
       ..add(DiagnosticsProperty('type', 'FeedState.loaded'))
       ..add(DiagnosticsProperty('questions', questions))
       ..add(DiagnosticsProperty('error', error))
-      ..add(DiagnosticsProperty('loading', loading));
+      ..add(DiagnosticsProperty('loading', loading))
+      ..add(DiagnosticsProperty('questionIndex', questionIndex));
   }
 
   @override
@@ -495,7 +543,9 @@ class _$LoadedImpl with DiagnosticableTreeMixin implements _Loaded {
               _questions,
             ) &&
             (identical(other.error, error) || other.error == error) &&
-            (identical(other.loading, loading) || other.loading == loading));
+            (identical(other.loading, loading) || other.loading == loading) &&
+            (identical(other.questionIndex, questionIndex) ||
+                other.questionIndex == questionIndex));
   }
 
   @JsonKey(ignore: true)
@@ -505,6 +555,7 @@ class _$LoadedImpl with DiagnosticableTreeMixin implements _Loaded {
     const DeepCollectionEquality().hash(_questions),
     error,
     loading,
+    questionIndex,
   );
 
   @JsonKey(ignore: true)
@@ -522,11 +573,12 @@ class _$LoadedImpl with DiagnosticableTreeMixin implements _Loaded {
       List<Question> questions,
       String? error,
       bool? loading,
+      int questionIndex,
     )
     loaded,
     required TResult Function(String message) error,
   }) {
-    return loaded(questions, this.error, this.loading);
+    return loaded(questions, this.error, this.loading, questionIndex);
   }
 
   @override
@@ -534,11 +586,16 @@ class _$LoadedImpl with DiagnosticableTreeMixin implements _Loaded {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(List<Question> questions, String? error, bool? loading)?
+    TResult? Function(
+      List<Question> questions,
+      String? error,
+      bool? loading,
+      int questionIndex,
+    )?
     loaded,
     TResult? Function(String message)? error,
   }) {
-    return loaded?.call(questions, this.error, this.loading);
+    return loaded?.call(questions, this.error, this.loading, questionIndex);
   }
 
   @override
@@ -546,13 +603,18 @@ class _$LoadedImpl with DiagnosticableTreeMixin implements _Loaded {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(List<Question> questions, String? error, bool? loading)?
+    TResult Function(
+      List<Question> questions,
+      String? error,
+      bool? loading,
+      int questionIndex,
+    )?
     loaded,
     TResult Function(String message)? error,
     required TResult orElse(),
   }) {
     if (loaded != null) {
-      return loaded(questions, this.error, this.loading);
+      return loaded(questions, this.error, this.loading, questionIndex);
     }
     return orElse();
   }
@@ -605,6 +667,7 @@ abstract class _Loaded implements FeedState {
     final List<Question> questions, {
     final String? error,
     final bool? loading,
+    final int questionIndex,
   }) = _$LoadedImpl;
 
   factory _Loaded.fromJson(Map<String, dynamic> json) = _$LoadedImpl.fromJson;
@@ -612,6 +675,7 @@ abstract class _Loaded implements FeedState {
   List<Question> get questions;
   String? get error;
   bool? get loading;
+  int get questionIndex;
   @JsonKey(ignore: true)
   _$$LoadedImplCopyWith<_$LoadedImpl> get copyWith =>
       throw _privateConstructorUsedError;
@@ -705,6 +769,7 @@ class _$ErrorImpl with DiagnosticableTreeMixin implements _Error {
       List<Question> questions,
       String? error,
       bool? loading,
+      int questionIndex,
     )
     loaded,
     required TResult Function(String message) error,
@@ -717,7 +782,12 @@ class _$ErrorImpl with DiagnosticableTreeMixin implements _Error {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(List<Question> questions, String? error, bool? loading)?
+    TResult? Function(
+      List<Question> questions,
+      String? error,
+      bool? loading,
+      int questionIndex,
+    )?
     loaded,
     TResult? Function(String message)? error,
   }) {
@@ -729,7 +799,12 @@ class _$ErrorImpl with DiagnosticableTreeMixin implements _Error {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(List<Question> questions, String? error, bool? loading)?
+    TResult Function(
+      List<Question> questions,
+      String? error,
+      bool? loading,
+      int questionIndex,
+    )?
     loaded,
     TResult Function(String message)? error,
     required TResult orElse(),
