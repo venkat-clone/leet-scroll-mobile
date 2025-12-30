@@ -24,7 +24,7 @@ class _QuestionFeedState extends State<QuestionFeedScreen> {
         return state.when(
           initial: () => const Center(child: CircularProgressIndicator()),
           loading: () => const Center(child: CircularProgressIndicator()),
-          loaded: (questions, error, loading) {
+          loaded: (questions, error, loading, questionIndex) {
             if (questions.isEmpty) {
               return Center(child: Text("Failed to Load Questions"));
             }

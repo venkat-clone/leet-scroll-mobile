@@ -2,10 +2,13 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hydrated_bloc/hydrated_bloc.dart';
+import 'package:mobile/features/feed/logic/home/home_cubit.dart';
 import 'package:mobile/features/feed/presentation/styles/app_theme.dart';
 import 'package:mobile/features/profile/data/models/preferences/user_preferences_model.dart';
 import 'package:mobile/features/profile/data/models/stats/profile_stats_model.dart';
 import '../../../core/router/app_router.gr.dart';
+import '../../feed/logic/feed_cubit.dart';
 import '../logic/profile_cubit.dart';
 import '../../auth/logic/auth_cubit.dart';
 
@@ -117,12 +120,37 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     const SizedBox(height: 12),
                     _PreferencesCard(preferences: profile.preferences),
                     const SizedBox(height: 32),
-                    TextButton(
-                      onPressed: () => context.read<AuthCubit>().logout(),
-                      child: const Text(
-                        'Logout',
-                        style: TextStyle(color: AppTheme.red),
-                      ),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        TextButton.icon(
+                          onPressed: () {
+                            final List<HydratedCubit> cubits = [
+                              context.read<HomeCubit>(),
+                              context.read<ProfileCubit>(),
+                              context.read<FeedCubit>(),
+                            ];
+                            context.read<AuthCubit>().clearCache(cubits);
+                          },
+                          icon: const Icon(
+                            Icons.delete_outline,
+                            color: AppTheme.red,
+                          ),
+                          label: const Text(
+                            'Clear Cache',
+                            style: TextStyle(color: AppTheme.red),
+                          ),
+                        ),
+                        TextButton.icon(
+                          onPressed: () => context.read<AuthCubit>().logout(),
+                          icon: Icon(Icons.logout, color: AppTheme.red),
+                          label: const Text(
+                            'Logout',
+                            style: TextStyle(color: AppTheme.red),
+                          ),
+                        ),
+                      ],
                     ),
                     const SizedBox(height: 40),
                   ],
@@ -296,7 +324,7 @@ class _PerformanceCard extends StatelessWidget {
                 ),
                 const Spacer(),
                 Text(
-                  '75%',
+                  "${(stats.correctAnswers / stats.questionsAttempted * 100.0).toStringAsFixed(2)}%",
                   style: GoogleFonts.jetBrainsMono(
                     color: AppTheme.accentGreen,
                     fontWeight: FontWeight.bold,

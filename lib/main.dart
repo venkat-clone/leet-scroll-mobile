@@ -14,12 +14,14 @@ import 'package:mobile/features/profile/logic/history/history_cubit.dart';
 import 'package:mobile/firebase_options.dart';
 import 'package:path_provider/path_provider.dart';
 import 'core/injection.dart';
+import 'core/module/root_scaffold_messenger_key.dart';
 import 'core/router/app_router.dart';
 import 'core/router/app_router.gr.dart';
 import 'features/auth/logic/auth_cubit.dart';
 
 import 'package:firebase_core/firebase_core.dart';
 
+import 'features/feed/logic/feed_cubit.dart';
 import 'features/feed/logic/home/home_cubit.dart';
 import 'features/leaderboard/logic/leaderboard_cubit.dart';
 import 'features/profile/logic/preferences/edit_preferences_cubit.dart';
@@ -33,12 +35,11 @@ void main() async {
   );
   await configureDependencies();
   await getIt<NotificationService>().init();
-  final GlobalKey<ScaffoldMessengerState> rootScaffoldKey = GlobalKey();
   HydratedBloc.storage = await HydratedStorage.build(
     storageDirectory: (await getApplicationDocumentsDirectory()),
   );
 
-  final logger = ErrorLoggers(SnackBarService(rootScaffoldKey));
+  final logger = ErrorLoggers(SnackBarService());
 
   // InternetService(rootScaffoldKey);
   FlutterError.onError = logger.onError;
@@ -53,7 +54,10 @@ void main() async {
         BlocProvider(create: (context) => getIt<LeaderboardCubit>()),
         BlocProvider(create: (context) => getIt<EditPreferencesCubit>()),
         BlocProvider(create: (context) => getIt<HistoryCubit>()),
-        BlocProvider(create: (context) => getIt<HomeCubit>()),
+        BlocProvider(create: (context) => getIt<FeedCubit>()),
+        BlocProvider(
+          create: (context) => getIt<HomeCubit>()..loadUserActivity(),
+        ),
       ],
       child: MyApp(rootScaffoldKey: rootScaffoldKey),
     ),
