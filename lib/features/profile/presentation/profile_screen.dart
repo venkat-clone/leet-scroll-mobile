@@ -324,7 +324,7 @@ class _PerformanceCard extends StatelessWidget {
                 ),
                 const Spacer(),
                 Text(
-                  '75%',
+                  "${(stats.correctAnswers / stats.questionsAttempted * 100.0).toStringAsFixed(2)}%",
                   style: GoogleFonts.jetBrainsMono(
                     color: AppTheme.accentGreen,
                     fontWeight: FontWeight.bold,
