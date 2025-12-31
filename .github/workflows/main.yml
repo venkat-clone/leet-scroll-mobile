@@ -1,5 +1,5 @@
 # .github/workflows/merge-to-main.yml
-name: Merge to Main - Branch Decision
+name: Release
 
 on:
   push:
