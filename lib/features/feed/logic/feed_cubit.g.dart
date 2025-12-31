@@ -24,6 +24,7 @@ _$LoadedImpl _$$LoadedImplFromJson(Map<String, dynamic> json) => _$LoadedImpl(
       .toList(),
   error: json['error'] as String?,
   loading: json['loading'] as bool?,
+  questionIndex: (json['questionIndex'] as num?)?.toInt() ?? 0,
   $type: json['runtimeType'] as String?,
 );
 
@@ -32,6 +33,7 @@ Map<String, dynamic> _$$LoadedImplToJson(_$LoadedImpl instance) =>
       'questions': instance.questions,
       'error': instance.error,
       'loading': instance.loading,
+      'questionIndex': instance.questionIndex,
       'runtimeType': instance.$type,
     };
 
