@@ -4,6 +4,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:mobile/core/services/patch_service.dart';
 
 final FlutterLocalNotificationsPlugin _flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
@@ -35,8 +36,8 @@ class NotificationService {
         // You can still proceed, but notifications might be delayed
       }
     }
-    // final fcmToken = await _firebaseMessaging.getToken();
-    // debugPrint("FCM Token $fcmToken");
+    final fcmToken = await _firebaseMessaging.getToken();
+    debugPrint("FCM Token $fcmToken");
 
     // Android initialization
     const AndroidInitializationSettings initializationSettingsAndroid =
@@ -69,8 +70,11 @@ class NotificationService {
 
     // Foreground message handler
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      debugPrint(
+        "Firebase Notification Received from FirebaseMessaging.onMessage.listen",
+      );
       if (message.notification != null) {
-        _showNotification(message);
+        _showNotification(message, true);
       }
     });
 
@@ -79,7 +83,26 @@ class NotificationService {
   }
 }
 
-Future<void> _showNotification(RemoteMessage message) async {
+Future<void> _handleFirebaseActions(RemoteMessage message) async {
+  final String? action = message.data["action"];
+  if (action == null) {
+    return;
+  }
+
+  switch (action) {
+    case "shorebird_patch":
+      debugPrint("Patching the app");
+      PatchService().startPatch();
+      break;
+    default:
+      debugPrint("Unknown action: $action");
+  }
+}
+
+Future<void> _showNotification(
+  RemoteMessage message, [
+  bool showNotification = false,
+]) async {
   const AndroidNotificationChannel channel = AndroidNotificationChannel(
     'high_importance_channel', // id
     'High Importance Notifications', // title
@@ -96,7 +119,10 @@ Future<void> _showNotification(RemoteMessage message) async {
 
   RemoteNotification? notification = message.notification;
 
-  if (notification != null) {
+  _handleFirebaseActions(message);
+
+  if (notification != null && showNotification) {
+    debugPrint("Showing Notification");
     _flutterLocalNotificationsPlugin.show(
       notification.hashCode,
       notification.title,
@@ -120,6 +146,9 @@ Future<void> _showNotification(RemoteMessage message) async {
 
 @pragma('vm:entry-point')
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  debugPrint(
+    "Firebase Notification Received from _firebaseMessagingBackgroundHandler",
+  );
   await Firebase.initializeApp();
-  await _showNotification(message);
+  await _showNotification(message, false);
 }

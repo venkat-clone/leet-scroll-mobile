@@ -3,23 +3,26 @@ import 'dart:io';
 
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
+// ignore: unused_import
+import 'package:injectable/injectable.dart';
+
+import '../module/root_scaffold_messenger_key.dart';
 
 class InternetService {
-  final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey;
+  final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey =
+      rootScaffoldKey;
   StreamSubscription<List<ConnectivityResult>>? _subscription;
 
   // Track last known states to avoid redundant banners
   bool _wasOnline = false;
+  bool _wasOffline = false;
   bool _isChecking = false;
 
-  InternetService(this.scaffoldMessengerKey) {
+  InternetService() {
     _startListening();
   }
 
   Future<void> _startListening() async {
-    // Initial check on creation
-    await _checkAndUpdateStatus();
-
     // Listen for real-time changes
     _subscription = Connectivity().onConnectivityChanged.listen((
       results,
@@ -43,6 +46,7 @@ class InternetService {
     if (results.contains(ConnectivityResult.none)) {
       _showOfflineBanner(messenger);
       _wasOnline = false;
+      _wasOffline = false;
       _isChecking = false;
       return;
     }
@@ -60,13 +64,14 @@ class InternetService {
     messenger.removeCurrentMaterialBanner();
 
     if (hasInternet) {
-      if (!_wasOnline) {
+      if (!_wasOnline && _wasOffline) {
         _showOnlineRestoredBanner(messenger);
         _wasOnline = true;
       }
       // Already online → stay silent
     } else {
       _showNoInternetBanner(messenger);
+      _wasOffline = true;
       _wasOnline = false;
     }
   }
@@ -106,9 +111,14 @@ class InternetService {
         actions: [
           TextButton(
             onPressed: () {
-              messenger.hideCurrentMaterialBanner();
-              messenger.removeCurrentMaterialBanner();
-              _checkAndUpdateStatus();
+              try {
+                messenger.hideCurrentMaterialBanner();
+                messenger.removeCurrentMaterialBanner();
+                _checkAndUpdateStatus();
+              } catch (e, s) {
+                debugPrint(e.toString());
+                debugPrintStack(stackTrace: s);
+              }
             },
             child: const Text('RETRY', style: TextStyle(color: Colors.white)),
           ),

@@ -29,6 +29,7 @@ import '../features/profile/logic/history/history_cubit.dart' as _i433;
 import '../features/profile/logic/preferences/edit_preferences_cubit.dart'
     as _i544;
 import '../features/profile/logic/profile_cubit.dart' as _i384;
+import '../features/splash/logic/splash_cubit.dart' as _i220;
 import 'module/network_module.dart' as _i881;
 import 'module/notification_module.dart' as _i331;
 import 'services/notification_service.dart' as _i98;
@@ -50,6 +51,7 @@ extension GetItInjectableX on _i174.GetIt {
       () => networkModule.dir,
       preResolve: true,
     );
+    gh.factory<_i220.SplashCubit>(() => _i220.SplashCubit());
     gh.lazySingleton<_i98.NotificationService>(
       () => notificationModule.notificationService,
     );

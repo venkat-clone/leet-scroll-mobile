@@ -13,7 +13,7 @@ class TerminalLoader extends StatefulWidget {
 
 class _TerminalLoaderState extends State<TerminalLoader>
     with SingleTickerProviderStateMixin {
-  final List<String> chars = ['⠋', '⠙', '⠹', '⠸', '⠼', '⠴', '⠦', '⠧', '⠇', '⠏'];
+  final List<String> chars = ['⠼', '⠴', '⠦', '⠧', '⠇', '⠏', '⠋', '⠙', '⠹'];
 
   late final AnimationController _controller;
 
@@ -22,8 +22,8 @@ class _TerminalLoaderState extends State<TerminalLoader>
     super.initState();
     _controller = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 80), // Fast like real terminals
-    )..repeat(); // Repeats from 0 to 1 indefinitely
+      duration: const Duration(milliseconds: 1000),
+    )..repeat();
   }
 
   @override
