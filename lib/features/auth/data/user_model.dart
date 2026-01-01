@@ -9,6 +9,9 @@ class UserModel with _$UserModel {
     required String id,
     required String email,
     required String name,
+    @Default(0) int currentStreak,
+    @Default(0) int longestStreak,
+    DateTime? lastActivityDate,
     String? avatar,
   }) = _UserModel;
 

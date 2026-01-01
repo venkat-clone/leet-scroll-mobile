@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'profile_state.dart';
+part of 'profile_cubit.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -14,6 +14,27 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
   'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
 );
+
+ProfileState _$ProfileStateFromJson(Map<String, dynamic> json) {
+  switch (json['runtimeType']) {
+    case 'initial':
+      return _Initial.fromJson(json);
+    case 'loading':
+      return _Loading.fromJson(json);
+    case 'loaded':
+      return _Loaded.fromJson(json);
+    case 'error':
+      return _Error.fromJson(json);
+
+    default:
+      throw CheckedFromJsonException(
+        json,
+        'runtimeType',
+        'ProfileState',
+        'Invalid union type "${json['runtimeType']}"!',
+      );
+  }
+}
 
 /// @nodoc
 mixin _$ProfileState {
@@ -61,6 +82,7 @@ mixin _$ProfileState {
     TResult Function(_Error value)? error,
     required TResult orElse(),
   }) => throw _privateConstructorUsedError;
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -101,9 +123,15 @@ class __$$InitialImplCopyWithImpl<$Res>
 }
 
 /// @nodoc
-
+@JsonSerializable()
 class _$InitialImpl implements _Initial {
-  const _$InitialImpl();
+  const _$InitialImpl({final String? $type}) : $type = $type ?? 'initial';
+
+  factory _$InitialImpl.fromJson(Map<String, dynamic> json) =>
+      _$$InitialImplFromJson(json);
+
+  @JsonKey(name: 'runtimeType')
+  final String $type;
 
   @override
   String toString() {
@@ -116,6 +144,7 @@ class _$InitialImpl implements _Initial {
         (other.runtimeType == runtimeType && other is _$InitialImpl);
   }
 
+  @JsonKey(ignore: true)
   @override
   int get hashCode => runtimeType.hashCode;
 
@@ -192,10 +221,17 @@ class _$InitialImpl implements _Initial {
     }
     return orElse();
   }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$InitialImplToJson(this);
+  }
 }
 
 abstract class _Initial implements ProfileState {
   const factory _Initial() = _$InitialImpl;
+
+  factory _Initial.fromJson(Map<String, dynamic> json) = _$InitialImpl.fromJson;
 }
 
 /// @nodoc
@@ -217,9 +253,15 @@ class __$$LoadingImplCopyWithImpl<$Res>
 }
 
 /// @nodoc
-
+@JsonSerializable()
 class _$LoadingImpl implements _Loading {
-  const _$LoadingImpl();
+  const _$LoadingImpl({final String? $type}) : $type = $type ?? 'loading';
+
+  factory _$LoadingImpl.fromJson(Map<String, dynamic> json) =>
+      _$$LoadingImplFromJson(json);
+
+  @JsonKey(name: 'runtimeType')
+  final String $type;
 
   @override
   String toString() {
@@ -232,6 +274,7 @@ class _$LoadingImpl implements _Loading {
         (other.runtimeType == runtimeType && other is _$LoadingImpl);
   }
 
+  @JsonKey(ignore: true)
   @override
   int get hashCode => runtimeType.hashCode;
 
@@ -308,10 +351,17 @@ class _$LoadingImpl implements _Loading {
     }
     return orElse();
   }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$LoadingImplToJson(this);
+  }
 }
 
 abstract class _Loading implements ProfileState {
   const factory _Loading() = _$LoadingImpl;
+
+  factory _Loading.fromJson(Map<String, dynamic> json) = _$LoadingImpl.fromJson;
 }
 
 /// @nodoc
@@ -358,12 +408,19 @@ class __$$LoadedImplCopyWithImpl<$Res>
 }
 
 /// @nodoc
-
+@JsonSerializable()
 class _$LoadedImpl implements _Loaded {
-  const _$LoadedImpl(this.profile);
+  const _$LoadedImpl(this.profile, {final String? $type})
+    : $type = $type ?? 'loaded';
+
+  factory _$LoadedImpl.fromJson(Map<String, dynamic> json) =>
+      _$$LoadedImplFromJson(json);
 
   @override
   final ProfileModel profile;
+
+  @JsonKey(name: 'runtimeType')
+  final String $type;
 
   @override
   String toString() {
@@ -378,6 +435,7 @@ class _$LoadedImpl implements _Loaded {
             (identical(other.profile, profile) || other.profile == profile));
   }
 
+  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(runtimeType, profile);
 
@@ -460,10 +518,17 @@ class _$LoadedImpl implements _Loaded {
     }
     return orElse();
   }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$LoadedImplToJson(this);
+  }
 }
 
 abstract class _Loaded implements ProfileState {
   const factory _Loaded(final ProfileModel profile) = _$LoadedImpl;
+
+  factory _Loaded.fromJson(Map<String, dynamic> json) = _$LoadedImpl.fromJson;
 
   ProfileModel get profile;
   @JsonKey(ignore: true)
@@ -505,12 +570,19 @@ class __$$ErrorImplCopyWithImpl<$Res>
 }
 
 /// @nodoc
-
+@JsonSerializable()
 class _$ErrorImpl implements _Error {
-  const _$ErrorImpl(this.message);
+  const _$ErrorImpl(this.message, {final String? $type})
+    : $type = $type ?? 'error';
+
+  factory _$ErrorImpl.fromJson(Map<String, dynamic> json) =>
+      _$$ErrorImplFromJson(json);
 
   @override
   final String message;
+
+  @JsonKey(name: 'runtimeType')
+  final String $type;
 
   @override
   String toString() {
@@ -525,6 +597,7 @@ class _$ErrorImpl implements _Error {
             (identical(other.message, message) || other.message == message));
   }
 
+  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(runtimeType, message);
 
@@ -607,10 +680,17 @@ class _$ErrorImpl implements _Error {
     }
     return orElse();
   }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$ErrorImplToJson(this);
+  }
 }
 
 abstract class _Error implements ProfileState {
   const factory _Error(final String message) = _$ErrorImpl;
+
+  factory _Error.fromJson(Map<String, dynamic> json) = _$ErrorImpl.fromJson;
 
   String get message;
   @JsonKey(ignore: true)

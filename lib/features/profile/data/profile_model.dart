@@ -1,4 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:mobile/features/profile/data/models/preferences/user_preferences_model.dart';
+import 'package:mobile/features/profile/data/models/stats/profile_stats_model.dart';
 import '../../auth/data/user_model.dart';
 
 part 'profile_model.freezed.dart';
@@ -8,21 +10,10 @@ part 'profile_model.g.dart';
 class ProfileModel with _$ProfileModel {
   const factory ProfileModel({
     required UserModel user,
-    required ProfileStats stats,
+    required ProfileStatsModel stats,
+    required UserPreferencesModel preferences,
   }) = _ProfileModel;
 
   factory ProfileModel.fromJson(Map<String, dynamic> json) =>
       _$ProfileModelFromJson(json);
-}
-
-@freezed
-class ProfileStats with _$ProfileStats {
-  const factory ProfileStats({
-    @Default(0) int correctAnswers,
-    @Default(0) int wrongAnswers,
-    @Default(0) int questionsAttempted,
-  }) = _ProfileStats;
-
-  factory ProfileStats.fromJson(Map<String, dynamic> json) =>
-      _$ProfileStatsFromJson(json);
 }

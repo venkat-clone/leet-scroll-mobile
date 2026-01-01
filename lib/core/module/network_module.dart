@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dio/dio.dart';
 import 'package:dio_smart_retry/dio_smart_retry.dart';
 import 'package:injectable/injectable.dart';
@@ -12,8 +14,20 @@ abstract class NetworkModule {
   @preResolve
   Future<SharedPreferences> get prefs => SharedPreferences.getInstance();
 
+  @preResolve
+  Future<Directory> get dir => getApplicationDocumentsDirectory();
+
   @lazySingleton
-  Dio dio(SharedPreferences prefs) {
+  PersistCookieJar jar(Directory dir) {
+    final cookieJar = PersistCookieJar(
+      ignoreExpires: true,
+      storage: FileStorage("${dir.path}/.cookies/"),
+    );
+    return cookieJar;
+  }
+
+  @lazySingleton
+  Dio dio(SharedPreferences prefs, PersistCookieJar cookieJar) {
     final dio = Dio(
       BaseOptions(
         baseUrl: AppConfig.baseUrl,
@@ -25,17 +39,13 @@ abstract class NetworkModule {
         },
       ),
     );
-    getApplicationDocumentsDirectory().then((dir) {
-      final cookieJar = PersistCookieJar(
-        ignoreExpires: true,
-        storage: FileStorage("${dir.path}/.cookies/"),
-      );
 
-      dio.interceptors.add(CookieManager(cookieJar));
-    });
+    dio.interceptors.add(CookieManager(cookieJar));
 
     dio.interceptors.add(RetryInterceptor(dio: dio));
-    dio.interceptors.add(LogInterceptor());
+    dio.interceptors.add(
+      LogInterceptor(requestHeader: false, responseHeader: false),
+    );
 
     return dio;
   }

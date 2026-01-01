@@ -1,11 +1,11 @@
 # .github/workflows/patch-release-branch.yml
-name: Patch Release Branch
+name: Patch
 
 on:
-  workflow_run:
-    workflows: ["Merge to Main - Branch Decision"]   # Name of the first workflow
-    types:
-      - completed
+#  workflow_run:
+#    workflows: ["Merge to Main - Branch Decision"]   # Name of the first workflow
+#    types:
+#      - completed
   push:
     branches:
       - 'release/**'  # Only pushes to existing release branches
@@ -47,22 +47,10 @@ jobs:
 
       - name: Setup Shorebird
         uses: shorebirdtech/setup-shorebird@v1
+        
 
-      - name: Change detection (only lib changes allowed for patch)
-        uses: dorny/paths-filter@v3
-        id: filter
-        with:
-          filters: |
-            lib:
-              - 'lib/**'
-            forbidden:
-              - 'android/**'
-              - 'pubspec.yaml'
-              - 'shorebird.yaml'
-
-      - name: Shorebird Patch (only if pure Dart changes)
-        if: steps.filter.outputs.lib == 'true' && steps.filter.outputs.forbidden == 'false'
-        run: shorebird patch android --artifact=apk
+      - name: Shorebird Patch 
+        run: shorebird patch android --release-version=latest --allow-native-diffs --allow-asset-diffs
         env:
           SHOREBIRD_TOKEN: ${{ secrets.SHOREBIRD_TOKEN }}
 

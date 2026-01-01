@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:injectable/injectable.dart';
+import 'package:mobile/core/services/snack_bar_service.dart';
 import '../data/auth_repository.dart';
 import 'auth_state.dart';
 
@@ -64,5 +65,13 @@ class AuthCubit extends Cubit<AuthState> {
   Future<void> logout() async {
     await _repository.logout();
     emit(const AuthState.unauthenticated());
+  }
+
+  void clearCache(List<HydratedCubit> cubits) async {
+    SnackBarService().showInfo(message: "Clearing Cache");
+    for (var cubit in cubits) {
+      await cubit.clear();
+    }
+    SnackBarService().showSuccess(message: "Cache Cleared");
   }
 }

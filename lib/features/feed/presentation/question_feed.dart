@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../core/injection.dart';
 import '../logic/feed_cubit.dart';
-import '../logic/feed_state.dart';
 import '../logic/question_cubit.dart';
 import 'question_card.dart';
 
@@ -25,18 +24,36 @@ class _QuestionFeedState extends State<QuestionFeedScreen> {
         return state.when(
           initial: () => const Center(child: CircularProgressIndicator()),
           loading: () => const Center(child: CircularProgressIndicator()),
-          loaded: (questions) {
+          loaded: (questions, error, loading, questionIndex) {
+            if (questions.isEmpty) {
+              return Center(child: Text("Failed to Load Questions"));
+            }
+
             return PageView.builder(
               controller: _pageController,
               scrollDirection: Axis.vertical,
               itemCount: questions.length,
+              onPageChanged: (i) {
+                // next page index
+                if (i > questions.length - 5) {
+                  context.read<FeedCubit>().loadQuestions();
+                }
+              },
               itemBuilder: (context, index) {
-                return BlocProvider(
-                  create: (context) => getIt<QuestionCubit>(),
-                  child: QuestionCard(
-                    question: questions[index],
-                    scrollController: _pageController,
-                  ),
+                return Column(
+                  children: [
+                    Expanded(
+                      child: BlocProvider(
+                        create: (context) => getIt<QuestionCubit>(),
+                        child: QuestionCard(
+                          question: questions[index],
+                          scrollController: _pageController,
+                          index: index,
+                        ),
+                      ),
+                    ),
+                    if (loading == true) const LinearProgressIndicator(),
+                  ],
                 );
               },
             );

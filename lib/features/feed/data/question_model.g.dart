@@ -19,6 +19,13 @@ _$QuestionImpl _$$QuestionImplFromJson(Map<String, dynamic> json) =>
       difficulty: json['difficulty'] as String,
       category: json['category'] as String,
       tags: (json['tags'] as List<dynamic>).map((e) => e as String).toList(),
+      viewsCount: (json['viewsCount'] as num?)?.toInt(),
+      likesCount: (json['likesCount'] as num?)?.toInt(),
+      commentsCount: (json['commentsCount'] as num?)?.toInt(),
+      matchingTagsCount: (json['matchingTagsCount'] as num?)?.toInt(),
+      priority: (json['priority'] as num?)?.toInt(),
+      userRanking: (json['userRanking'] as num?)?.toInt(),
+      interestedTagsCount: (json['interestedTagsCount'] as num?)?.toInt(),
       codeSnippet: json['codeSnippet'] as String?,
     );
 
@@ -33,5 +40,12 @@ Map<String, dynamic> _$$QuestionImplToJson(_$QuestionImpl instance) =>
       'difficulty': instance.difficulty,
       'category': instance.category,
       'tags': instance.tags,
+      'viewsCount': instance.viewsCount,
+      'likesCount': instance.likesCount,
+      'commentsCount': instance.commentsCount,
+      'matchingTagsCount': instance.matchingTagsCount,
+      'priority': instance.priority,
+      'userRanking': instance.userRanking,
+      'interestedTagsCount': instance.interestedTagsCount,
       'codeSnippet': instance.codeSnippet,
     };

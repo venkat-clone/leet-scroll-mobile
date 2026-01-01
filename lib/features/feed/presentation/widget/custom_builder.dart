@@ -40,45 +40,92 @@ class CustomCodeMarkdownBuilder implements MarkdownElementBuilder {
       }
     }
 
-    // Return syntax highlighted code widget
-    return mtl.Column(
-      crossAxisAlignment: mtl.CrossAxisAlignment.stretch,
-      children: [
-        // Language header
-        mtl.Container(
-          padding: const mtl.EdgeInsets.symmetric(horizontal: 16, vertical: 4),
-          decoration: mtl.BoxDecoration(
-            color: mtl.Colors.grey[800],
-            borderRadius: const mtl.BorderRadius.only(
-              topLeft: mtl.Radius.circular(8),
-              topRight: mtl.Radius.circular(8),
-            ),
-          ),
-          child: mtl.Text(
-            language.toUpperCase(),
-            style: mtl.TextStyle(
-              fontSize: 12,
-              fontWeight: mtl.FontWeight.bold,
-              color: mtl.Colors.grey[600],
-            ),
-          ),
-        ),
-        // Syntax highlighted code
-        mtl.SingleChildScrollView(
-          scrollDirection: mtl.Axis.horizontal,
+    final Map<String, mtl.TextStyle> theme = {...atomOneDarkReasonableTheme};
 
-          child: HighlightView(
-            code,
-            language: language,
-            theme: atomOneDarkReasonableTheme,
-            padding: const mtl.EdgeInsets.all(16),
-            textStyle: const mtl.TextStyle(
-              fontFamily: 'monospace',
-              fontSize: 14,
+    theme["root"] = mtl.TextStyle(
+      color: mtl.Color(0xffabb2bf),
+      backgroundColor: mtl.Color(0xff1f1f1f),
+    );
+
+    // Return syntax highlighted code widget
+    return mtl.Card(
+      margin: mtl.EdgeInsets.zero,
+      child: mtl.Column(
+        crossAxisAlignment: mtl.CrossAxisAlignment.stretch,
+        children: [
+          // Language header
+          mtl.Container(
+            padding: const mtl.EdgeInsets.symmetric(horizontal: 6, vertical: 4),
+            decoration: mtl.BoxDecoration(
+              color: mtl.Colors.grey[800],
+
+              borderRadius: const mtl.BorderRadius.only(
+                topLeft: mtl.Radius.circular(2),
+                topRight: mtl.Radius.circular(2),
+              ),
+            ),
+
+            child: mtl.Row(
+              children: [
+                mtl.Row(
+                  children: [
+                    mtl.Icon(
+                      mtl.Icons.circle,
+                      size: 12,
+                      color: mtl.Colors.red[600],
+                    ),
+                    mtl.SizedBox(width: 4),
+                    mtl.Icon(
+                      mtl.Icons.circle,
+                      size: 12,
+                      color: mtl.Colors.yellow[600],
+                    ),
+                    mtl.SizedBox(width: 4),
+                    mtl.Icon(
+                      mtl.Icons.circle,
+                      size: 12,
+                      color: mtl.Colors.green[600],
+                    ),
+                  ],
+                ),
+
+                mtl.Expanded(
+                  child: mtl.Text(
+                    language.toUpperCase(),
+                    textAlign: mtl.TextAlign.center,
+                    style: mtl.TextStyle(
+                      fontSize: 12,
+                      fontWeight: mtl.FontWeight.bold,
+                      color: mtl.Colors.grey[600],
+                    ),
+                  ),
+                ),
+                mtl.SizedBox(width: 28),
+                mtl.Icon(
+                  mtl.Icons.play_arrow_rounded,
+                  size: 16,
+                  color: mtl.Colors.green[600],
+                ),
+              ],
             ),
           ),
-        ),
-      ],
+          // Syntax highlighted code
+          mtl.SingleChildScrollView(
+            scrollDirection: mtl.Axis.horizontal,
+
+            child: HighlightView(
+              code + ("\t" * 6),
+              language: language,
+              theme: theme,
+              padding: const mtl.EdgeInsets.all(16),
+              // textStyle: const mtl.TextStyle(
+              //   fontFamily: 'monospace',
+              //   fontSize: 12,
+              // ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 

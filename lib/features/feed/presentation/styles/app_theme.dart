@@ -2,9 +2,27 @@ import 'package:flutter/material.dart';
 import 'package:flutter_markdown_plus/flutter_markdown_plus.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-/// Centralized theme configuration for the feed feature
+/// Centralized theme configuration for the app
 class AppTheme {
   AppTheme._();
+
+  // Base Colors
+  static const Color black = Color(0xFF000000);
+  static const Color white = Color(0xFFFFFFFF);
+  static const Color grey = Color(0xFF9E9E9E);
+  static const Color red = Color(0xFFF44336);
+  static const Color transparent = Color(0x00000000);
+
+  // Surface Colors
+  static const Color surfaceDark = Color(0xFF212121); // grey[900]
+  static const Color surfaceLight = Color(0xFF2C2C2C); // grey[850]
+  static const Color surfaceMedium = Color(0xFF424242); // grey[800]
+  static const Color surfaceSubtle = Color(
+    0x80212121,
+  ); // grey[900] with 0.5 opacity
+  static const Color surfaceBlack = Color(0xFF121212);
+  static const Color dividerColor = Color(0xFF1A1A1A);
+  static const Color primary = Color(0xff00c950);
 
   // Dracula Theme Colors
   static const Color draculaBackground = Color(0xFF282A36);
@@ -25,16 +43,50 @@ class AppTheme {
   static const Color vsCodeInputBg = Color(0xFF3E3E3E);
   static const Color vsCodeBorder = Color(0xFF3E3E3E);
 
-  // Semantic Colors
-  static Color get successColor => draculaGreen;
-  static Color get warningColor => draculaOrange;
-  static Color get errorColor => draculaRed;
-  static Color get infoColor => draculaCyan;
+  // Accent Colors
+  static const Color accentGreen = Color(0xFF69F0AE); // greenAccent
+  static const Color accentRed = Color(0xFFFF5252); // redAccent
+  static const Color accentBlue = Color(0xFF448AFF); // blueAccent
+  static const Color accentPink = Color(0xFFFF4081); // pinkAccent
+  static const Color accentOrange = Color(0xFFFF9800); // orange
+  static const Color successGreen = Color(0xFF4CAF50);
+
+  // Glow & Border Colors
+  static const Color glowGreen = Color(0x334CAF50); // green with 0.2 opacity
+  static const Color borderGreen = Color(0x804CAF50); // green with 0.5 opacity
+  static const Color white05 = Color(0x0DFFFFFF); // white with 0.05 opacity
+
+  static const Color statIconGreenBg = Color(
+    0x1A4CAF50,
+  ); // green with 0.1 opacity
+  static const Color statIconRedBg = Color(
+    0x1AFF5252,
+  ); // redAccent with 0.1 opacity
+  static const Color statIconBlueBg = Color(
+    0x1A448AFF,
+  ); // blueAccent with 0.1 opacity
+  static const Color statIconPinkBg = Color(
+    0x1AFF4081,
+  ); // pinkAccent with 0.1 opacity
+  static const Color statIconOrangeBg = Color(
+    0x1AFF9800,
+  ); // orange with 0.1 opacity
 
   // Text Colors
-  static Color get primaryText => Colors.white;
-  static Color get secondaryText => Colors.grey[300]!;
-  static Color get tertiaryText => Colors.grey[400]!;
+  static const Color primaryText = Color(0xFFFFFFFF);
+  static const Color secondaryText = Color(0xFFE0E0E0); // grey[300]
+  static const Color tertiaryText = Color(0xFFBDBDBD); // grey[400]
+  static const Color greyText = Color(0xFF9E9E9E);
+  static const Color grey600 = Color(0xFF757575);
+  static const Color grey700 = Color(0xFF616161);
+
+  static const Color errorColor = Color(0xFFF44336);
+  static const Color successColor = Color(0xFF4CAF50);
+
+  // Optimization: Pre-defined Shadows
+  static const List<BoxShadow> profileGlow = [
+    BoxShadow(color: glowGreen, blurRadius: 20, spreadRadius: 10),
+  ];
 
   /// Get difficulty color based on difficulty level
   static Color getDifficultyColor(String difficulty) {
@@ -46,13 +98,13 @@ class AppTheme {
       case 'HARD':
         return draculaRed;
       default:
-        return Colors.grey;
+        return grey;
     }
   }
 
   /// Get difficulty text color (for contrast)
   static Color getDifficultyTextColor(String difficulty) {
-    return Colors.black;
+    return black;
   }
 
   /// Common text styles
@@ -73,20 +125,17 @@ class AppTheme {
   static TextStyle get labelStyle =>
       GoogleFonts.firaCode(color: tertiaryText, fontSize: 12);
 
-  static TextStyle get chipTextStyle => const TextStyle(
-    color: Colors.black,
-    fontSize: 12,
-    fontWeight: FontWeight.bold,
-  );
+  static TextStyle get chipTextStyle =>
+      const TextStyle(color: black, fontSize: 12, fontWeight: FontWeight.bold);
 
   /// Markdown style sheet for title
   static MarkdownStyleSheet getTitleMarkdownStyle(BuildContext context) {
     return MarkdownStyleSheet.fromTheme(Theme.of(context)).copyWith(
       p: titleStyle,
       codeblockDecoration: BoxDecoration(
-        color: Colors.grey[100],
+        color: const Color(0xFFF5F5F5), // grey[100]
         borderRadius: BorderRadius.circular(8),
-        border: Border.all(color: Colors.grey[300]!),
+        border: Border.all(color: const Color(0xFFE0E0E0)), // grey[300]
       ),
       codeblockPadding: const EdgeInsets.all(16),
     );

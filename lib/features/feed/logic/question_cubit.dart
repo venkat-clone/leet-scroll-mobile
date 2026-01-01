@@ -78,6 +78,27 @@ class QuestionCubit extends Cubit<QuestionState> {
     }
   }
 
+  Future<void> submitQuestionViewed(String questionId) async {
+    try {
+      final result = await _repository.submitQuestionViewed(questionId);
+      if (!isClosed) {
+        emit(
+          state.copyWith(
+            likesCount: result['likes'] ?? 0,
+            isLiked: result['userLiked'] ?? false,
+            isBookmarked: result['isBookmarked'],
+          ),
+        );
+      }
+    } catch (e) {
+      if (!isClosed) {
+        emit(state.copyWith(error: e.toString()));
+      } else {
+        rethrow;
+      }
+    }
+  }
+
   Future<void> submitAnswer(String questionId, int selectedOption) async {
     try {
       await _repository.submitAnswer(questionId, selectedOption);
