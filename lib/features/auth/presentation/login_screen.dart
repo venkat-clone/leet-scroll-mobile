@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:mobile/core/widgets/version_widget.dart';
 import '../../../core/router/app_router.gr.dart';
 import '../../../core/widgets/responsive_builders/responsive_center_container.dart';
 import '../../../core/widgets/responsive_layout.dart';
@@ -71,24 +72,33 @@ class LoginScreen extends StatelessWidget {
   Widget _buildFooter() {
     return Padding(
       padding: const EdgeInsets.only(bottom: 24, top: 16),
-      child: RichText(
-        textAlign: TextAlign.center,
-        text: TextSpan(
-          style: GoogleFonts.firaCode(color: Colors.grey[600], fontSize: 11),
-          children: [
-            const TextSpan(text: "By continuing, you agree to our "),
-            const TextSpan(
-              text: "Terms",
-              style: TextStyle(decoration: TextDecoration.underline),
+      child: Column(
+        children: [
+          VersionWidget(),
+          const SizedBox(height: 12),
+          RichText(
+            textAlign: TextAlign.center,
+            text: TextSpan(
+              style: GoogleFonts.firaCode(
+                color: Colors.grey[600],
+                fontSize: 11,
+              ),
+              children: [
+                const TextSpan(text: "By continuing, you agree to our "),
+                const TextSpan(
+                  text: "Terms",
+                  style: TextStyle(decoration: TextDecoration.underline),
+                ),
+                const TextSpan(text: " & "),
+                const TextSpan(
+                  text: "Privacy",
+                  style: TextStyle(decoration: TextDecoration.underline),
+                ),
+                const TextSpan(text: "."),
+              ],
             ),
-            const TextSpan(text: " & "),
-            const TextSpan(
-              text: "Privacy",
-              style: TextStyle(decoration: TextDecoration.underline),
-            ),
-            const TextSpan(text: "."),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

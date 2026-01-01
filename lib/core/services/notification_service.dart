@@ -36,8 +36,10 @@ class NotificationService {
         // You can still proceed, but notifications might be delayed
       }
     }
-    final fcmToken = await _firebaseMessaging.getToken();
-    debugPrint("FCM Token $fcmToken");
+    try {
+      final fcmToken = await _firebaseMessaging.getToken();
+      debugPrint("FCM Token $fcmToken");
+    } catch (_) {}
 
     // Android initialization
     const AndroidInitializationSettings initializationSettingsAndroid =
