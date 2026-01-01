@@ -1,5 +1,5 @@
 # .github/workflows/patch-release-branch.yml
-name: Patch Release Branch
+name: Patch
 
 on:
 #  workflow_run:
@@ -50,7 +50,7 @@ jobs:
         
 
       - name: Shorebird Patch 
-        run: shorebird patch android --release-version=latest
+        run: shorebird patch android --release-version=latest --allow-native-diffs --allow-asset-diffs
         env:
           SHOREBIRD_TOKEN: ${{ secrets.SHOREBIRD_TOKEN }}
 

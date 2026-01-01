@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
+import 'package:mobile/core/widgets/version_widget.dart';
 import 'package:mobile/features/feed/logic/home/home_cubit.dart';
 import 'package:mobile/features/feed/presentation/styles/app_theme.dart';
 import 'package:mobile/features/profile/data/models/preferences/user_preferences_model.dart';
@@ -152,6 +153,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ),
                       ],
                     ),
+                    const SizedBox(height: 12),
+                    VersionWidget(),
                     const SizedBox(height: 40),
                   ],
                 ),
@@ -467,85 +470,81 @@ class _PreferencesCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(20),
-      decoration: BoxDecoration(
-        color: AppTheme.surfaceSubtle,
-        borderRadius: BorderRadius.circular(24),
-        border: Border.all(color: AppTheme.surfaceLight),
-      ),
-      child: Column(
-        children: [
-          InkWell(
-            onTap: () {
-              context.router.push(
-                SetupPreferencesRoute(
-                  // preferences: preferences, highlightStatus: HighlightStatus.none
-                ),
-              );
-            },
-            child: _PreferenceItem(
+    return InkWell(
+      onTap: () {
+        context.router.push(SetupPreferencesRoute());
+      },
+      child: Container(
+        padding: const EdgeInsets.all(20),
+        decoration: BoxDecoration(
+          color: AppTheme.surfaceSubtle,
+          borderRadius: BorderRadius.circular(24),
+          border: Border.all(color: AppTheme.surfaceLight),
+        ),
+        child: Column(
+          children: [
+            _PreferenceItem(
               icon: Icons.code,
               iconColor: AppTheme.accentPink,
               iconBgColor: AppTheme.statIconPinkBg,
               label: 'Preferred Language',
               trailing: preferences.preferredLanguages.join(","),
             ),
-          ),
-          const Divider(color: AppTheme.grey, height: 40),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                children: [
-                  Container(
-                    padding: const EdgeInsets.all(8),
-                    decoration: const BoxDecoration(
-                      color: AppTheme.statIconOrangeBg,
-                      shape: BoxShape.circle,
+            const Divider(color: AppTheme.grey, height: 40),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.all(8),
+                      decoration: const BoxDecoration(
+                        color: AppTheme.statIconOrangeBg,
+                        shape: BoxShape.circle,
+                      ),
+                      child: const Icon(
+                        Icons.category,
+                        color: AppTheme.accentOrange,
+                        size: 20,
+                      ),
                     ),
-                    child: const Icon(
-                      Icons.category,
-                      color: AppTheme.accentOrange,
+                    const SizedBox(width: 16),
+                    Text(
+                      'Topics of Interest',
+                      style: GoogleFonts.outfit(
+                        color: AppTheme.white,
+                        fontSize: 14,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                    const Spacer(),
+                    Text(
+                      'Edit',
+                      style: GoogleFonts.outfit(
+                        color: AppTheme.grey,
+                        fontSize: 12,
+                      ),
+                    ),
+                    const Icon(
+                      Icons.keyboard_arrow_right,
+                      color: AppTheme.grey,
                       size: 20,
                     ),
-                  ),
-                  const SizedBox(width: 16),
-                  Text(
-                    'Topics of Interest',
-                    style: GoogleFonts.outfit(
-                      color: AppTheme.white,
-                      fontSize: 14,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                  const Spacer(),
-                  Text(
-                    'Edit',
-                    style: GoogleFonts.outfit(
-                      color: AppTheme.grey,
-                      fontSize: 12,
-                    ),
-                  ),
-                  const Icon(
-                    Icons.keyboard_arrow_right,
-                    color: AppTheme.grey,
-                    size: 20,
-                  ),
-                ],
-              ),
-              const SizedBox(height: 16),
-              Wrap(
-                spacing: 8,
-                runSpacing: 8,
-                children: [
-                  ...preferences.preferredTopics.map((s) => _Tag(label: s)),
-                  const _AddTag(),
-                ],
-              ),
-            ],
-          ),
-        ],
+                  ],
+                ),
+                const SizedBox(height: 16),
+                Wrap(
+                  spacing: 8,
+                  runSpacing: 8,
+                  children: [
+                    ...preferences.preferredTopics.map((s) => _Tag(label: s)),
+                    const _AddTag(),
+                  ],
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }

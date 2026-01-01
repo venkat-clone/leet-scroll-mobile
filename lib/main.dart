@@ -11,12 +11,14 @@ import 'package:mobile/core/services/notification_service.dart';
 import 'package:mobile/core/services/snack_bar_service.dart';
 import 'package:mobile/features/auth/logic/auth_state.dart';
 import 'package:mobile/features/profile/logic/history/history_cubit.dart';
+import 'package:mobile/features/splash/logic/splash_cubit.dart';
 import 'package:mobile/firebase_options.dart';
 import 'package:path_provider/path_provider.dart';
 import 'core/injection.dart';
 import 'core/module/root_scaffold_messenger_key.dart';
 import 'core/router/app_router.dart';
 import 'core/router/app_router.gr.dart';
+import 'core/services/internet_service.dart';
 import 'features/auth/logic/auth_cubit.dart';
 
 import 'package:firebase_core/firebase_core.dart';
@@ -41,7 +43,7 @@ void main() async {
 
   final logger = ErrorLoggers(SnackBarService());
 
-  // InternetService(rootScaffoldKey);
+  InternetService();
   FlutterError.onError = logger.onError;
 
   PlatformDispatcher.instance.onError = logger.onErrorAsync;
@@ -55,6 +57,9 @@ void main() async {
         BlocProvider(create: (context) => getIt<EditPreferencesCubit>()),
         BlocProvider(create: (context) => getIt<HistoryCubit>()),
         BlocProvider(create: (context) => getIt<FeedCubit>()),
+        BlocProvider(
+          create: (context) => getIt<SplashCubit>()..checkForUpdates(),
+        ),
         BlocProvider(
           create: (context) => getIt<HomeCubit>()..loadUserActivity(),
         ),
@@ -81,7 +86,10 @@ class MyApp extends StatelessWidget {
       listener: (context, state) {
         state.maybeWhen(
           unauthenticated: () {
-            if (appRouter.current.name != LoginRoute.name) {
+            if (![
+              LoginRoute.name,
+              SplashRoute.name,
+            ].contains(appRouter.current.name)) {
               if (appRouter.canPop()) {
                 appRouter.popUntilRoot();
               }

@@ -124,9 +124,15 @@ class _LoginFormState extends State<LoginForm> {
                   ),
                 )
               else ...[
-                Image.network(
-                  'https://www.gstatic.com/images/branding/product/1x/gsa_512dp.png',
+                Image.asset(
+                  'assets/images/google.png',
                   height: 20,
+                  errorBuilder: (_, __, ___) {
+                    return Image.network(
+                      'https://www.gstatic.com/images/branding/product/1x/gsa_512dp.png',
+                      height: 20,
+                    );
+                  },
                 ),
                 const SizedBox(width: 12),
                 Text(

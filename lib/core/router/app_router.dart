@@ -8,9 +8,11 @@ class AppRouter extends $AppRouter {
   List<AutoRoute> get routes => [
     AutoRoute(page: LoginRoute.page, path: '/login'),
     AutoRoute(page: RegisterRoute.page, path: '/register'),
+    AutoRoute(page: SplashRoute.page, initial: true, path: '/'),
     AutoRoute(
       page: ShellRoute.page,
-      path: '/',
+      path: '/home',
+
       guards: [AuthGuard()],
       children: [
         AutoRoute(page: HomeRoute.page, path: 'home'),
