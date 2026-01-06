@@ -25,7 +25,7 @@ mixin _$StreekModel {
   int get longestStreak => throw _privateConstructorUsedError;
   DateTime? get lastActivityDate => throw _privateConstructorUsedError;
   DailyActivityModel? get todayActivity => throw _privateConstructorUsedError;
-  List<DailyActivityModel> get dailyActivities =>
+  Map<DateTime, DailyActivityModel> get dailyActivities =>
       throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -46,7 +46,7 @@ abstract class $StreekModelCopyWith<$Res> {
     int longestStreak,
     DateTime? lastActivityDate,
     DailyActivityModel? todayActivity,
-    List<DailyActivityModel> dailyActivities,
+    Map<DateTime, DailyActivityModel> dailyActivities,
   });
 
   $DailyActivityModelCopyWith<$Res>? get todayActivity;
@@ -92,7 +92,7 @@ class _$StreekModelCopyWithImpl<$Res, $Val extends StreekModel>
             dailyActivities: null == dailyActivities
                 ? _value.dailyActivities
                 : dailyActivities // ignore: cast_nullable_to_non_nullable
-                      as List<DailyActivityModel>,
+                      as Map<DateTime, DailyActivityModel>,
           )
           as $Val,
     );
@@ -125,7 +125,7 @@ abstract class _$$StreekModelImplCopyWith<$Res>
     int longestStreak,
     DateTime? lastActivityDate,
     DailyActivityModel? todayActivity,
-    List<DailyActivityModel> dailyActivities,
+    Map<DateTime, DailyActivityModel> dailyActivities,
   });
 
   @override
@@ -171,7 +171,7 @@ class __$$StreekModelImplCopyWithImpl<$Res>
         dailyActivities: null == dailyActivities
             ? _value._dailyActivities
             : dailyActivities // ignore: cast_nullable_to_non_nullable
-                  as List<DailyActivityModel>,
+                  as Map<DateTime, DailyActivityModel>,
       ),
     );
   }
@@ -185,7 +185,7 @@ class _$StreekModelImpl implements _StreekModel {
     required this.longestStreak,
     this.lastActivityDate,
     this.todayActivity,
-    required final List<DailyActivityModel> dailyActivities,
+    required final Map<DateTime, DailyActivityModel> dailyActivities,
   }) : _dailyActivities = dailyActivities;
 
   factory _$StreekModelImpl.fromJson(Map<String, dynamic> json) =>
@@ -199,12 +199,12 @@ class _$StreekModelImpl implements _StreekModel {
   final DateTime? lastActivityDate;
   @override
   final DailyActivityModel? todayActivity;
-  final List<DailyActivityModel> _dailyActivities;
+  final Map<DateTime, DailyActivityModel> _dailyActivities;
   @override
-  List<DailyActivityModel> get dailyActivities {
-    if (_dailyActivities is EqualUnmodifiableListView) return _dailyActivities;
+  Map<DateTime, DailyActivityModel> get dailyActivities {
+    if (_dailyActivities is EqualUnmodifiableMapView) return _dailyActivities;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_dailyActivities);
+    return EqualUnmodifiableMapView(_dailyActivities);
   }
 
   @override
@@ -260,7 +260,7 @@ abstract class _StreekModel implements StreekModel {
     required final int longestStreak,
     final DateTime? lastActivityDate,
     final DailyActivityModel? todayActivity,
-    required final List<DailyActivityModel> dailyActivities,
+    required final Map<DateTime, DailyActivityModel> dailyActivities,
   }) = _$StreekModelImpl;
 
   factory _StreekModel.fromJson(Map<String, dynamic> json) =
@@ -275,7 +275,7 @@ abstract class _StreekModel implements StreekModel {
   @override
   DailyActivityModel? get todayActivity;
   @override
-  List<DailyActivityModel> get dailyActivities;
+  Map<DateTime, DailyActivityModel> get dailyActivities;
   @override
   @JsonKey(ignore: true)
   _$$StreekModelImplCopyWith<_$StreekModelImpl> get copyWith =>

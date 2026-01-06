@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -589,23 +587,25 @@ class _ShimmerBlock extends StatelessWidget {
 }
 
 class _HeatmapGrid extends StatelessWidget {
-  const _HeatmapGrid(this.dailyActivities);
+  _HeatmapGrid(this.dailyActivities);
 
-  final List<DailyActivityModel> dailyActivities;
+  final Map<DateTime, DailyActivityModel> dailyActivities;
+
+  static const int weeksCount = 15;
+  static const int daysCount = weeksCount * 7;
 
   @override
   Widget build(BuildContext context) {
     final maxWidth = MediaQuery.of(context).size.width;
 
     return Container(
-      // width: 250,
       height: 120,
       alignment: Alignment.center,
       child: GridView.builder(
-        reverse: true,
+        reverse: false,
         scrollDirection: Axis.horizontal,
         shrinkWrap: true,
-        itemCount: 7 * 15,
+        itemCount: daysCount,
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 7,
           crossAxisSpacing: 2,
@@ -614,34 +614,58 @@ class _HeatmapGrid extends StatelessWidget {
           mainAxisSpacing: 2,
         ),
         itemBuilder: (context, index) {
-          final recordPresent = dailyActivities.length > index;
-          final DailyActivityModel? activityModel = recordPresent
-              ? dailyActivities[index]
-              : null;
-          final totalAttempts = activityModel?.totalAttempts ?? 0;
-          final bool isActive = totalAttempts > 0;
+          final date = _getDate(index);
+          if (isFutureDate(date)) {
+            return SizedBox();
+          }
+          if (dailyActivities[date] == null) {
+            return Container(
+              width: double.infinity,
+              decoration: BoxDecoration(
+                color: _getHeatmapColor(),
+                borderRadius: BorderRadius.circular(3),
+              ),
+            );
+          }
 
-          final opacityList = [
-            totalAttempts > 0 ? 0.25 : 0.0,
-            totalAttempts > 5 ? 0.50 : 0.0,
-            totalAttempts > 10 ? 0.75 : 0.0,
-            totalAttempts > 15 ? 1.0 : 0.0,
-          ];
-
-          final double opacity = opacityList.reduce(
-            (value, element) => max(value, element),
-          );
+          final DailyActivityModel? activityModel = dailyActivities[date];
           return Container(
             width: double.infinity,
             decoration: BoxDecoration(
-              color: isActive
-                  ? AppTheme.primary.withValues(alpha: opacity)
-                  : AppTheme.surfaceMedium.withValues(alpha: 0.1),
+              color: _getHeatmapColor(activityModel?.totalAttempts),
               borderRadius: BorderRadius.circular(3),
             ),
           );
         },
       ),
     );
+  }
+
+  static double _getOpacity(int attempts) {
+    if (attempts == 0) return 0.0;
+    if (attempts <= 5) return 0.25;
+    if (attempts <= 10) return 0.50;
+    if (attempts <= 15) return 0.75;
+    return 1.0;
+  }
+
+  static Color _getHeatmapColor([int? totalAttempts]) {
+    if (totalAttempts == null || totalAttempts <= 0)
+      return AppTheme.surfaceMedium.withValues(alpha: 0.1);
+    return AppTheme.primary.withValues(alpha: _getOpacity(totalAttempts));
+  }
+
+  final startWeek = DateTime.now().weekday;
+
+  final today = DateTime(
+    DateTime.now().year,
+    DateTime.now().month,
+    DateTime.now().day,
+  );
+
+  bool isFutureDate(DateTime date) => today.compareTo(date).isNegative;
+
+  DateTime _getDate(int index) {
+    return today.subtract(Duration(days: (startWeek - 7) - index + daysCount));
   }
 }

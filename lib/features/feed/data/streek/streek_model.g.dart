@@ -18,9 +18,12 @@ _$StreekModelImpl _$$StreekModelImplFromJson(Map<String, dynamic> json) =>
           : DailyActivityModel.fromJson(
               json['todayActivity'] as Map<String, dynamic>,
             ),
-      dailyActivities: (json['dailyActivities'] as List<dynamic>)
-          .map((e) => DailyActivityModel.fromJson(e as Map<String, dynamic>))
-          .toList(),
+      dailyActivities: (json['dailyActivities'] as Map<String, dynamic>).map(
+        (k, e) => MapEntry(
+          DateTime.parse(k),
+          DailyActivityModel.fromJson(e as Map<String, dynamic>),
+        ),
+      ),
     );
 
 Map<String, dynamic> _$$StreekModelImplToJson(_$StreekModelImpl instance) =>
@@ -29,5 +32,7 @@ Map<String, dynamic> _$$StreekModelImplToJson(_$StreekModelImpl instance) =>
       'longestStreak': instance.longestStreak,
       'lastActivityDate': instance.lastActivityDate?.toIso8601String(),
       'todayActivity': instance.todayActivity,
-      'dailyActivities': instance.dailyActivities,
+      'dailyActivities': instance.dailyActivities.map(
+        (k, e) => MapEntry(k.toIso8601String(), e),
+      ),
     };

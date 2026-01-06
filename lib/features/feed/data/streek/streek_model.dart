@@ -13,7 +13,7 @@ class StreekModel with _$StreekModel {
     DateTime? lastActivityDate,
     DailyActivityModel? todayActivity,
 
-    required List<DailyActivityModel> dailyActivities,
+    required Map<DateTime, DailyActivityModel> dailyActivities,
   }) = _StreekModel;
 
   factory StreekModel.fromJson(Map<String, dynamic> json) =>
