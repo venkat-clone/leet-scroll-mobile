@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -18,7 +19,6 @@ import 'core/injection.dart';
 import 'core/module/root_scaffold_messenger_key.dart';
 import 'core/router/app_router.dart';
 import 'core/router/app_router.gr.dart';
-import 'core/services/internet_service.dart';
 import 'features/auth/logic/auth_cubit.dart';
 
 import 'package:firebase_core/firebase_core.dart';
@@ -43,7 +43,6 @@ void main() async {
 
   final logger = ErrorLoggers(SnackBarService());
 
-  InternetService();
   FlutterError.onError = logger.onError;
 
   PlatformDispatcher.instance.onError = logger.onErrorAsync;

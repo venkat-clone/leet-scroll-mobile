@@ -32,6 +32,7 @@ import '../features/profile/logic/profile_cubit.dart' as _i384;
 import '../features/splash/logic/splash_cubit.dart' as _i220;
 import 'module/network_module.dart' as _i881;
 import 'module/notification_module.dart' as _i331;
+import 'services/internet_service.dart' as _i935;
 import 'services/notification_service.dart' as _i98;
 
 extension GetItInjectableX on _i174.GetIt {
@@ -55,6 +56,10 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i98.NotificationService>(
       () => notificationModule.notificationService,
     );
+    gh.lazySingleton<_i935.InternetService>(
+      () => _i935.InternetService(),
+      dispose: (i) => i.dispose(),
+    );
     gh.lazySingleton<_i557.PersistCookieJar>(
       () => networkModule.jar(gh<_i497.Directory>()),
     );
@@ -62,6 +67,7 @@ extension GetItInjectableX on _i174.GetIt {
       () => networkModule.dio(
         gh<_i460.SharedPreferences>(),
         gh<_i557.PersistCookieJar>(),
+        gh<_i935.InternetService>(),
       ),
     );
     gh.lazySingleton<_i323.IFeedRepository>(

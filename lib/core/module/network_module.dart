@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:dio_smart_retry/dio_smart_retry.dart';
 import 'package:injectable/injectable.dart';
+import 'package:mobile/core/services/internet_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:dio_cookie_manager/dio_cookie_manager.dart';
 import 'package:cookie_jar/cookie_jar.dart';
@@ -27,7 +28,11 @@ abstract class NetworkModule {
   }
 
   @lazySingleton
-  Dio dio(SharedPreferences prefs, PersistCookieJar cookieJar) {
+  Dio dio(
+    SharedPreferences prefs,
+    PersistCookieJar cookieJar,
+    InternetService internetService,
+  ) {
     final dio = Dio(
       BaseOptions(
         baseUrl: AppConfig.baseUrl,

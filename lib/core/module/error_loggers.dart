@@ -8,12 +8,13 @@ class ErrorLoggers {
   final SnackBarService _snackBarService;
 
   void onError(errorDetails) {
-    _snackBarService.showError(message: errorDetails.exceptionAsString());
-
     if (kDebugMode) {
       debugPrint("Exception Caught at ErrorLoggers.onError");
       debugPrintStack(stackTrace: errorDetails.stack);
       debugPrint(errorDetails.exceptionAsString());
+    }
+    _snackBarService.showError(message: errorDetails.exceptionAsString());
+    if (kDebugMode) {
       return;
     }
     if (fatalError) {
@@ -27,11 +28,14 @@ class ErrorLoggers {
   }
 
   bool onErrorAsync(Object error, StackTrace stack) {
-    _snackBarService.showError(message: error.toString());
     if (kDebugMode) {
       debugPrint("Exception Caught at ErrorLoggers.onErrorAsync");
       debugPrintStack(stackTrace: stack);
       debugPrint(error.toString());
+    }
+    _snackBarService.showError(message: error.toString());
+
+    if (kDebugMode) {
       return true;
     }
     if (fatalError) {

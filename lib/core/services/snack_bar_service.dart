@@ -21,37 +21,46 @@ class SnackBarService {
     EdgeInsetsGeometry? margin,
   }) {
     final messenger = _scaffoldMessengerKey.currentState;
+
     if (messenger == null || !messenger.mounted) return;
 
-    messenger
-      ..hideCurrentSnackBar()
-      ..showSnackBar(
-        SnackBar(
-          content: Row(
-            children: [
-              if (icon != null) ...[
-                Icon(icon, color: Colors.white, size: 24),
-                const SizedBox(width: 12),
-              ],
-              Expanded(
-                child: Text(
-                  message,
-                  style: const TextStyle(color: Colors.white, fontSize: 14),
+    try {
+      messenger
+        ..hideCurrentSnackBar()
+        ..showSnackBar(
+          SnackBar(
+            content: Row(
+              children: [
+                if (icon != null) ...[
+                  Icon(icon, color: Colors.white, size: 24),
+                  const SizedBox(width: 12),
+                ],
+                Expanded(
+                  child: Text(
+                    message,
+                    style: const TextStyle(color: Colors.white, fontSize: 14),
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
+            backgroundColor: backgroundColor,
+            duration: duration,
+            behavior: SnackBarBehavior.floating,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12),
+            ),
+            margin: margin ?? const EdgeInsets.fromLTRB(12, 0, 12, 24),
+            action: action,
+            dismissDirection: DismissDirection.down,
           ),
-          backgroundColor: backgroundColor,
-          duration: duration,
-          behavior: SnackBarBehavior.floating,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12),
-          ),
-          margin: margin ?? const EdgeInsets.fromLTRB(12, 0, 12, 24),
-          action: action,
-          dismissDirection: DismissDirection.down,
-        ),
-      );
+        );
+    } catch (e, s) {
+      debugPrint("Failed to Show Snack Bar Service");
+      debugPrint("---" * 20);
+      debugPrint("Message to Display: $message");
+      debugPrintStack(label: e.toString(), stackTrace: s);
+      debugPrint("---" * 20);
+    }
   }
 
   // ───────────────────────────────────────────────────────────────

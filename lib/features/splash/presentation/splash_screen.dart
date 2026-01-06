@@ -15,6 +15,23 @@ class SplashScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final cubit = context.read<SplashCubit>();
+    debugPrint("Splash Screen: splash Cubit $cubit");
+    cubit.state.maybeWhen(
+      patchDownloaded: () {
+        Restart.restartApp();
+      },
+      upToDate: () {
+        context.router.popAndPush(HomeRoute());
+      },
+
+      skipUpdate: () {
+        context.router.popAndPush(HomeRoute());
+      },
+      orElse: () {
+        cubit.checkForUpdates();
+      },
+    );
     return Scaffold(
       backgroundColor: AppTheme.black,
       body: Stack(

@@ -8,6 +8,7 @@ import 'package:injectable/injectable.dart';
 
 import '../module/root_scaffold_messenger_key.dart';
 
+@lazySingleton
 class InternetService {
   final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey =
       rootScaffoldKey;
@@ -19,14 +20,19 @@ class InternetService {
   bool _isChecking = false;
 
   InternetService() {
+    debugPrint("InternetService: service has started");
     _startListening();
   }
 
   Future<void> _startListening() async {
+    final result = await Connectivity().checkConnectivity();
+    debugPrint("InternetService: initial connectivity check result: $result");
+    _handleConnectivityChange(result);
     // Listen for real-time changes
     _subscription = Connectivity().onConnectivityChanged.listen((
       results,
     ) async {
+      debugPrint("InternetService: onConnectivityChanged");
       await _handleConnectivityChange(results);
     });
   }
@@ -35,7 +41,11 @@ class InternetService {
     List<ConnectivityResult> results,
   ) async {
     final messenger = scaffoldMessengerKey.currentState;
-    if (messenger == null) return;
+
+    if (messenger == null) {
+      debugPrint("InternetService: ScaffoldMessenger not found");
+      return;
+    }
 
     // Always clear any existing banner first
     messenger
@@ -44,11 +54,14 @@ class InternetService {
 
     // If completely offline (no cellular/WiFi)
     if (results.contains(ConnectivityResult.none)) {
+      debugPrint("InternetService: No network connection");
       _showOfflineBanner(messenger);
       _wasOnline = false;
       _wasOffline = false;
       _isChecking = false;
       return;
+    } else {
+      debugPrint("InternetService: Network connection available");
     }
 
     // We have at least one network interface active
@@ -221,6 +234,7 @@ class InternetService {
     await _handleConnectivityChange(results);
   }
 
+  @disposeMethod
   void dispose() {
     _subscription?.cancel();
   }
