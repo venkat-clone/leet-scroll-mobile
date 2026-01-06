@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:mobile/core/widgets/heat_map.dart';
 import 'package:mobile/features/feed/data/daily_activity/daily_activity_model.dart';
 import 'package:mobile/features/feed/logic/home/home_cubit.dart';
 import 'package:mobile/features/feed/presentation/styles/app_theme.dart';
@@ -33,29 +34,73 @@ class _HomeOverviewState extends State<HomeOverview> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const SizedBox(height: 40),
-                Text(
-                  'Welcome back,',
-                  style: GoogleFonts.outfit(
-                    fontSize: 24,
-                    color: AppTheme.greyText,
-                    fontWeight: FontWeight.w400,
-                  ),
-                ),
-                BlocBuilder<ProfileCubit, ProfileState>(
-                  builder: (context, state) {
-                    final name = state.maybeWhen(
-                      loaded: (profile) => profile.user.name.split(' ').first,
-                      orElse: () => 'Developer',
-                    );
-                    return Text(
-                      name,
-                      style: GoogleFonts.outfit(
-                        fontSize: 40,
-                        fontWeight: FontWeight.bold,
-                        color: AppTheme.white,
-                      ),
-                    );
-                  },
+                Row(
+                  children: [
+                    Column(
+                      children: [
+                        Text(
+                          'Welcome back,',
+                          style: GoogleFonts.outfit(
+                            fontSize: 24,
+                            color: AppTheme.greyText,
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
+                        BlocBuilder<ProfileCubit, ProfileState>(
+                          builder: (context, state) {
+                            final name = state.maybeWhen(
+                              loaded: (profile) =>
+                                  profile.user.name.split(' ').first,
+                              orElse: () => 'Developer',
+                            );
+                            return Text(
+                              name,
+                              style: GoogleFonts.outfit(
+                                fontSize: 40,
+                                fontWeight: FontWeight.bold,
+                                color: AppTheme.white,
+                              ),
+                            );
+                          },
+                        ),
+                      ],
+                    ),
+                    const Spacer(),
+                    BlocBuilder<HomeCubit, HomeState>(
+                      builder: (context, state) {
+                        return state.maybeWhen(
+                          loaded: (reloading, _, __) {
+                            if (reloading) {
+                              return Container(
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: AppTheme.dividerColor,
+                                ),
+                                padding: EdgeInsets.all(12),
+                                child: SizedBox(
+                                  width: 16,
+                                  height: 16,
+                                  child: CircularProgressIndicator(
+                                    backgroundColor: Colors.green.withValues(
+                                      alpha: 0.5,
+                                    ),
+                                    // value: 0.5,
+                                    trackGap: 0.5,
+
+                                    strokeWidth: 4,
+                                  ),
+                                ),
+                              );
+                            }
+                            return SizedBox();
+                          },
+                          orElse: () {
+                            return SizedBox();
+                          },
+                        );
+                      },
+                    ),
+                  ],
                 ),
                 const SizedBox(height: 40),
                 _DailyGoalCard(onStart: widget.onStart),
@@ -255,12 +300,6 @@ class _DailyGoalCard extends StatelessWidget {
                         ),
                     ],
                   ),
-                  // Optional: show refreshing overlay
-                  if (refreshing)
-                    Container(
-                      color: Colors.black.withValues(alpha: 0.2),
-                      child: const Center(child: LinearProgressIndicator()),
-                    ),
                 ],
               ),
             );
@@ -375,81 +414,63 @@ class _ActivityCard extends StatelessWidget {
             loaded: (refreshing, error, data) {
               if (data == null) return const _ActivityErrorCard();
 
-              return Stack(
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                  Row(
                     children: [
-                      Row(
-                        children: [
-                          const Icon(
-                            Icons.grid_view_rounded,
-                            color: AppTheme.primary,
-                            size: 16,
-                          ),
-                          const SizedBox(width: 8),
-                          Text(
-                            'ACTIVITY',
-                            style: GoogleFonts.jetBrainsMono(
-                              color: AppTheme.primary,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 13,
-                            ),
-                          ),
-                        ],
+                      const Icon(
+                        Icons.grid_view_rounded,
+                        color: AppTheme.primary,
+                        size: 16,
                       ),
-                      const SizedBox(height: 20),
-                      _HeatmapGrid(data.dailyActivities),
-                      const SizedBox(height: 20),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          Text(
-                            'Less',
-                            style: GoogleFonts.outfit(
-                              color: AppTheme.grey600,
-                              fontSize: 11,
-                            ),
-                          ),
-                          const SizedBox(width: 6),
-                          ...List.generate(5, (index) {
-                            final opacity = index == 0
-                                ? 0.15
-                                : (index + 1) * 0.2;
-                            return Container(
-                              width: 12,
-                              height: 12,
-                              margin: const EdgeInsets.symmetric(horizontal: 2),
-                              decoration: BoxDecoration(
-                                color: AppTheme.primary.withValues(
-                                  alpha: opacity,
-                                ),
-                                borderRadius: BorderRadius.circular(3),
-                              ),
-                            );
-                          }),
-                          const SizedBox(width: 6),
-                          Text(
-                            'More',
-                            style: GoogleFonts.outfit(
-                              color: AppTheme.grey600,
-                              fontSize: 11,
-                            ),
-                          ),
-                        ],
+                      const SizedBox(width: 8),
+                      Text(
+                        'ACTIVITY',
+                        style: GoogleFonts.jetBrainsMono(
+                          color: AppTheme.primary,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 13,
+                        ),
                       ),
                     ],
                   ),
-                  if (refreshing)
-                    Positioned.fill(
-                      child: Container(
-                        alignment: Alignment.center,
-                        color: Colors.black.withValues(alpha: 0.15),
-                        child: const Center(
-                          child: CircularProgressIndicator(strokeWidth: 2),
+                  const SizedBox(height: 20),
+                  _HeatmapGrid(data.dailyActivities),
+                  const SizedBox(height: 20),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Text(
+                        'Less',
+                        style: GoogleFonts.outfit(
+                          color: AppTheme.grey600,
+                          fontSize: 11,
                         ),
                       ),
-                    ),
+                      const SizedBox(width: 6),
+                      ...List.generate(5, (index) {
+                        final opacity = index == 0 ? 0.15 : (index + 1) * 0.2;
+                        return Container(
+                          width: 12,
+                          height: 12,
+                          margin: const EdgeInsets.symmetric(horizontal: 2),
+                          decoration: BoxDecoration(
+                            color: AppTheme.primary.withValues(alpha: opacity),
+                            borderRadius: BorderRadius.circular(3),
+                          ),
+                        );
+                      }),
+                      const SizedBox(width: 6),
+                      Text(
+                        'More',
+                        style: GoogleFonts.outfit(
+                          color: AppTheme.grey600,
+                          fontSize: 11,
+                        ),
+                      ),
+                    ],
+                  ),
                 ],
               );
             },
@@ -587,61 +608,22 @@ class _ShimmerBlock extends StatelessWidget {
 }
 
 class _HeatmapGrid extends StatelessWidget {
-  _HeatmapGrid(this.dailyActivities);
+  const _HeatmapGrid(this.dailyActivities);
 
   final Map<DateTime, DailyActivityModel> dailyActivities;
 
-  static const int weeksCount = 15;
-  static const int daysCount = weeksCount * 7;
-
   @override
   Widget build(BuildContext context) {
-    final maxWidth = MediaQuery.of(context).size.width;
-
-    return Container(
-      height: 120,
-      alignment: Alignment.center,
-      child: GridView.builder(
-        reverse: false,
-        scrollDirection: Axis.horizontal,
-        shrinkWrap: true,
-        itemCount: daysCount,
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 7,
-          crossAxisSpacing: 2,
-          mainAxisExtent: maxWidth > 450 ? 24 : 16,
-          //
-          mainAxisSpacing: 2,
-        ),
-        itemBuilder: (context, index) {
-          final date = _getDate(index);
-          if (isFutureDate(date)) {
-            return SizedBox();
-          }
-          if (dailyActivities[date] == null) {
-            return Container(
-              width: double.infinity,
-              decoration: BoxDecoration(
-                color: _getHeatmapColor(),
-                borderRadius: BorderRadius.circular(3),
-              ),
-            );
-          }
-
-          final DailyActivityModel? activityModel = dailyActivities[date];
-          return Container(
-            width: double.infinity,
-            decoration: BoxDecoration(
-              color: _getHeatmapColor(activityModel?.totalAttempts),
-              borderRadius: BorderRadius.circular(3),
-            ),
-          );
-        },
+    return HeatMap(
+      dailyActivities: dailyActivities.map(
+        (key, value) => MapEntry(key, _getOpacity(value.totalAttempts)),
       ),
+      hearMapColorMapping: _getHeatmapColor,
     );
   }
 
-  static double _getOpacity(int attempts) {
+  static double? _getOpacity(int? attempts) {
+    if (attempts == null) return null;
     if (attempts == 0) return 0.0;
     if (attempts <= 5) return 0.25;
     if (attempts <= 10) return 0.50;
@@ -649,24 +631,10 @@ class _HeatmapGrid extends StatelessWidget {
     return 1.0;
   }
 
-  static Color _getHeatmapColor([int? totalAttempts]) {
+  static Color _getHeatmapColor([double? totalAttempts]) {
     if (totalAttempts == null || totalAttempts <= 0) {
       return AppTheme.surfaceMedium.withValues(alpha: 0.1);
     }
-    return AppTheme.primary.withValues(alpha: _getOpacity(totalAttempts));
-  }
-
-  final startWeek = DateTime.now().weekday;
-
-  final today = DateTime(
-    DateTime.now().year,
-    DateTime.now().month,
-    DateTime.now().day,
-  );
-
-  bool isFutureDate(DateTime date) => today.compareTo(date).isNegative;
-
-  DateTime _getDate(int index) {
-    return today.subtract(Duration(days: (startWeek - 7) - index + daysCount));
+    return AppTheme.primary.withValues(alpha: totalAttempts);
   }
 }
