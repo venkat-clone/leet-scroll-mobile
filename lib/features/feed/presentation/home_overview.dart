@@ -650,8 +650,9 @@ class _HeatmapGrid extends StatelessWidget {
   }
 
   static Color _getHeatmapColor([int? totalAttempts]) {
-    if (totalAttempts == null || totalAttempts <= 0)
+    if (totalAttempts == null || totalAttempts <= 0) {
       return AppTheme.surfaceMedium.withValues(alpha: 0.1);
+    }
     return AppTheme.primary.withValues(alpha: _getOpacity(totalAttempts));
   }
 
