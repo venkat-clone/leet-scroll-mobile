@@ -1,7 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../core/injection.dart';
 import '../logic/feed_cubit.dart';
 import 'home_overview.dart';
 import 'question_feed.dart';
@@ -26,18 +25,21 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   @override
+  void initState() {
+    context.read<FeedCubit>().loadQuestions();
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => getIt<FeedCubit>()..loadQuestions(),
-      child: Scaffold(
-        body: PageView(
-          controller: _pageController,
-          scrollDirection: Axis.horizontal,
-          children: [
-            HomeOverview(onStart: _navigateToFeed),
-            const QuestionFeedScreen(),
-          ],
-        ),
+    return Scaffold(
+      body: PageView(
+        controller: _pageController,
+        scrollDirection: Axis.horizontal,
+        children: [
+          HomeOverview(onStart: _navigateToFeed),
+          const QuestionFeedScreen(),
+        ],
       ),
     );
   }

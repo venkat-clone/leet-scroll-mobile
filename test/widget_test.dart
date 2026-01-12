@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mobile/core/injection.dart';
@@ -24,7 +25,7 @@ void main() {
           BlocProvider(create: (_) => getIt<ProfileCubit>()),
           BlocProvider(create: (_) => getIt<LeaderboardCubit>()),
         ],
-        child: MyApp(),
+        child: MyApp(rootScaffoldKey: GlobalKey()),
       ),
     );
 

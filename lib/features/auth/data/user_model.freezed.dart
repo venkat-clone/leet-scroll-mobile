@@ -24,6 +24,9 @@ mixin _$UserModel {
   String get id => throw _privateConstructorUsedError;
   String get email => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
+  int get currentStreak => throw _privateConstructorUsedError;
+  int get longestStreak => throw _privateConstructorUsedError;
+  DateTime? get lastActivityDate => throw _privateConstructorUsedError;
   String? get avatar => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -37,7 +40,15 @@ abstract class $UserModelCopyWith<$Res> {
   factory $UserModelCopyWith(UserModel value, $Res Function(UserModel) then) =
       _$UserModelCopyWithImpl<$Res, UserModel>;
   @useResult
-  $Res call({String id, String email, String name, String? avatar});
+  $Res call({
+    String id,
+    String email,
+    String name,
+    int currentStreak,
+    int longestStreak,
+    DateTime? lastActivityDate,
+    String? avatar,
+  });
 }
 
 /// @nodoc
@@ -56,6 +67,9 @@ class _$UserModelCopyWithImpl<$Res, $Val extends UserModel>
     Object? id = null,
     Object? email = null,
     Object? name = null,
+    Object? currentStreak = null,
+    Object? longestStreak = null,
+    Object? lastActivityDate = freezed,
     Object? avatar = freezed,
   }) {
     return _then(
@@ -72,6 +86,18 @@ class _$UserModelCopyWithImpl<$Res, $Val extends UserModel>
                 ? _value.name
                 : name // ignore: cast_nullable_to_non_nullable
                       as String,
+            currentStreak: null == currentStreak
+                ? _value.currentStreak
+                : currentStreak // ignore: cast_nullable_to_non_nullable
+                      as int,
+            longestStreak: null == longestStreak
+                ? _value.longestStreak
+                : longestStreak // ignore: cast_nullable_to_non_nullable
+                      as int,
+            lastActivityDate: freezed == lastActivityDate
+                ? _value.lastActivityDate
+                : lastActivityDate // ignore: cast_nullable_to_non_nullable
+                      as DateTime?,
             avatar: freezed == avatar
                 ? _value.avatar
                 : avatar // ignore: cast_nullable_to_non_nullable
@@ -91,7 +117,15 @@ abstract class _$$UserModelImplCopyWith<$Res>
   ) = __$$UserModelImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String id, String email, String name, String? avatar});
+  $Res call({
+    String id,
+    String email,
+    String name,
+    int currentStreak,
+    int longestStreak,
+    DateTime? lastActivityDate,
+    String? avatar,
+  });
 }
 
 /// @nodoc
@@ -109,6 +143,9 @@ class __$$UserModelImplCopyWithImpl<$Res>
     Object? id = null,
     Object? email = null,
     Object? name = null,
+    Object? currentStreak = null,
+    Object? longestStreak = null,
+    Object? lastActivityDate = freezed,
     Object? avatar = freezed,
   }) {
     return _then(
@@ -125,6 +162,18 @@ class __$$UserModelImplCopyWithImpl<$Res>
             ? _value.name
             : name // ignore: cast_nullable_to_non_nullable
                   as String,
+        currentStreak: null == currentStreak
+            ? _value.currentStreak
+            : currentStreak // ignore: cast_nullable_to_non_nullable
+                  as int,
+        longestStreak: null == longestStreak
+            ? _value.longestStreak
+            : longestStreak // ignore: cast_nullable_to_non_nullable
+                  as int,
+        lastActivityDate: freezed == lastActivityDate
+            ? _value.lastActivityDate
+            : lastActivityDate // ignore: cast_nullable_to_non_nullable
+                  as DateTime?,
         avatar: freezed == avatar
             ? _value.avatar
             : avatar // ignore: cast_nullable_to_non_nullable
@@ -141,6 +190,9 @@ class _$UserModelImpl implements _UserModel {
     required this.id,
     required this.email,
     required this.name,
+    this.currentStreak = 0,
+    this.longestStreak = 0,
+    this.lastActivityDate,
     this.avatar,
   });
 
@@ -154,11 +206,19 @@ class _$UserModelImpl implements _UserModel {
   @override
   final String name;
   @override
+  @JsonKey()
+  final int currentStreak;
+  @override
+  @JsonKey()
+  final int longestStreak;
+  @override
+  final DateTime? lastActivityDate;
+  @override
   final String? avatar;
 
   @override
   String toString() {
-    return 'UserModel(id: $id, email: $email, name: $name, avatar: $avatar)';
+    return 'UserModel(id: $id, email: $email, name: $name, currentStreak: $currentStreak, longestStreak: $longestStreak, lastActivityDate: $lastActivityDate, avatar: $avatar)';
   }
 
   @override
@@ -169,12 +229,27 @@ class _$UserModelImpl implements _UserModel {
             (identical(other.id, id) || other.id == id) &&
             (identical(other.email, email) || other.email == email) &&
             (identical(other.name, name) || other.name == name) &&
+            (identical(other.currentStreak, currentStreak) ||
+                other.currentStreak == currentStreak) &&
+            (identical(other.longestStreak, longestStreak) ||
+                other.longestStreak == longestStreak) &&
+            (identical(other.lastActivityDate, lastActivityDate) ||
+                other.lastActivityDate == lastActivityDate) &&
             (identical(other.avatar, avatar) || other.avatar == avatar));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, id, email, name, avatar);
+  int get hashCode => Object.hash(
+    runtimeType,
+    id,
+    email,
+    name,
+    currentStreak,
+    longestStreak,
+    lastActivityDate,
+    avatar,
+  );
 
   @JsonKey(ignore: true)
   @override
@@ -193,6 +268,9 @@ abstract class _UserModel implements UserModel {
     required final String id,
     required final String email,
     required final String name,
+    final int currentStreak,
+    final int longestStreak,
+    final DateTime? lastActivityDate,
     final String? avatar,
   }) = _$UserModelImpl;
 
@@ -205,6 +283,12 @@ abstract class _UserModel implements UserModel {
   String get email;
   @override
   String get name;
+  @override
+  int get currentStreak;
+  @override
+  int get longestStreak;
+  @override
+  DateTime? get lastActivityDate;
   @override
   String? get avatar;
   @override

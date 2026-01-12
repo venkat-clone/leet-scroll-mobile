@@ -1,11 +1,15 @@
 # .github/workflows/new-release-branch.yml
-name: New Release Branch
+name: New Release
 
 on:
-  create:  # Triggers ONLY when a branch or tag is created
-    branches:
-      - 'release/**'  # Only for branches like release/v1.2.0, release/next, etc.
   workflow_dispatch:
+
+#  workflow_run:
+#    workflows: ["Merge to Main - Branch Decision"]   # Name of the first workflow
+#    types:
+#      - completed
+
+
 permissions:
   contents: write
   pull-requests: write
@@ -56,8 +60,9 @@ jobs:
           git config user.email "github-actions@github.com"
           git add pubspec.yaml
           git commit -m "chore: bump version to $NEW_VERSION [skip ci]"
-          git tag "v$NEW_VERSION"
-          git push origin ${{ github.ref_name }} --tags
+          git tag -a "v$NEW_VERSION" -m "Release v$NEW_VERSION"
+          git push origin HEAD:main --force
+          git push origin "v$NEW_VERSION" --force
           echo "VERSION=$NEW_VERSION" >> $GITHUB_ENV
 
       - name: Shorebird Full Release

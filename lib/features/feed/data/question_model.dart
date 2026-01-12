@@ -15,6 +15,13 @@ class Question with _$Question {
     required String difficulty,
     required String category,
     required List<String> tags,
+    int? viewsCount,
+    int? likesCount,
+    int? commentsCount,
+    int? matchingTagsCount,
+    int? priority,
+    int? userRanking,
+    int? interestedTagsCount,
     String? codeSnippet,
   }) = _Question;
 

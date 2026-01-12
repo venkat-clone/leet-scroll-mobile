@@ -22,7 +22,8 @@ ProfileModel _$ProfileModelFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$ProfileModel {
   UserModel get user => throw _privateConstructorUsedError;
-  ProfileStats get stats => throw _privateConstructorUsedError;
+  ProfileStatsModel get stats => throw _privateConstructorUsedError;
+  UserPreferencesModel get preferences => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -37,10 +38,15 @@ abstract class $ProfileModelCopyWith<$Res> {
     $Res Function(ProfileModel) then,
   ) = _$ProfileModelCopyWithImpl<$Res, ProfileModel>;
   @useResult
-  $Res call({UserModel user, ProfileStats stats});
+  $Res call({
+    UserModel user,
+    ProfileStatsModel stats,
+    UserPreferencesModel preferences,
+  });
 
   $UserModelCopyWith<$Res> get user;
-  $ProfileStatsCopyWith<$Res> get stats;
+  $ProfileStatsModelCopyWith<$Res> get stats;
+  $UserPreferencesModelCopyWith<$Res> get preferences;
 }
 
 /// @nodoc
@@ -55,7 +61,11 @@ class _$ProfileModelCopyWithImpl<$Res, $Val extends ProfileModel>
 
   @pragma('vm:prefer-inline')
   @override
-  $Res call({Object? user = null, Object? stats = null}) {
+  $Res call({
+    Object? user = null,
+    Object? stats = null,
+    Object? preferences = null,
+  }) {
     return _then(
       _value.copyWith(
             user: null == user
@@ -65,7 +75,11 @@ class _$ProfileModelCopyWithImpl<$Res, $Val extends ProfileModel>
             stats: null == stats
                 ? _value.stats
                 : stats // ignore: cast_nullable_to_non_nullable
-                      as ProfileStats,
+                      as ProfileStatsModel,
+            preferences: null == preferences
+                ? _value.preferences
+                : preferences // ignore: cast_nullable_to_non_nullable
+                      as UserPreferencesModel,
           )
           as $Val,
     );
@@ -81,9 +95,17 @@ class _$ProfileModelCopyWithImpl<$Res, $Val extends ProfileModel>
 
   @override
   @pragma('vm:prefer-inline')
-  $ProfileStatsCopyWith<$Res> get stats {
-    return $ProfileStatsCopyWith<$Res>(_value.stats, (value) {
+  $ProfileStatsModelCopyWith<$Res> get stats {
+    return $ProfileStatsModelCopyWith<$Res>(_value.stats, (value) {
       return _then(_value.copyWith(stats: value) as $Val);
+    });
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $UserPreferencesModelCopyWith<$Res> get preferences {
+    return $UserPreferencesModelCopyWith<$Res>(_value.preferences, (value) {
+      return _then(_value.copyWith(preferences: value) as $Val);
     });
   }
 }
@@ -97,12 +119,18 @@ abstract class _$$ProfileModelImplCopyWith<$Res>
   ) = __$$ProfileModelImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({UserModel user, ProfileStats stats});
+  $Res call({
+    UserModel user,
+    ProfileStatsModel stats,
+    UserPreferencesModel preferences,
+  });
 
   @override
   $UserModelCopyWith<$Res> get user;
   @override
-  $ProfileStatsCopyWith<$Res> get stats;
+  $ProfileStatsModelCopyWith<$Res> get stats;
+  @override
+  $UserPreferencesModelCopyWith<$Res> get preferences;
 }
 
 /// @nodoc
@@ -116,7 +144,11 @@ class __$$ProfileModelImplCopyWithImpl<$Res>
 
   @pragma('vm:prefer-inline')
   @override
-  $Res call({Object? user = null, Object? stats = null}) {
+  $Res call({
+    Object? user = null,
+    Object? stats = null,
+    Object? preferences = null,
+  }) {
     return _then(
       _$ProfileModelImpl(
         user: null == user
@@ -126,7 +158,11 @@ class __$$ProfileModelImplCopyWithImpl<$Res>
         stats: null == stats
             ? _value.stats
             : stats // ignore: cast_nullable_to_non_nullable
-                  as ProfileStats,
+                  as ProfileStatsModel,
+        preferences: null == preferences
+            ? _value.preferences
+            : preferences // ignore: cast_nullable_to_non_nullable
+                  as UserPreferencesModel,
       ),
     );
   }
@@ -135,7 +171,11 @@ class __$$ProfileModelImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$ProfileModelImpl implements _ProfileModel {
-  const _$ProfileModelImpl({required this.user, required this.stats});
+  const _$ProfileModelImpl({
+    required this.user,
+    required this.stats,
+    required this.preferences,
+  });
 
   factory _$ProfileModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$ProfileModelImplFromJson(json);
@@ -143,11 +183,13 @@ class _$ProfileModelImpl implements _ProfileModel {
   @override
   final UserModel user;
   @override
-  final ProfileStats stats;
+  final ProfileStatsModel stats;
+  @override
+  final UserPreferencesModel preferences;
 
   @override
   String toString() {
-    return 'ProfileModel(user: $user, stats: $stats)';
+    return 'ProfileModel(user: $user, stats: $stats, preferences: $preferences)';
   }
 
   @override
@@ -156,12 +198,14 @@ class _$ProfileModelImpl implements _ProfileModel {
         (other.runtimeType == runtimeType &&
             other is _$ProfileModelImpl &&
             (identical(other.user, user) || other.user == user) &&
-            (identical(other.stats, stats) || other.stats == stats));
+            (identical(other.stats, stats) || other.stats == stats) &&
+            (identical(other.preferences, preferences) ||
+                other.preferences == preferences));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, user, stats);
+  int get hashCode => Object.hash(runtimeType, user, stats, preferences);
 
   @JsonKey(ignore: true)
   @override
@@ -178,7 +222,8 @@ class _$ProfileModelImpl implements _ProfileModel {
 abstract class _ProfileModel implements ProfileModel {
   const factory _ProfileModel({
     required final UserModel user,
-    required final ProfileStats stats,
+    required final ProfileStatsModel stats,
+    required final UserPreferencesModel preferences,
   }) = _$ProfileModelImpl;
 
   factory _ProfileModel.fromJson(Map<String, dynamic> json) =
@@ -187,202 +232,11 @@ abstract class _ProfileModel implements ProfileModel {
   @override
   UserModel get user;
   @override
-  ProfileStats get stats;
+  ProfileStatsModel get stats;
+  @override
+  UserPreferencesModel get preferences;
   @override
   @JsonKey(ignore: true)
   _$$ProfileModelImplCopyWith<_$ProfileModelImpl> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-ProfileStats _$ProfileStatsFromJson(Map<String, dynamic> json) {
-  return _ProfileStats.fromJson(json);
-}
-
-/// @nodoc
-mixin _$ProfileStats {
-  int get correctAnswers => throw _privateConstructorUsedError;
-  int get wrongAnswers => throw _privateConstructorUsedError;
-  int get questionsAttempted => throw _privateConstructorUsedError;
-
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
-  $ProfileStatsCopyWith<ProfileStats> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $ProfileStatsCopyWith<$Res> {
-  factory $ProfileStatsCopyWith(
-    ProfileStats value,
-    $Res Function(ProfileStats) then,
-  ) = _$ProfileStatsCopyWithImpl<$Res, ProfileStats>;
-  @useResult
-  $Res call({int correctAnswers, int wrongAnswers, int questionsAttempted});
-}
-
-/// @nodoc
-class _$ProfileStatsCopyWithImpl<$Res, $Val extends ProfileStats>
-    implements $ProfileStatsCopyWith<$Res> {
-  _$ProfileStatsCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? correctAnswers = null,
-    Object? wrongAnswers = null,
-    Object? questionsAttempted = null,
-  }) {
-    return _then(
-      _value.copyWith(
-            correctAnswers: null == correctAnswers
-                ? _value.correctAnswers
-                : correctAnswers // ignore: cast_nullable_to_non_nullable
-                      as int,
-            wrongAnswers: null == wrongAnswers
-                ? _value.wrongAnswers
-                : wrongAnswers // ignore: cast_nullable_to_non_nullable
-                      as int,
-            questionsAttempted: null == questionsAttempted
-                ? _value.questionsAttempted
-                : questionsAttempted // ignore: cast_nullable_to_non_nullable
-                      as int,
-          )
-          as $Val,
-    );
-  }
-}
-
-/// @nodoc
-abstract class _$$ProfileStatsImplCopyWith<$Res>
-    implements $ProfileStatsCopyWith<$Res> {
-  factory _$$ProfileStatsImplCopyWith(
-    _$ProfileStatsImpl value,
-    $Res Function(_$ProfileStatsImpl) then,
-  ) = __$$ProfileStatsImplCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call({int correctAnswers, int wrongAnswers, int questionsAttempted});
-}
-
-/// @nodoc
-class __$$ProfileStatsImplCopyWithImpl<$Res>
-    extends _$ProfileStatsCopyWithImpl<$Res, _$ProfileStatsImpl>
-    implements _$$ProfileStatsImplCopyWith<$Res> {
-  __$$ProfileStatsImplCopyWithImpl(
-    _$ProfileStatsImpl _value,
-    $Res Function(_$ProfileStatsImpl) _then,
-  ) : super(_value, _then);
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? correctAnswers = null,
-    Object? wrongAnswers = null,
-    Object? questionsAttempted = null,
-  }) {
-    return _then(
-      _$ProfileStatsImpl(
-        correctAnswers: null == correctAnswers
-            ? _value.correctAnswers
-            : correctAnswers // ignore: cast_nullable_to_non_nullable
-                  as int,
-        wrongAnswers: null == wrongAnswers
-            ? _value.wrongAnswers
-            : wrongAnswers // ignore: cast_nullable_to_non_nullable
-                  as int,
-        questionsAttempted: null == questionsAttempted
-            ? _value.questionsAttempted
-            : questionsAttempted // ignore: cast_nullable_to_non_nullable
-                  as int,
-      ),
-    );
-  }
-}
-
-/// @nodoc
-@JsonSerializable()
-class _$ProfileStatsImpl implements _ProfileStats {
-  const _$ProfileStatsImpl({
-    this.correctAnswers = 0,
-    this.wrongAnswers = 0,
-    this.questionsAttempted = 0,
-  });
-
-  factory _$ProfileStatsImpl.fromJson(Map<String, dynamic> json) =>
-      _$$ProfileStatsImplFromJson(json);
-
-  @override
-  @JsonKey()
-  final int correctAnswers;
-  @override
-  @JsonKey()
-  final int wrongAnswers;
-  @override
-  @JsonKey()
-  final int questionsAttempted;
-
-  @override
-  String toString() {
-    return 'ProfileStats(correctAnswers: $correctAnswers, wrongAnswers: $wrongAnswers, questionsAttempted: $questionsAttempted)';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$ProfileStatsImpl &&
-            (identical(other.correctAnswers, correctAnswers) ||
-                other.correctAnswers == correctAnswers) &&
-            (identical(other.wrongAnswers, wrongAnswers) ||
-                other.wrongAnswers == wrongAnswers) &&
-            (identical(other.questionsAttempted, questionsAttempted) ||
-                other.questionsAttempted == questionsAttempted));
-  }
-
-  @JsonKey(ignore: true)
-  @override
-  int get hashCode => Object.hash(
-    runtimeType,
-    correctAnswers,
-    wrongAnswers,
-    questionsAttempted,
-  );
-
-  @JsonKey(ignore: true)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$ProfileStatsImplCopyWith<_$ProfileStatsImpl> get copyWith =>
-      __$$ProfileStatsImplCopyWithImpl<_$ProfileStatsImpl>(this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$ProfileStatsImplToJson(this);
-  }
-}
-
-abstract class _ProfileStats implements ProfileStats {
-  const factory _ProfileStats({
-    final int correctAnswers,
-    final int wrongAnswers,
-    final int questionsAttempted,
-  }) = _$ProfileStatsImpl;
-
-  factory _ProfileStats.fromJson(Map<String, dynamic> json) =
-      _$ProfileStatsImpl.fromJson;
-
-  @override
-  int get correctAnswers;
-  @override
-  int get wrongAnswers;
-  @override
-  int get questionsAttempted;
-  @override
-  @JsonKey(ignore: true)
-  _$$ProfileStatsImplCopyWith<_$ProfileStatsImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
