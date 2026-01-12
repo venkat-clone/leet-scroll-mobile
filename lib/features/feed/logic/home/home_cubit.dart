@@ -22,6 +22,8 @@ class HomeCubit extends HydratedCubit<HomeState> {
         emit(HomeState.loading());
       }
       final data = await _repository.getUserActivity();
+      // list
+
       emit(HomeState.loaded(data: data));
     } catch (e, s) {
       if (state is! _Loaded) {
